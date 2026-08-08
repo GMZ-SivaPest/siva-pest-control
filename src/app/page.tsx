@@ -1,5 +1,10 @@
-import { SiteShell } from "@/components/site/site-shell";
+import { SiteChrome } from "@/components/site/site-chrome";
+import { HomePage } from "@/components/pages/home-page";
 
 export default function Home() {
-  return <SiteShell />;
+  return (
+    <SiteChrome>
+      <HomePage />
+    </SiteChrome>
+  );
 }

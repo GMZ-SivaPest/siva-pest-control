@@ -4,64 +4,46 @@ import { locations } from "@/data/locations";
 import { blogPosts } from "@/data/blog";
 
 /**
- * sitemap.ts — single-page app route, but we expose all logical "pages"
- * as hash routes for crawler discovery. Since the live site uses client-side
- * view switching on `/`, all entries point to the home route with hash anchors
- * that the SPA can resolve on load (progressive enhancement).
+ * sitemap.ts — Multi-page App Router sitemap.
+ * Each route is a real URL now (no more hash routing).
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://www.sivapestcontrol.com";
   const now = new Date();
 
-  const staticViews = [
-    "",
-    "#about",
-    "#services",
-    "#locations",
-    "#process",
-    "#pests",
-    "#industries",
-    "#faq",
-    "#contact",
-    "#blog",
+  const staticRoutes: MetadataRoute.Sitemap = [
+    { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
+    { url: `${base}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/services`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${base}/locations`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/process`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/pests`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/industries`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${base}/faq`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${base}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
   ];
 
-  const entries: MetadataRoute.Sitemap = staticViews.map((v) => ({
-    url: `${base}/${v}`,
+  const serviceRoutes: MetadataRoute.Sitemap = services.map((s) => ({
+    url: `${base}/services/${s.slug}`,
     lastModified: now,
-    changeFrequency: v === "" ? "weekly" : "monthly",
-    priority: v === "" ? 1 : 0.8,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
   }));
 
-  // Service detail pages
-  services.forEach((s) => {
-    entries.push({
-      url: `${base}/#service-${s.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    });
-  });
+  const locationRoutes: MetadataRoute.Sitemap = locations.map((l) => ({
+    url: `${base}/locations/${l.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
 
-  // Location detail pages
-  locations.forEach((l) => {
-    entries.push({
-      url: `${base}/#location-${l.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    });
-  });
+  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((b) => ({
+    url: `${base}/blog/${b.slug}`,
+    lastModified: new Date(b.publishedOn),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
 
-  // Blog posts
-  blogPosts.forEach((b) => {
-    entries.push({
-      url: `${base}/#blog-${b.slug}`,
-      lastModified: new Date(b.publishedOn),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    });
-  });
-
-  return entries;
+  return [...staticRoutes, ...serviceRoutes, ...locationRoutes, ...blogRoutes];
 }

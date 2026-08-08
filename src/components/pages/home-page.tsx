@@ -2,7 +2,7 @@
 
 import { Hero } from "@/components/site/hero";
 import { Stats } from "@/components/site/stats";
-import { ServicesGrid } from "@/components/site/services-grid";
+import { ServicesTeaser } from "@/components/site/services-teaser";
 import { WhyChooseUs } from "@/components/site/why-choose-us";
 import { ProcessTimeline } from "@/components/site/process-timeline";
 import { LocationsMap } from "@/components/site/locations-map";
@@ -21,7 +21,7 @@ export function HomePage() {
     <>
       <Hero />
       <Stats />
-      <ServicesGrid limit={6} showFilter={false} />
+      <ServicesTeaser />
       <WhyChooseUs />
       <ProcessTimeline />
       <LocationsMap />

@@ -1,10 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ArrowUpRight, CheckCircle2, Clock, ShieldCheck } from "lucide-react";
 import { type Service } from "@/data/services";
-import { useNav } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 const accentMap = {
@@ -49,13 +49,11 @@ interface ServiceCardProps {
 }
 
 export function ServiceCard({ service, index = 0, variant = "default" }: ServiceCardProps) {
-  const navigate = useNav((s) => s.navigate);
   const accent = accentMap[service.accent];
   const Icon = service.icon;
 
   return (
-    <motion.button
-      onClick={() => navigate(`service:${service.slug}`)}
+    <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -67,6 +65,7 @@ export function ServiceCard({ service, index = 0, variant = "default" }: Service
         accent.glow
       )}
     >
+      <Link href={`/services/${service.slug}`} className="flex h-full flex-col">
       {/* Premium image header */}
       <div className="relative h-44 w-full overflow-hidden">
         <Image
@@ -142,6 +141,7 @@ export function ServiceCard({ service, index = 0, variant = "default" }: Service
           </span>
         </div>
       </div>
-    </motion.button>
+      </Link>
+    </motion.div>
   );
 }

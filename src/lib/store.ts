@@ -1,20 +1,16 @@
 /**
- * store.ts — Client-side navigation store using Zustand.
- * Implements client-side view switching within the single `/` route
- * (per skill constraint: user can only see `/`).
+ * store.ts — Legacy navigation store, now backed by Next.js App Router.
  *
- * Views: home, about, services, service:<slug>, locations, location:<slug>,
- *        process, pests, industries, faq, contact, blog, blog:<slug>
+ * The site is multi-page now. Each "view" maps to a real URL via lib/nav.ts.
+ * Components that used `useNav().navigate(view)` continue to work — the call
+ * is transparently routed through the Next.js router (captured by <NavBridge />).
  *
- * View format:
- *   - "home"
- *   - "services"
- *   - "service:cockroach-gel-treatment"  (service detail)
- *   - "location:hyderabad"                (location detail)
- *   - "blog:monsoon-pest-pressure-south-india"  (blog detail)
+ * For new components, prefer `next/link` `<Link>` and `useRouter().push(href)`.
  */
 
 import { create } from "zustand";
+import { viewToHref } from "./nav";
+import { getRouter } from "./nav-bridge";
 
 export interface ViewState {
   view: string;
@@ -40,7 +36,24 @@ const parseView = (raw: string): { view: string; params: Record<string, string> 
   return { view: raw, params: {} };
 };
 
-export const useNav = create<NavState>((set, get) => ({
+const scrollToTop = () => {
+  if (typeof window !== "undefined") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+};
+
+const pushHref = (rawView: string) => {
+  if (typeof window === "undefined") return;
+  const href = viewToHref(rawView);
+  const router = getRouter();
+  if (router) {
+    router.push(href);
+  } else {
+    window.location.assign(href);
+  }
+};
+
+export const useNav = create<NavState>((set) => ({
   view: "home",
   params: {},
   scrollY: 0,
@@ -49,37 +62,33 @@ export const useNav = create<NavState>((set, get) => ({
     const { view, params: parsedParams } = parseView(rawView);
     const mergedParams = { ...parsedParams, ...(params || {}) };
     set({ view, params: mergedParams, scrollY: 0 });
-    // Scroll to top on view change (except section anchors)
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    pushHref(rawView);
+    scrollToTop();
   },
 
   goHome: () => {
     set({ view: "home", params: {}, scrollY: 0 });
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    pushHref("home");
+    scrollToTop();
   },
 
   goService: (slug: string) => {
     set({ view: "service-detail", params: { slug }, scrollY: 0 });
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    pushHref(`service:${slug}`);
+    scrollToTop();
   },
 
   goLocation: (slug: string) => {
     set({ view: "location-detail", params: { slug }, scrollY: 0 });
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    pushHref(`location:${slug}`);
+    scrollToTop();
   },
 
   goSection: (section: string) => {
     // Used to scroll to a section on the home page from any view
     set({ view: "home", params: { section }, scrollY: 0 });
     if (typeof window !== "undefined") {
+      pushHref("home");
       setTimeout(() => {
         const el = document.getElementById(section);
         if (el) {
@@ -87,7 +96,7 @@ export const useNav = create<NavState>((set, get) => ({
         } else {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
-      }, 100);
+      }, 300);
     }
   },
 }));

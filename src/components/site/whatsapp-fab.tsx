@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, MessageCircle } from "lucide-react";
 import { company } from "@/data/company";
-import { useNav } from "@/lib/store";
 
 /**
  * Floating action buttons for mobile + sticky bottom CTA.
@@ -16,8 +17,7 @@ import { useNav } from "@/lib/store";
  */
 export function WhatsAppFab() {
   const [visible, setVisible] = useState(false);
-  const view = useNav((s) => s.view);
-  const navigate = useNav((s) => s.navigate);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 400);
@@ -27,7 +27,7 @@ export function WhatsAppFab() {
   }, []);
 
   // Hide on contact page — duplicate CTA not needed
-  const onContact = view === "contact";
+  const onContact = pathname === "/contact";
 
   const message = encodeURIComponent(
     "Hi Siva Pest Control, I'd like to book a free pest inspection. Please call me back."
@@ -85,13 +85,13 @@ export function WhatsAppFab() {
                 <MessageCircle className="h-3.5 w-3.5" fill="currentColor" />
                 WhatsApp
               </a>
-              <button
-                onClick={() => navigate("contact")}
+              <Link
+                href="/contact"
                 className="flex h-11 flex-[1.4] items-center justify-center rounded-full px-3 text-xs font-bold text-white shadow-glow-orange"
                 style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
               >
                 Free Quote
-              </button>
+              </Link>
             </div>
           </motion.div>
         )}

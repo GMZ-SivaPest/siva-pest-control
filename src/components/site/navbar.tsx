@@ -1,23 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import { LogoMark } from "./logo-mark";
-import { useNav } from "@/lib/store";
 import { mainNav } from "@/data/navigation";
 import { company } from "@/data/company";
 import { cn } from "@/lib/utils";
+import { isNavActive } from "@/lib/nav";
 import { services } from "@/data/services";
 import { locations } from "@/data/locations";
+import { viewToHref } from "@/lib/nav";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [locationsOpen, setLocationsOpen] = useState(false);
-  const navigate = useNav((s) => s.navigate);
-  const currentView = useNav((s) => s.view);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -38,12 +40,8 @@ export function Navbar() {
     };
   }, [mobileOpen]);
 
-  const handleNav = (view: string) => {
-    navigate(view);
-    setMobileOpen(false);
-    setServicesOpen(false);
-    setLocationsOpen(false);
-  };
+  // Note: mobile menu closes are handled via onClick handlers on Link elements
+  // (no useEffect needed for route-change sync)
 
   return (
     <>
@@ -57,21 +55,18 @@ export function Navbar() {
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8 md:h-20">
           {/* Logo */}
-          <button
-            onClick={() => handleNav("home")}
+          <Link
+            href="/"
             className="flex items-center transition-opacity hover:opacity-80"
             aria-label="Siva Pest Control home"
           >
             <LogoMark size={42} />
-          </button>
+          </Link>
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-1 lg:flex">
             {mainNav.map((item) => {
-              const isActive =
-                currentView === item.view ||
-                (item.view === "services" && currentView === "service-detail") ||
-                (item.view === "locations" && currentView === "location-detail");
+              const isActive = isNavActive(pathname, item.view || "");
 
               if (item.label === "Services") {
                 return (
@@ -81,8 +76,8 @@ export function Navbar() {
                     onMouseEnter={() => setServicesOpen(true)}
                     onMouseLeave={() => setServicesOpen(false)}
                   >
-                    <button
-                      onClick={() => handleNav("services")}
+                    <Link
+                      href="/services"
                       className={cn(
                         "flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors",
                         isActive
@@ -97,7 +92,7 @@ export function Navbar() {
                           servicesOpen && "rotate-180"
                         )}
                       />
-                    </button>
+                    </Link>
                     <AnimatePresence>
                       {servicesOpen && (
                         <motion.div
@@ -110,12 +105,9 @@ export function Navbar() {
                           <div className="glass-card w-[640px] rounded-2xl p-3 shadow-premium">
                             <div className="grid grid-cols-2 gap-1">
                               {services.map((service) => (
-                                <button
+                                <Link
                                   key={service.slug}
-                                  onClick={() => {
-                                    navigate(`service:${service.slug}`);
-                                    setServicesOpen(false);
-                                  }}
+                                  href={`/services/${service.slug}`}
                                   className="group flex items-start gap-3 rounded-xl p-3 text-left transition-colors hover:bg-orange/5"
                                 >
                                   <div
@@ -134,19 +126,19 @@ export function Navbar() {
                                       {service.short.split("—")[0].trim()}
                                     </div>
                                   </div>
-                                </button>
+                                </Link>
                               ))}
                             </div>
                             <div className="mt-2 flex items-center justify-between rounded-xl bg-brown/5 px-4 py-3">
                               <div className="text-xs text-brown/70">
                                 Not sure which service you need?
                               </div>
-                              <button
-                                onClick={() => handleNav("contact")}
+                              <Link
+                                href="/contact"
                                 className="text-xs font-semibold text-orange hover:underline"
                               >
                                 Get a free assessment →
-                              </button>
+                              </Link>
                             </div>
                           </div>
                         </motion.div>
@@ -164,8 +156,8 @@ export function Navbar() {
                     onMouseEnter={() => setLocationsOpen(true)}
                     onMouseLeave={() => setLocationsOpen(false)}
                   >
-                    <button
-                      onClick={() => handleNav("locations")}
+                    <Link
+                      href="/locations"
                       className={cn(
                         "flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors",
                         isActive
@@ -180,7 +172,7 @@ export function Navbar() {
                           locationsOpen && "rotate-180"
                         )}
                       />
-                    </button>
+                    </Link>
                     <AnimatePresence>
                       {locationsOpen && (
                         <motion.div
@@ -192,12 +184,9 @@ export function Navbar() {
                         >
                           <div className="glass-card w-[420px] rounded-2xl p-3 shadow-premium">
                             {locations.map((loc) => (
-                              <button
+                              <Link
                                 key={loc.slug}
-                                onClick={() => {
-                                  navigate(`location:${loc.slug}`);
-                                  setLocationsOpen(false);
-                                }}
+                                href={`/locations/${loc.slug}`}
                                 className="group flex w-full items-center justify-between rounded-xl p-3 text-left transition-colors hover:bg-orange/5"
                               >
                                 <div>
@@ -211,15 +200,15 @@ export function Navbar() {
                                 <div className="text-xs font-semibold text-orange opacity-0 transition-opacity group-hover:opacity-100">
                                   View →
                                 </div>
-                              </button>
+                              </Link>
                             ))}
                             <div className="mt-2 rounded-xl bg-brown/5 px-4 py-3">
-                              <button
-                                onClick={() => handleNav("locations")}
+                              <Link
+                                href="/locations"
                                 className="text-xs font-semibold text-orange hover:underline"
                               >
                                 See all coverage areas →
-                              </button>
+                              </Link>
                             </div>
                           </div>
                         </motion.div>
@@ -230,9 +219,9 @@ export function Navbar() {
               }
 
               return (
-                <button
+                <Link
                   key={item.view}
-                  onClick={() => handleNav(item.view)}
+                  href={item.href}
                   className={cn(
                     "rounded-full px-4 py-2 text-sm font-medium transition-colors",
                     isActive
@@ -241,7 +230,7 @@ export function Navbar() {
                   )}
                 >
                   {item.label}
-                </button>
+                </Link>
               );
             })}
           </nav>
@@ -255,13 +244,13 @@ export function Navbar() {
               <Phone className="h-3.5 w-3.5" />
               {company.phonePrimary}
             </a>
-            <button
-              onClick={() => handleNav("contact")}
-              className="hidden rounded-full bg-orange px-5 py-2.5 text-sm font-semibold text-white shadow-glow-orange transition-all hover:bg-orange-deep hover:shadow-glow-orange sm:inline-flex"
+            <Link
+              href="/contact"
+              className="hidden rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-glow-orange transition-all hover:bg-orange-deep hover:shadow-glow-orange sm:inline-flex"
               style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
             >
               Get Free Quote
-            </button>
+            </Link>
 
             {/* Mobile toggle */}
             <button
@@ -310,13 +299,19 @@ export function Navbar() {
               <div className="px-4 pb-8 sm:px-6">
                 <nav className="space-y-1">
                   {mainNav.map((item) => (
-                    <button
+                    <Link
                       key={item.view}
-                      onClick={() => handleNav(item.view)}
-                      className="block w-full rounded-xl px-4 py-3 text-left text-base font-semibold text-brown transition-colors hover:bg-orange/5 hover:text-orange"
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className={cn(
+                        "block w-full rounded-xl px-4 py-3 text-left text-base font-semibold transition-colors",
+                        isNavActive(pathname, item.view || "")
+                          ? "bg-orange/5 text-orange"
+                          : "text-brown hover:bg-orange/5 hover:text-orange"
+                      )}
                     >
                       {item.label}
-                    </button>
+                    </Link>
                   ))}
                 </nav>
 
@@ -328,13 +323,14 @@ export function Navbar() {
                     <Phone className="h-4 w-4" />
                     {company.phonePrimary}
                   </a>
-                  <button
-                    onClick={() => handleNav("contact")}
+                  <Link
+                    href="/contact"
+                    onClick={() => setMobileOpen(false)}
                     className="block w-full rounded-full bg-orange px-5 py-3.5 text-center text-sm font-semibold text-white shadow-glow-orange"
                     style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
                   >
                     Get Free Quote
-                  </button>
+                  </Link>
                 </div>
 
                 <div className="mt-8 rounded-2xl bg-brown/5 p-4 text-center">

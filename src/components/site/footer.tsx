@@ -1,15 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { Phone, Mail, MapPin, Clock, Instagram, Facebook, Linkedin, Youtube, ShieldCheck, ChevronRight } from "lucide-react";
 import { LogoMark } from "./logo-mark";
-import { useNav } from "@/lib/store";
 import { company } from "@/data/company";
 import { footerNav } from "@/data/navigation";
 import { locations } from "@/data/locations";
 import { brand } from "@/data/brand";
 
 export function Footer() {
-  const navigate = useNav((s) => s.navigate);
 
   return (
     <footer className="mt-auto relative overflow-hidden gradient-brown text-white/80">
@@ -37,14 +36,14 @@ export function Footer() {
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
-            <button
-              onClick={() => navigate("contact")}
+            <Link
+              href="/contact"
               className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02]"
               style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
             >
               Get Free Quote
               <ChevronRight className="h-4 w-4" />
-            </button>
+            </Link>
             <a
               href={`tel:${company.phonePrimaryHref}`}
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/10"
@@ -124,12 +123,12 @@ export function Footer() {
               <ul className="space-y-2.5">
                 {column.items.map((item) => (
                   <li key={item.label}>
-                    <button
-                      onClick={() => navigate(item.view)}
+                    <Link
+                      href={item.href}
                       className="text-sm text-white/60 transition-colors hover:text-white"
                     >
                       {item.label}
-                    </button>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -144,16 +143,16 @@ export function Footer() {
               Coverage:
             </span>
             {locations.map((loc) => (
-              <button
+              <Link
                 key={loc.slug}
-                onClick={() => navigate(`location:${loc.slug}`)}
+                href={`/locations/${loc.slug}`}
                 className="inline-flex items-center gap-1.5 transition-colors hover:text-orange"
               >
                 <MapPin className="h-3 w-3" />
                 {loc.city}
                 <span className="text-white/30">·</span>
                 <span className="text-white/40">{loc.coverage.length} zones</span>
-              </button>
+              </Link>
             ))}
           </div>
         </div>

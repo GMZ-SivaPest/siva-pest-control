@@ -1,9 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
-import { useNav } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { viewToHref } from "@/lib/nav";
 
 interface PageHeroProps {
   eyebrow?: string;
@@ -23,7 +24,6 @@ export function PageHero({
   breadcrumb,
   variant = "default",
 }: PageHeroProps) {
-  const navigate = useNav((s) => s.navigate);
   const isDark = variant === "dark";
 
   return (
@@ -66,12 +66,12 @@ export function PageHero({
               {breadcrumb.map((crumb, i) => (
                 <span key={i} className="inline-flex items-center gap-1.5">
                   {crumb.view ? (
-                    <button
-                      onClick={() => navigate(crumb.view!)}
+                    <Link
+                      href={viewToHref(crumb.view)}
                       className="transition-colors hover:text-orange"
                     >
                       {crumb.label}
-                    </button>
+                    </Link>
                   ) : (
                     <span className={isDark ? "text-white/80" : "text-brown/80"}>
                       {crumb.label}

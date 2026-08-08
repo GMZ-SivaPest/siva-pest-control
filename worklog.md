@@ -75,3 +75,83 @@ Next Steps (optional):
 - Add before/after case study image pairs
 - Generate city-specific hero images for location detail pages
 - Add video testimonials (would require real video assets)
+
+---
+Task ID: multi-page-redesign-v2
+Agent: Main (Super Z)
+Task: Convert SPA to true multi-page App Router site, redesign hero with cinematic image, replace home page services expansion with teaser (link out to /services).
+
+Work Log:
+
+MULTI-PAGE CONVERSION:
+- Created `src/lib/nav.ts` with `viewToHref()` and `isNavActive()` helpers
+- Created `src/lib/nav-bridge.ts` + `src/components/site/nav-bridge.tsx` to capture Next.js router instance
+- Updated `src/lib/store.ts` so legacy `useNav().navigate(view)` calls transparently push real URLs (router.push) — no breaking changes for existing components
+- Updated `src/data/navigation.ts` to use `href` paths alongside legacy `view` for active-state matching
+- Created `src/components/site/site-chrome.tsx` (Navbar + NavBridge + Footer + WhatsAppFab wrapper)
+- Deleted `src/components/site/site-shell.tsx` (no longer needed — replaced by App Router routes)
+- Created 12 App Router route files:
+  - `src/app/page.tsx` (Home)
+  - `src/app/about/page.tsx`
+  - `src/app/services/page.tsx`
+  - `src/app/services/[slug]/page.tsx` (with generateStaticParams + generateMetadata)
+  - `src/app/locations/page.tsx`
+  - `src/app/locations/[slug]/page.tsx` (with generateStaticParams + generateMetadata)
+  - `src/app/process/page.tsx`
+  - `src/app/pests/page.tsx`
+  - `src/app/industries/page.tsx`
+  - `src/app/blog/page.tsx`
+  - `src/app/blog/[slug]/page.tsx` (with generateStaticParams + generateMetadata)
+  - `src/app/faq/page.tsx`
+  - `src/app/contact/page.tsx`
+- Updated `src/app/sitemap.ts` to use real URLs (no more hash routing)
+- All 13 routes verified returning HTTP 200
+
+NAVBAR/FOOTER/CTA REFACTOR:
+- `navbar.tsx` — replaced all `useNav`/`navigate(view)` with Next.js `Link` + `usePathname`. Active state via `isNavActive(pathname, view)`. Dropdowns link to `/services/[slug]` and `/locations/[slug]`. Mobile menu closes on link click via onClick handlers.
+- `footer.tsx` — replaced `navigate(view)` with `<Link href={item.href}>`
+- `page-hero.tsx` — replaced `navigate(crumb.view)` with `<Link href={viewToHref(crumb.view)}>`
+- `service-card.tsx` — replaced `<motion.button onClick={navigate}>` with `<motion.div><Link href="/services/[slug]"></motion.div>`
+- `whatsapp-fab.tsx` — replaced `view === "contact"` check with `pathname === "/contact"`; replaced navigate button with Link
+
+HERO REDESIGN (cinematic + creative, not template):
+- Generated 5 new hero image candidates via z-ai image generation:
+  - hero-technician.png (technician in front of home)
+  - hero-shield-home.png (modern home with glowing protective shield dome) ← CHOSEN as background
+  - hero-treatment-macro.png (rejected by VLM — shows a dead insect)
+  - hero-cinematic-wide.png (technician with upscale building)
+  - hero-split.png (split-composition home + technician)
+- VLM analysis confirmed hero-shield-home.png best matches "premium protection" brand identity
+- New Hero component:
+  - LAYER 1: Full-bleed hero-shield-home.png as background (was hidden by `-z-20`, fixed to `z-0`)
+  - LAYER 2: 18 drifting particles (atmospheric depth)
+  - LAYER 3: Animated shield pulse rings (concentric orange/teal rings + center shield icon)
+  - LAYER 4: City pin connections (Hyderabad → Chennai → Bangalore) with animated SVG dashed lines + pulse rings
+  - LAYER 5: Foreground content (headline + CTAs + trust badges + rating) with parallax
+  - Right column: Glassmorphism composition with hero-technician.png in rounded frame + floating glass cards (4.9 rating, 30-min response, 180-day warranty medallion)
+  - Scroll-driven parallax (bgY, fgY, overlayOpacity via useScroll + useTransform)
+  - Mouse-tilt 3D on right composition (rotateX, rotateY via useMotionValue + useSpring)
+  - Bottom: glassmorphism stats strip with 4 trust signals
+
+HOME PAGE REDESIGN (no more services expansion):
+- Created `src/components/site/services-teaser.tsx` — shows 3 featured services (termite, cockroach, commercial) as premium cards + "View all 8 services →" CTA linking to /services
+- Replaced `<ServicesGrid limit={6} showFilter={false} />` with `<ServicesTeaser />` in home-page.tsx
+- Now the home page does NOT expand all services inline — instead links out to dedicated /services page (per user request)
+
+VLM VERIFICATION:
+- Home hero: VLM rated 8/10 cinematic, 9/10 protection/trust, 7/10 creative design
+- Background image: "modern two-story house at twilight/dusk with warm interior lights glowing" — confirmed visible
+- Floating glass cards: confirmed visible (4.9 rating, 30 min response, 180 day warranty)
+- Services section: "three visible service cards with images... Cockroach & Ant Gel Treatment, Anti-Termite Treatment, Commercial IPM Programme... View all 8 services → button"
+- Multi-page navigation: end-to-end tested — clicking "View all" navigates to /services, navbar links work, service detail pages load
+
+LINT: passes clean (`bun run lint`)
+DEV SERVER: all 13 routes return HTTP 200, no runtime errors
+
+Stage Summary:
+- True multi-page Next.js App Router site (12 logical pages, 13 routes including dynamic [slug] routes)
+- Every view is now a real URL (no SPA hash routing)
+- Hero redesigned with cinematic full-bleed background (protected home) + glassmorphism technician card + animated shield pulse + particle drift + city pin connections + parallax + mouse-tilt 3D
+- Home page no longer expands all services inline — shows 3 featured services + "View all 8 services →" CTA to /services (per user request)
+- All existing page components (services, blog, contact, about, etc.) work as multi-page routes without modification (via the nav-bridge transparent routing layer)
+- Sitemap updated to use real URLs for SEO

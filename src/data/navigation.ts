@@ -1,78 +1,75 @@
 /**
  * navigation.ts — Site navigation structure (single source of truth).
  * Used by navbar, footer, sitemap, breadcrumbs.
+ *
+ * Multi-page App Router version: each item carries a `href` (URL path)
+ * plus a legacy `view` (for active-state matching via lib/nav.ts).
  */
 
 export interface NavItem {
   label: string;
-  view: string;
+  href: string;
+  view?: string;
   description?: string;
   children?: NavItem[];
 }
 
 export const mainNav: NavItem[] = [
-  { label: "Home", view: "home" },
-  { label: "About", view: "about" },
-  {
-    label: "Services",
-    view: "services",
-    children: [],
-  },
-  {
-    label: "Locations",
-    view: "locations",
-  },
-  { label: "Process", view: "process" },
-  { label: "Pest Library", view: "pests" },
-  { label: "Blog", view: "blog" },
-  { label: "FAQ", view: "faq" },
+  { label: "Home", href: "/", view: "home" },
+  { label: "About", href: "/about", view: "about" },
+  { label: "Services", href: "/services", view: "services" },
+  { label: "Locations", href: "/locations", view: "locations" },
+  { label: "Process", href: "/process", view: "process" },
+  { label: "Pest Library", href: "/pests", view: "pests" },
+  { label: "Blog", href: "/blog", view: "blog" },
+  { label: "FAQ", href: "/faq", view: "faq" },
 ];
 
 export const footerNav: { title: string; items: NavItem[] }[] = [
   {
     title: "Company",
     items: [
-      { label: "About Us", view: "about" },
-      { label: "Our Process", view: "process" },
-      { label: "Pest Library", view: "pests" },
-      { label: "Insights Blog", view: "blog" },
-      { label: "FAQ", view: "faq" },
-      { label: "Contact", view: "contact" },
+      { label: "About Us", href: "/about", view: "about" },
+      { label: "Our Process", href: "/process", view: "process" },
+      { label: "Pest Library", href: "/pests", view: "pests" },
+      { label: "Insights Blog", href: "/blog", view: "blog" },
+      { label: "FAQ", href: "/faq", view: "faq" },
+      { label: "Contact", href: "/contact", view: "contact" },
     ],
   },
   {
     title: "Residential Services",
     items: [
-      { label: "Cockroach & Ant Gel", view: "service:cockroach-gel-treatment" },
-      { label: "Anti-Termite Treatment", view: "service:termite-control" },
-      { label: "Bed Bugs Elimination", view: "service:bed-bugs-treatment" },
-      { label: "Rodent Control", view: "service:rodent-control" },
-      { label: "Mosquito Control", view: "service:mosquito-control" },
-      { label: "Bird Spikes & Netting", view: "service:bird-management" },
+      { label: "Cockroach & Ant Gel", href: "/services/cockroach-gel-treatment", view: "service:cockroach-gel-treatment" },
+      { label: "Anti-Termite Treatment", href: "/services/termite-control", view: "service:termite-control" },
+      { label: "Bed Bugs Elimination", href: "/services/bed-bugs-treatment", view: "service:bed-bugs-treatment" },
+      { label: "Rodent Control", href: "/services/rodent-control", view: "service:rodent-control" },
+      { label: "Mosquito Control", href: "/services/mosquito-control", view: "service:mosquito-control" },
+      { label: "Bird Spikes & Netting", href: "/services/bird-management", view: "service:bird-management" },
     ],
   },
   {
     title: "Commercial",
     items: [
-      { label: "Commercial IPM", view: "service:commercial-ipm" },
-      { label: "Restaurants", view: "industries" },
-      { label: "Hotels", view: "industries" },
-      { label: "Warehouses", view: "industries" },
-      { label: "Healthcare", view: "industries" },
-      { label: "Manufacturing", view: "industries" },
+      { label: "Commercial IPM", href: "/services/commercial-ipm", view: "service:commercial-ipm" },
+      { label: "Restaurants", href: "/industries", view: "industries" },
+      { label: "Hotels", href: "/industries", view: "industries" },
+      { label: "Warehouses", href: "/industries", view: "industries" },
+      { label: "Healthcare", href: "/industries", view: "industries" },
+      { label: "Manufacturing", href: "/industries", view: "industries" },
     ],
   },
   {
     title: "Locations",
     items: [
-      { label: "Hyderabad", view: "location:hyderabad" },
-      { label: "Chennai", view: "location:chennai" },
-      { label: "Bangalore", view: "location:bangalore" },
+      { label: "Hyderabad", href: "/locations/hyderabad", view: "location:hyderabad" },
+      { label: "Chennai", href: "/locations/chennai", view: "location:chennai" },
+      { label: "Bangalore", href: "/locations/bangalore", view: "location:bangalore" },
     ],
   },
 ];
 
 export const ctaButtons = {
-  primary: { label: "Get Free Quote", view: "contact" },
-  secondary: { label: "Call Now", view: "tel" },
+  primary: { label: "Get Free Quote", href: "/contact", view: "contact" },
+  secondary: { label: "Call Now", href: "tel:+919876543210" },
 };

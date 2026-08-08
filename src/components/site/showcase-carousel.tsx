@@ -31,13 +31,13 @@ interface ShowcaseSlide {
 
 const slides: ShowcaseSlide[] = [
   {
-    src: "/images/carousel/protected-home.jpg",
-    alt: "Modern South Indian home at golden hour protected by Siva Pest Control",
-    tag: "Residential Protection",
-    title: "Home Protection Plans",
+    src: "/images/carousel/cockroach-colony.jpg",
+    alt: "Severe German cockroach infestation scattering on a kitchen counter when flashlight hits them",
+    tag: "Cockroach Infestation",
+    title: "When You See One, There Are Hundreds",
     description:
-      "Year-round defence for apartments and independent houses — child-safe, pet-safe, odour-controlled.",
-    href: "/services",
+      "German cockroaches hide in cabinet hinges by day and raid your kitchen by night. Our gel-bait protocol collapses the colony in 7 days — no spray, no smell.",
+    href: "/services/cockroach-gel-treatment",
   },
   {
     src: "/images/carousel/kitchen-treatment.jpg",
@@ -49,13 +49,40 @@ const slides: ShowcaseSlide[] = [
     href: "/services/cockroach-gel-treatment",
   },
   {
+    src: "/images/carousel/termite-damage.jpg",
+    alt: "Severe subterranean termite damage in a wooden door frame with visible mud tubes",
+    tag: "Termite Damage",
+    title: "Silent Destroyers in Your Walls",
+    description:
+      "Subterranean termites eat 24/7 and can hollow out a door frame in 6 months. Our 5-year drill-fill-seal barrier stops them at the foundation.",
+    href: "/services/termite-control",
+  },
+  {
     src: "/images/carousel/termite-inspection.jpg",
     alt: "Technician inspecting a wooden door frame with flashlight for termite activity",
     tag: "Anti-Termite Treatment",
     title: "Drill-Fill-Seal Termite Barrier",
     description:
       "5-year warranty barrier treatment calibrated for South Indian construction and climate.",
-    href: "/services/anti-termite-treatment",
+    href: "/services/termite-control",
+  },
+  {
+    src: "/images/carousel/rodent-infestation.jpg",
+    alt: "Rodent droppings scattered in a residential attic with damaged wiring visible",
+    tag: "Rodent Infestation",
+    title: "Rats Chew Wires, Start Fires",
+    description:
+      "Rodents cause 25% of urban house fires by chewing electrical wiring. Our snap-trap + bait + exclusion protocol closes the entry points — not just catches.",
+    href: "/services/rodent-control",
+  },
+  {
+    src: "/images/carousel/mosquito-colony.jpg",
+    alt: "Mosquito larvae wiggling in stagnant water in a residential bucket",
+    tag: "Mosquito Source",
+    title: "Stop Them Before They Fly",
+    description:
+      "Every 10ml of stagnant water breeds 200+ mosquitoes. Our Bti larvicide + residual misting protocol kills larvae AND adults — breaks the breeding cycle.",
+    href: "/services/mosquito-control",
   },
   {
     src: "/images/carousel/mosquito-fogging.jpg",
@@ -67,6 +94,114 @@ const slides: ShowcaseSlide[] = [
     href: "/services/mosquito-control",
   },
   {
+    src: "/images/carousel/bedbug-infestation.jpg",
+    alt: "Bed bug infestation along mattress seams with dark fecal stains and shed skins",
+    tag: "Bed Bug Infestation",
+    title: "They Hide in Mattress Seams",
+    description:
+      "Bed bugs survive 12 months without feeding and resist most chemicals. Our two-cycle heat + spray protocol kills eggs chemicals can't reach.",
+    href: "/services/bed-bugs-treatment",
+  },
+  {
+    src: "/images/treatments/gel-bait-application.jpg",
+    alt: "Pest control technician in PPE uniform applying gel bait with a syringe into a kitchen cabinet hinge",
+    tag: "Child-Safe Formulations",
+    title: "Premium Gel-Bait Science",
+    description:
+      "Hinge-level application of indoxacarb-based gel. Toddlers and pets can play through the treatment.",
+    href: "/services/cockroach-gel-treatment",
+  },
+  {
+    src: "/images/treatments/termite-drill-treatment.jpg",
+    alt: "Pest control technician drilling holes along a concrete floor for termite barrier treatment",
+    tag: "Termite Barrier",
+    title: "Drill-Fill-Seal Method",
+    description:
+      "Injecting termiticide into the foundation creates a 5-year chemical barrier termites cannot cross.",
+    href: "/services/termite-control",
+  },
+  {
+    src: "/images/treatments/rodent-bait-station.jpg",
+    alt: "Tamper-proof rodent bait station installed along a garden wall with a technician's gloved hand",
+    tag: "Rodent Control",
+    title: "Tamper-Proof Bait Stations",
+    description:
+      "Locking bait stations keep poison away from children and pets. 90-day monitoring with weekly trap-checks included.",
+    href: "/services/rodent-control",
+  },
+  {
+    src: "/images/treatments/bed-bug-steam.jpg",
+    alt: "Pest control technician using a steam machine on a mattress for bed bug elimination",
+    tag: "Bed Bugs Elimination",
+    title: "Two-Cycle Heat + Spray Protocol",
+    description:
+      "Steam kills eggs chemicals can't reach. 21-day elimination with a 90-day re-treatment warranty.",
+    href: "/services/bed-bugs-treatment",
+  },
+  {
+    src: "/images/treatments/mosquito-fogging.jpg",
+    alt: "Pest control technician operating a thermal fogging machine at twilight in a residential gated community",
+    tag: "Outdoor Mosquito Fogging",
+    title: "Campus & Event Venue Fogging",
+    description:
+      "Visible mosquito drop in 30 minutes. Single-event fogging for weddings, monthly contracts for gated communities.",
+    href: "/services/fogging-service",
+  },
+  {
+    src: "/images/treatments/bird-spike-install.jpg",
+    alt: "Stainless steel bird spikes being installed on a residential balcony ledge to deter pigeons",
+    tag: "Bird Spikes & Netting",
+    title: "Humane Pigeon Exclusion Systems",
+    description:
+      "3-year material warranty. Stainless steel spikes, UV-stabilised netting, no killing, AWBI-compliant.",
+    href: "/services/bird-management",
+  },
+  {
+    src: "/images/treatments/bee-hive-removal.jpg",
+    alt: "Beekeeper in full protective suit with smoker removing a large honey bee hive comb from a residential wall",
+    tag: "Honey Bee Hive Removal",
+    title: "Live-Capture, No Extermination",
+    description:
+      "Smoker calming + vacuum extraction. Colony relocated to a partner apiary. Honey-damage prevention included.",
+    href: "/services/honey-bee-removal",
+  },
+  {
+    src: "/images/treatments/snake-rescue.jpg",
+    alt: "Professional snake rescue handler in protective gear using a snake hook to safely capture a cobra",
+    tag: "Snake Rescue",
+    title: "Safe Capture & Relocation",
+    description:
+      "Trained handlers with snake hooks and bags. Cobra, krait, viper — captured alive and relocated to forest range.",
+    href: "/services/snake-control",
+  },
+  {
+    src: "/images/treatments/lizard-repellent.jpg",
+    alt: "Pest control technician spraying botanical repellent on a wall corner to deter lizards",
+    tag: "Lizard Control",
+    title: "Repellent + Source Treatment",
+    description:
+      "Drives lizards out without killing them. Also treats the underlying insect population that attracts them.",
+    href: "/services/lizard-control",
+  },
+  {
+    src: "/images/treatments/fly-uv-trap.jpg",
+    alt: "UV fly light trap installed on a restaurant kitchen wall with dead flies visible on the glue board",
+    tag: "Fly Control",
+    title: "UV Light Traps for Commercial Kitchens",
+    description:
+      "FSSAI-compliant fly management with UV light traps and glue boards. No zapping, no contamination.",
+    href: "/services/fly-control",
+  },
+  {
+    src: "/images/treatments/commercial-ipm-monitor.jpg",
+    alt: "Tamper-proof IPM monitoring station on a restaurant kitchen wall being inspected by a pest control technician",
+    tag: "Commercial IPM",
+    title: "FSSAI & HACCP Audit-Ready IPM",
+    description:
+      "Tamper-proof monitors, digital service reports with trend analytics. Dedicated account manager across 3 cities.",
+    href: "/services/commercial-ipm",
+  },
+  {
     src: "/images/carousel/restaurant-service.jpg",
     alt: "Commercial pest control technician inspecting a UV fly trap in a restaurant kitchen",
     tag: "Commercial IPM",
@@ -74,24 +209,6 @@ const slides: ShowcaseSlide[] = [
     description:
       "Swiggy-, Zomato-, and FSSAI-audit-ready documentation. UV fly units, drain-fly protocols, tamper-proof baits.",
     href: "/industries",
-  },
-  {
-    src: "/images/carousel/gel-bait-macro.jpg",
-    alt: "Macro close-up of cockroach gel bait application on a kitchen hinge",
-    tag: "Child-Safe Formulations",
-    title: "Premium Gel-Bait Science",
-    description:
-      "Hinge-level application of indoxacarb-based gel.Toddlers and pets can play through the treatment.",
-    href: "/services/cockroach-gel-treatment",
-  },
-  {
-    src: "/images/carousel/bathroom-treatment.jpg",
-    alt: "Technician treating a modern Indian bathroom for silverfish and drain flies",
-    tag: "Bathroom & Drain Pests",
-    title: "Drain-Fly & Silverfish Control",
-    description:
-      "Humidity-calibrated protocols for coastal Chennai and Bangalore's cooler climate. Biodegradable formulations.",
-    href: "/services",
   },
 ];
 
@@ -114,12 +231,14 @@ export function ShowcaseCarousel() {
       <Reveal className="mt-12" delay={0.1}>
         <div
           className="marquee-viewport mask-fade-edges"
-          aria-label="Pest control service showcase — scrolling"
+          aria-label="Pest control service showcase — scrolling marquee"
         >
           <ul
             className="marquee-track gap-6 px-4 sm:px-6 lg:px-8"
-            style={{ animationDuration: "70s" }}
-            aria-live="polite"
+            style={{ animationDuration: "100s" }}
+            // aria-hidden: infinite marquee — same content is fully reachable
+            // via the linked cards which screen readers will announce.
+            aria-hidden="true"
           >
             {loop.map((slide, i) => (
               <li

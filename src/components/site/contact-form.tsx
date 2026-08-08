@@ -2,7 +2,16 @@
 
 import { useState, useId } from "react";
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle2, Loader2 } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  Send,
+  CheckCircle2,
+  Loader2,
+  AlertCircle,
+} from "lucide-react";
 import { Reveal } from "./reveal";
 import { company } from "@/data/company";
 import { locations } from "@/data/locations";
@@ -10,44 +19,183 @@ import { services } from "@/data/services";
 import { toast } from "sonner";
 import { trackLead, trackPhoneClick, trackCTAClick } from "@/lib/analytics";
 
+interface FieldErrors {
+  [field: string]: string;
+}
+
+interface FormState {
+  name: string;
+  phone: string;
+  email: string;
+  city: string;
+  service: string;
+  propertyType: string;
+  message: string;
+  preferredDate: string;
+  /** honeypot — must stay empty */
+  company: string;
+}
+
+const EMPTY_FORM: FormState = {
+  name: "",
+  phone: "",
+  email: "",
+  city: "Hyderabad",
+  service: services[0].name,
+  propertyType: "Residential",
+  message: "",
+  preferredDate: "",
+  company: "",
+};
+
+/**
+ * Validate one field client-side. Mirrors the server regex for instant
+ * feedback before the user submits. Returns "" when valid.
+ */
+function validateField(field: keyof FormState, value: string): string {
+  switch (field) {
+    case "name":
+      if (!value.trim()) return "Please share your name";
+      if (value.trim().length < 2) return "Name looks too short";
+      return "";
+    case "phone": {
+      if (!value.trim()) return "Phone number is required";
+      const re = /^(?:\+91[\s-]?|0)?([6-9]\d{9})$/;
+      if (!re.test(value.trim()))
+        return "Enter a 10-digit Indian mobile (starts 6/7/8/9)";
+      return "";
+    }
+    case "email": {
+      if (!value.trim()) return "";
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(value.trim()) ? "" : "Enter a valid email or leave blank";
+    }
+    case "preferredDate": {
+      if (!value) return "";
+      const parsed = new Date(value);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (isNaN(parsed.getTime())) return "Enter a valid date";
+      if (parsed < today) return "Date can't be in the past";
+      return "";
+    }
+    default:
+      return "";
+  }
+}
+
 export function ContactForm() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    city: "Hyderabad",
-    service: services[0].name,
-    propertyType: "Residential",
-    message: "",
-  });
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [form, setForm] = useState<FormState>(EMPTY_FORM);
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
-  const update = (key: keyof typeof form, value: string) =>
+  const update = (key: keyof FormState, value: string) => {
     setForm((f) => ({ ...f, [key]: value }));
+    // Live-clear the field error as the user types after first blur
+    if (touched[key]) {
+      const err = validateField(key, value);
+      setErrors((e) => ({ ...e, [key]: err }));
+    }
+  };
+
+  const handleBlur = (key: keyof FormState) => {
+    setTouched((t) => ({ ...t, [key]: true }));
+    const err = validateField(key, form[key]);
+    setErrors((e) => ({ ...e, [key]: err }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.phone) {
-      toast.error("Please share your name and phone number");
+
+    // Validate all required fields
+    const newErrors: FieldErrors = {};
+    (["name", "phone", "email", "preferredDate"] as (keyof FormState)[]).forEach(
+      (field) => {
+        const err = validateField(field, form[field]);
+        if (err) newErrors[field] = err;
+      }
+    );
+    setErrors(newErrors);
+    setTouched({
+      name: true,
+      phone: true,
+      email: true,
+      preferredDate: true,
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      toast.error("Please fix the highlighted fields");
+      // focus first error field
+      const firstErrorField = Object.keys(newErrors)[0];
+      const el = document.getElementById(`field-${firstErrorField}`);
+      el?.focus();
       return;
     }
+
     setSubmitting(true);
+    setServerError(null);
 
-    // Simulate submission (no backend in this demo)
-    await new Promise((r) => setTimeout(r, 1100));
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          email: form.email || undefined,
+          city: form.city,
+          service: form.service,
+          propertyType: form.propertyType,
+          message: form.message || undefined,
+          preferredDate: form.preferredDate || undefined,
+          source: "contact-form",
+          company: form.company, // honeypot
+        }),
+      });
 
-    setSubmitting(false);
-    setSubmitted(true);
-    toast.success("Request received! Our team will call you within 30 minutes.");
+      const data = await res.json();
 
-    // Fire GA4 conversion event
-    trackLead({
-      location: "contact-form",
-      service: form.service,
-      city: form.city,
-      propertyType: form.propertyType,
-    });
+      if (!res.ok || !data.ok) {
+        if (data.errors) {
+          // server returned field-level errors — surface them
+          setErrors((e) => ({ ...e, ...data.errors }));
+          toast.error("Please fix the highlighted fields");
+        } else {
+          const msg =
+            data.message ??
+            "We couldn't submit your request. Please call us directly.";
+          setServerError(msg);
+          toast.error(msg);
+        }
+        setSubmitting(false);
+        return;
+      }
+
+      // Success
+      setSubmitting(false);
+      setSubmitted(true);
+      toast.success(
+        "Request received! Our team will call you within 30 minutes."
+      );
+
+      // Fire GA4 conversion event client-side
+      trackLead({
+        location: "contact-form",
+        service: form.service,
+        city: form.city,
+        propertyType: form.propertyType,
+      });
+    } catch (err) {
+      console.error("[contact] submission failed:", err);
+      setSubmitting(false);
+      setServerError(
+        "Network error — please check your connection or call us directly."
+      );
+      toast.error("Network error. Please try again or call us.");
+    }
   };
 
   return (
@@ -65,19 +213,24 @@ export function ContactForm() {
                 Get in touch
               </div>
               <h2 className="font-display text-3xl font-bold leading-tight text-brown sm:text-4xl md:leading-[1.1]">
-                Let's design your protection plan
+                Let&apos;s design your protection plan
               </h2>
               <p className="mt-4 text-base leading-relaxed text-brown/70 text-pretty">
-                Share a few details and our team will call you back within 30 minutes
-                (during business hours) with a fixed-price quote. No obligation, no
-                upsell — just a clear, expert recommendation.
+                Share a few details and our team will call you back within 30
+                minutes (during business hours) with a fixed-price quote. No
+                obligation, no upsell — just a clear, expert recommendation.
               </p>
 
               {/* Contact methods */}
               <div className="mt-8 space-y-3">
                 <a
                   href={`tel:${company.phonePrimaryHref}`}
-                  onClick={() => trackPhoneClick({ location: "contact-form", phone: company.phonePrimary })}
+                  onClick={() =>
+                    trackPhoneClick({
+                      location: "contact-form",
+                      phone: company.phonePrimary,
+                    })
+                  }
                   className="group flex items-center gap-4 rounded-2xl border border-brown/10 bg-white p-4 shadow-premium transition-all hover:-translate-y-0.5 hover:shadow-lift"
                 >
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange/10 text-orange transition-colors group-hover:bg-orange group-hover:text-white">
@@ -121,7 +274,9 @@ export function ContactForm() {
                     <div className="font-display text-base font-semibold text-brown">
                       {company.hours}
                     </div>
-                    <div className="text-xs text-brown/65">{company.emergencyNote}</div>
+                    <div className="text-xs text-brown/65">
+                      {company.emergencyNote}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -165,21 +320,17 @@ export function ContactForm() {
                     Request received!
                   </h3>
                   <p className="mt-2 max-w-sm text-sm text-brown/65">
-                    Thank you, {form.name}. Our team will call you on {form.phone} within
-                    30 minutes during business hours. For urgent matters, please call us directly.
+                    Thank you, {form.name}. Our team will call you on{" "}
+                    <span className="font-semibold text-brown">{form.phone}</span>{" "}
+                    within 30 minutes during business hours. For urgent matters,
+                    please call us directly.
                   </p>
                   <button
                     onClick={() => {
                       setSubmitted(false);
-                      setForm({
-                        name: "",
-                        phone: "",
-                        email: "",
-                        city: "Hyderabad",
-                        service: services[0].name,
-                        propertyType: "Residential",
-                        message: "",
-                      });
+                      setForm(EMPTY_FORM);
+                      setErrors({});
+                      setTouched({});
                     }}
                     className="mt-6 rounded-full border border-brown/15 px-5 py-2.5 text-sm font-semibold text-brown transition-colors hover:bg-brown/5"
                   >
@@ -187,31 +338,66 @@ export function ContactForm() {
                   </button>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                  {/* Honeypot — visually hidden, but accessible to bots */}
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      position: "absolute",
+                      left: "-9999px",
+                      width: 1,
+                      height: 1,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <label>
+                      Company (leave blank)
+                      <input
+                        type="text"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={form.company}
+                        onChange={(e) => update("company", e.target.value)}
+                      />
+                    </label>
+                  </div>
+
                   <div className="grid gap-4 sm:grid-cols-2">
                     <Field
+                      id="field-name"
                       label="Full name"
                       required
                       value={form.name}
                       onChange={(v) => update("name", v)}
+                      onBlur={() => handleBlur("name")}
+                      error={errors.name}
                       placeholder="e.g. Ananya Reddy"
                     />
                     <Field
+                      id="field-phone"
                       label="Phone number"
                       required
                       type="tel"
                       value={form.phone}
                       onChange={(v) => update("phone", v)}
+                      onBlur={() => handleBlur("phone")}
+                      error={errors.phone}
                       placeholder="+91 90000 00000"
+                      inputMode="tel"
+                      autoComplete="tel"
                     />
                   </div>
 
                   <Field
+                    id="field-email"
                     label="Email (optional)"
                     type="email"
                     value={form.email}
                     onChange={(v) => update("email", v)}
+                    onBlur={() => handleBlur("email")}
+                    error={errors.email}
                     placeholder="you@example.com"
+                    autoComplete="email"
                   />
 
                   <div className="grid gap-4 sm:grid-cols-3">
@@ -235,11 +421,28 @@ export function ContactForm() {
                     />
                   </div>
 
+                  {/* Preferred date — new, helps pre-qualify leads */}
+                  <Field
+                    id="field-preferredDate"
+                    label="Preferred date (optional)"
+                    type="date"
+                    value={form.preferredDate}
+                    onChange={(v) => update("preferredDate", v)}
+                    onBlur={() => handleBlur("preferredDate")}
+                    error={errors.preferredDate}
+                    placeholder=""
+                    min={new Date().toISOString().split("T")[0]}
+                  />
+
                   <div>
-                    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-brown/70">
+                    <label
+                      htmlFor="field-message"
+                      className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-brown/70"
+                    >
                       Tell us about the issue (optional)
                     </label>
                     <textarea
+                      id="field-message"
                       value={form.message}
                       onChange={(e) => update("message", e.target.value)}
                       rows={3}
@@ -248,11 +451,28 @@ export function ContactForm() {
                     />
                   </div>
 
+                  {/* Server-level error banner (only shown when set) */}
+                  {serverError && (
+                    <div
+                      role="alert"
+                      className="flex items-start gap-2.5 rounded-xl border border-rust/30 bg-rust/5 p-3 text-sm text-rust"
+                    >
+                      <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" />
+                      <span>{serverError}</span>
+                    </div>
+                  )}
+
                   <button
                     type="submit"
                     disabled={submitting}
-                    onClick={() => trackCTAClick({ location: "contact-form-submit", label: "Request Free Quote" })}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.01] disabled:opacity-70 gradient-orange"
+                    onClick={() =>
+                      trackCTAClick({
+                        location: "contact-form-submit",
+                        label: "Request Free Quote",
+                        href: "/contact",
+                      })
+                    }
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.01] hover:brightness-110 active:scale-[0.99] disabled:opacity-70 gradient-orange"
                   >
                     {submitting ? (
                       <>
@@ -268,8 +488,8 @@ export function ContactForm() {
                   </button>
 
                   <p className="text-center text-xs text-brown/70">
-                    By submitting, you agree to be contacted about your request. We never
-                    share your details. No spam, ever.
+                    By submitting, you agree to be contacted about your request.
+                    We never share your details. No spam, ever.
                   </p>
                 </form>
               )}
@@ -281,40 +501,74 @@ export function ContactForm() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Field primitives with inline error display                         */
+/* ------------------------------------------------------------------ */
+
 function Field({
+  id,
   label,
   value,
   onChange,
+  onBlur,
   placeholder,
   type = "text",
   required,
+  error,
+  inputMode,
+  autoComplete,
+  min,
 }: {
+  id: string;
   label: string;
   value: string;
   onChange: (v: string) => void;
+  onBlur?: () => void;
   placeholder?: string;
   type?: string;
   required?: boolean;
+  error?: string;
+  inputMode?: "text" | "tel" | "email" | "numeric" | "decimal" | "search" | "url";
+  autoComplete?: string;
+  min?: string;
 }) {
-  const reactId = useId();
-  const inputId = `field-${reactId}`;
   return (
     <div>
       <label
-        htmlFor={inputId}
+        htmlFor={id}
         className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-brown/70"
       >
         {label} {required && <span className="text-orange">*</span>}
       </label>
       <input
-        id={inputId}
+        id={id}
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
         placeholder={placeholder}
         required={required}
-        className="w-full rounded-xl border border-brown/15 bg-ivory/50 px-4 py-2.5 text-sm text-brown placeholder:text-brown/40 focus:border-orange focus:outline-none focus:ring-2 focus:ring-orange/20"
+        inputMode={inputMode}
+        autoComplete={autoComplete}
+        min={min}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? `${id}-error` : undefined}
+        className={
+          "w-full rounded-xl border bg-ivory/50 px-4 py-2.5 text-sm text-brown placeholder:text-brown/40 focus:outline-none focus:ring-2 " +
+          (error
+            ? "border-rust/60 focus:border-rust focus:ring-rust/20"
+            : "border-brown/15 focus:border-orange focus:ring-orange/20")
+        }
       />
+      {error && (
+        <p
+          id={`${id}-error`}
+          className="mt-1 flex items-center gap-1 text-xs text-rust"
+        >
+          <AlertCircle className="h-3 w-3 flex-shrink-0" />
+          {error}
+        </p>
+      )}
     </div>
   );
 }

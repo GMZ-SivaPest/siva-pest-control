@@ -30,3 +30,25 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+/// Inbound lead captured from the contact form / service-detail inline form.
+/// One row per submission. status tracks the lifecycle of the lead.
+model Lead {
+  id            String   @id @default(cuid())
+  name          String
+  phone         String
+  email         String?
+  city          String
+  service       String
+  propertyType  String   @default("Residential")
+  message       String?
+  preferredDate String?
+  source        String   @default("contact-form") // contact-form | service-detail | inline-quote
+  status        String   @default("new") // new | contacted | quoted | won | lost
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([city])
+  @@index([service])
+}

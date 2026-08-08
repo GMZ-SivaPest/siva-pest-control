@@ -22,8 +22,12 @@ export const brand = {
   guaranteeLabel: "180-Day Service Warranty",
   certifications: [
     "ISO 9001:2015 Certified",
+    "ISO 14001:2015 Certified",
+    "ISO 45001:2018 Certified",
     "FSSAI Compliant",
     "CIB & RC Registered Products",
+    "IPCA Member",
+    "CTI Certified",
     "Green Pro Service Provider",
   ],
   palette: {

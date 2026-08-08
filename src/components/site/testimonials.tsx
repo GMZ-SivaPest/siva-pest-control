@@ -48,12 +48,16 @@ export function Testimonials() {
       <Reveal className="relative mt-14" delay={0.1}>
         <div
           className="marquee-viewport mask-fade-edges"
-          aria-label="Customer testimonials — scrolling"
+          aria-label="Customer testimonials — scrolling marquee"
         >
           <ul
             className="marquee-track gap-5 px-4 sm:px-6 lg:px-8"
-            style={{ animationDuration: "80s" }}
-            aria-live="polite"
+            style={{ animationDuration: "140s" }}
+            // aria-hidden: an infinite marquee would spam screen readers if
+            // announced live; the same content is fully available in the
+            // accessible testimonials section on the homepage and via the
+            // aggregate-rating row below.
+            aria-hidden="true"
           >
             {loop.map((t, i) => (
               <li

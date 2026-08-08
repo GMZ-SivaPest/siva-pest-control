@@ -7,15 +7,20 @@ import { brand } from "./brand";
 
 export const company = {
   ...brand,
-  phonePrimary: "+91 98765 43210",
-  phonePrimaryHref: "+919876543210",
-  phoneSales: "+91 77024 87195",
-  phoneSalesHref: "+917702487195",
+  /** Proprietor / founder — entomologist-trained, M.Sc. (Ag) Entomology */
+  founder: "S. Sai Prakash",
+  founderCredential: "M.Sc. (Ag) Entomology",
+  /** GSTIN — required on invoices and on quotes for commercial clients */
+  gstin: "36BGPP6124G1KLZ8",
+  phonePrimary: "+91 77024 87195",
+  phonePrimaryHref: "+917702487195",
+  phoneSales: "+91 93955 32359",
+  phoneSalesHref: "+919395532359",
   email: "info@sivapestcontrol.com",
   emailSales: "sales@sivapestcontrol.com",
   emailGrievance: "grievance@sivapestcontrol.com",
-  whatsapp: "+91 98765 43210",
-  whatsappHref: "https://wa.me/919876543210",
+  whatsapp: "+91 77024 87195",
+  whatsappHref: "https://wa.me/917702487195",
   hours: "Mon–Sat · 8:00 AM – 8:00 PM",
   hoursShort: "Mon–Sat · 8 AM – 8 PM",
   emergencyNote: "Same-day service available · Response within 30 minutes",

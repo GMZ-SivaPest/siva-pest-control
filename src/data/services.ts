@@ -11,6 +11,9 @@ import {
   Bird,
   Sparkles,
   Factory,
+  Wind,
+  Cat,
+  CloudFog,
   type LucideIcon,
 } from "lucide-react";
 
@@ -591,6 +594,439 @@ export const services: Service[] = [
       {
         q: "How quickly can you respond to an emergency?",
         a: "Commercial contracts include a guaranteed 4-hour response time within city limits. Out-of-hours emergency response is available.",
+      },
+    ],
+  },
+  {
+    slug: "lizard-control",
+    name: "Lizard Control",
+    short:
+      "Egg-repellent spray + mechanical exclusion that drives lizards out without killing them. Child-safe, pet-safe.",
+    long:
+      "Lizards are harmless but their droppings stain walls, contaminate food surfaces, and signal an underlying insect problem (lizards follow their prey). Our lizard control programme combines a botanical egg-repellent spray on walls, corners, and light fixtures with mechanical exclusion — sealing the gaps where geckos enter. We also treat the underlying insect population that attracts them. Backed by a 90-day re-treatment warranty.",
+    icon: Cat,
+    image: "/images/pests/spider.png",
+    accent: "teal",
+    category: "both",
+    startsFrom: 699,
+    duration: "45 min",
+    warranty: "90 days",
+    treatment: "spray",
+    safety: [
+      "Botanical egg-repellent formulation",
+      "Non-toxic to children and pets",
+      "No harm to lizards — repels only",
+      "Stainless on painted walls",
+    ],
+    benefits: [
+      "Drives lizards out without killing",
+      "Treats the underlying insect food source",
+      "Seals entry points to prevent re-entry",
+      "90-day re-treatment warranty",
+    ],
+    treats: [
+      "Common house gecko",
+      "Garden lizards",
+      "Wall lizards",
+    ],
+    process: [
+      {
+        title: "Population Survey",
+        description:
+          "Map lizard sightings, egg clusters, droppings, and prey-insect hotspots. Identify the species (gecko vs garden lizard) to calibrate treatment.",
+      },
+      {
+        title: "Repellent Spray Application",
+        description:
+          "Botanical egg-repellent applied to walls, light fixtures, AC units, and ceiling corners. Lizards avoid treated surfaces for 60–90 days.",
+      },
+      {
+        title: "Insect Source Treatment",
+        description:
+          "Underlying insect prey (flies, moths, ants) treated with gel-bait and residual spray — removes the food source that attracted lizards.",
+      },
+      {
+        title: "Exclusion Advisory",
+        description:
+          "Detailed report listing gaps around windows, pipes, and vents where geckos enter. Sealant recommendations for your handyman.",
+      },
+    ],
+    faqs: [
+      {
+        q: "Will the treatment kill the lizards?",
+        a: "No. We use a botanical repellent that drives lizards away from treated surfaces without killing them. The formulation is non-toxic to children, pets, and the lizards themselves.",
+      },
+      {
+        q: "How long until lizards stop appearing?",
+        a: "Lizards typically avoid treated surfaces within 24–48 hours and fully vacate within a week. Combining repellent with insect-source treatment accelerates the result.",
+      },
+      {
+        q: "Why do lizards keep coming back?",
+        a: "Lizards follow their prey — flies, moths, ants. If you only repel lizards without treating the insect population, they return once the repellent wears off. Our dual approach addresses both.",
+      },
+    ],
+  },
+  {
+    slug: "snake-control",
+    name: "Snake Control & Removal",
+    short:
+      "Emergency snake removal + perimeter exclusion for properties near open land, lakes, and gardens. 24/7 hotline.",
+    long:
+      "Snakes entering residential or commercial premises is a serious safety hazard — particularly in properties adjacent to open land, lakes, or agricultural areas. Our snake control programme combines 24/7 emergency removal by trained handlers, perimeter exclusion (mesh barriers and entry-point sealing), and rodent population control (snakes follow rodents). All handlers are trained in safe capture and release protocols. Snake identification and first-aid advisory included.",
+    icon: Wind,
+    image: "/images/pests/rodent.png",
+    accent: "rust",
+    category: "both",
+    startsFrom: 1499,
+    duration: "60–90 min initial + perimeter",
+    warranty: "90 days exclusion",
+    treatment: "exclusion",
+    safety: [
+      "Trained snake handlers only",
+      "Non-lethal capture and release",
+      "Forest-department guidelines followed",
+      "24/7 emergency hotline",
+    ],
+    benefits: [
+      "24/7 emergency response within city limits",
+      "Trained handlers — safe for family and pets",
+      "Perimeter exclusion prevents re-entry",
+      "Rodent source control removes attractant",
+    ],
+    treats: [
+      "Common rat snake",
+      "Spectacled cobra",
+      "Russell's viper",
+      "Saw-scaled viper",
+      "Common krait",
+    ],
+    process: [
+      {
+        title: "Emergency Dispatch",
+        description:
+          "On call, our handler reaches your location within 30–60 minutes (city limits). Snake identified and safely captured using professional tongs and bags.",
+      },
+      {
+        title: "Relocation",
+        description:
+          "Captured snake released into nearby forest or scrubland as per Forest Department guidelines. Photo documentation provided for insurance and records.",
+      },
+      {
+        title: "Perimeter Survey",
+        description:
+          "Property inspected for entry points — gaps in compound walls, drain covers, open vents, garden debris. Exclusion plan prepared.",
+      },
+      {
+        title: "Exclusion & Source Control",
+        description:
+          "Mesh barriers installed at entry points. Rodent control programme deployed (snakes follow rats). 90-day follow-up included.",
+      },
+    ],
+    faqs: [
+      {
+        q: "What should I do if I see a snake on my property?",
+        a: "Stay calm, keep children and pets at a safe distance (3+ metres), do not attempt to kill or capture the snake. Note its colour and pattern from a distance. Call our 24/7 hotline — our handler will guide you on safe-distance protocols while dispatching.",
+      },
+      {
+        q: "Are your handlers licensed?",
+        a: "Our snake handlers are trained in safe-capture protocols and follow Forest Department relocation guidelines. We carry professional equipment — snake tongs, hooks, sealed bags, and bite-proof gloves.",
+      },
+      {
+        q: "How can I prevent snakes from entering my property?",
+        a: "Three steps: (1) eliminate rodent populations — snakes follow rats, (2) seal gaps in compound walls and drain covers, (3) clear garden debris and tall grass where snakes hide. Our perimeter exclusion programme covers all three.",
+      },
+      {
+        q: "Do you handle venomous snakes?",
+        a: "Yes — our handlers are equipped to safely capture both venomous (cobra, viper, krait) and non-venomous species. All captured snakes are released unharmed per Forest Department norms.",
+      },
+    ],
+  },
+  {
+    slug: "honey-bee-removal",
+    name: "Honey Bee Hive Removal",
+    short:
+      "Live-removal of honey bee colonies from walls, chimneys, and trees. No extermination — bees relocated to apiaries.",
+    long:
+      "Honey bee colonies inside residential walls, chimneys, or false ceilings are a stinging hazard and a honey-damage risk — but bees are also protected pollinators essential to agriculture. Our hive removal service uses live-capture techniques (smoker calming + vacuum extraction) to relocate the entire colony to a partner apiary. Includes honey and wax cleanup from wall cavities to prevent re-colonisation and structural damage. 90-day re-treatment warranty.",
+    icon: Bug,
+    image: "/images/pests/fly.png",
+    accent: "orange",
+    category: "both",
+    startsFrom: 1999,
+    duration: "2–4 hours (hive dependent)",
+    warranty: "90 days",
+    treatment: "exclusion",
+    safety: [
+      "Live-capture, no extermination",
+      "Professional bee suits and smoker",
+      "Colony relocated to partner apiary",
+      "Honey and wax residue cleaned",
+    ],
+    benefits: [
+      "Colony relocated, not exterminated",
+      "Prevents honey damage to wall cavities",
+      "Seals entry to prevent re-colonisation",
+      "90-day re-treatment warranty",
+    ],
+    treats: [
+      "Indian honey bee (Apis cerana)",
+      "Rock bee (Apis dorsata)",
+      "Stingless bee (Trigona)",
+      "Wasp nests (secondary service)",
+    ],
+    process: [
+      {
+        title: "Hive Assessment",
+        description:
+          "Locate hive entrance, estimate colony size, and identify species. Bee suits and smoker prepared. Plan extraction route to minimise bee stress.",
+      },
+      {
+        title: "Colony Calming",
+        description:
+          "Smoker applied at hive entrance — calms bees and prevents swarming attack. Technician in full bee suit begins careful extraction.",
+      },
+      {
+        title: "Vacuum Extraction",
+        description:
+          "Gentle bee-vacuum removes bees (including queen) into a transport box. Comb removed intact when accessible. Brood preserved for re-establishment at apiary.",
+      },
+      {
+        title: "Cavity Cleanup + Sealing",
+        description:
+          "Honey and wax residue cleaned from wall cavity (prevents re-colonisation and structural damage). Entry point sealed with mesh or structural repair.",
+      },
+    ],
+    faqs: [
+      {
+        q: "Do you kill the bees?",
+        a: "No. Honey bees are protected pollinators essential to agriculture. We use live-capture techniques — smoker calming + gentle vacuum extraction — and relocate the entire colony (including queen) to a partner apiary.",
+      },
+      {
+        q: "Why is the wall cavity cleaned after removal?",
+        a: "Residual honey and wax inside the wall attracts new swarms (bees can smell old hive pheromones for years) and ferments, causing structural damage, stains, and odour. Thorough cleanup is essential to prevent re-colonisation.",
+      },
+      {
+        q: "How long does the removal take?",
+        a: "1–4 hours depending on colony size, hive accessibility, and cavity depth. Wall-cavity hives take longer than exposed tree or chimney hives.",
+      },
+      {
+        q: "Can you remove wasp nests too?",
+        a: "Yes — wasp nest removal is offered as a related service. Wasps are aggressive defenders, so we use a separate protocol with residual spray at night when the colony is dormant.",
+      },
+    ],
+  },
+  {
+    slug: "spider-control",
+    name: "Spider Control",
+    short:
+      "Web removal + residual spray that eliminates spiders and the insects they hunt. Stain-free indoor formulation.",
+    long:
+      "Most Indian household spiders are harmless, but their webs collect dust, their droppings stain walls and ceilings, and heavy infestations signal an underlying insect problem (spiders follow their prey). Our spider control programme combines web removal with a residual spray on corners, light fixtures, and baseboards. We also treat the insect population that attracted them in the first place — without addressing the food source, spiders return within weeks.",
+    icon: Bug,
+    image: "/images/pests/spider.png",
+    accent: "teal",
+    category: "both",
+    startsFrom: 599,
+    duration: "45 min",
+    warranty: "90 days",
+    treatment: "spray",
+    safety: [
+      "Stain-free indoor formulation",
+      "Pet-safe once dry (30 min)",
+      "No odour",
+      "Targets web-spinning and hunting spiders",
+    ],
+    benefits: [
+      "Eliminates spiders and egg sacs",
+      "Removes existing webs from corners",
+      "Treats the insect food source",
+      "90-day re-treatment warranty",
+    ],
+    treats: [
+      "Common house spider",
+      "Cellar spider",
+      "Wolf spider",
+      "Jumping spider",
+      "Brown recluse (caution — venomous)",
+    ],
+    process: [
+      {
+        title: "Web Survey",
+        description:
+          "Map all web locations, egg sacs, and hunting spider hotspots. Identify species (most are harmless; brown recluse requires caution).",
+      },
+      {
+        title: "Web Removal",
+        description:
+          "Existing webs and egg sacs vacuumed from corners, ceilings, light fixtures, and behind furniture. This alone removes 60–70% of the visible population.",
+      },
+      {
+        title: "Residual Spray",
+        description:
+          "Stain-free residual spray applied to corners, baseboards, behind furniture, and around light fixtures (spiders hunt where insects gather).",
+      },
+      {
+        title: "Insect Source Treatment",
+        description:
+          "Underlying insect population (flies, moths, ants) treated with gel-bait — removes the food source that attracted spiders.",
+      },
+    ],
+    faqs: [
+      {
+        q: "Are house spiders dangerous?",
+        a: "Most Indian household spiders (cellar, wolf, jumping) are harmless and actually beneficial — they prey on flies and mosquitoes. The brown recluse, identified by a violin-shaped mark, is venomous and requires caution. Our technician will flag any recluse sightings.",
+      },
+      {
+        q: "Will the spray stain my walls?",
+        a: "No. We use a stain-free indoor formulation that dries clear on painted walls, wood, and fabric. Safe for all standard interior surfaces.",
+      },
+      {
+        q: "Why do spiders keep coming back?",
+        a: "Spiders follow their prey — if you only kill spiders without addressing the underlying insect population, they return once the residual wears off. Our dual approach treats both layers.",
+      },
+    ],
+  },
+  {
+    slug: "fly-control",
+    name: "Housefly & Fruit Fly Control",
+    short:
+      "UV light traps + residual spray + drain treatment that breaks the fly breeding cycle at source. FSSAI-audit-ready.",
+    long:
+      "Flies are more than a nuisance — they carry 100+ pathogens including salmonella, E. coli, and cholera, transferring them by walking on food after visiting garbage or faeces. Our fly control programme combines UV light traps (commercial kitchens, restaurants), residual spray on fly resting surfaces, drain treatment for fruit-fly breeding sites, and source-reduction advisory. Particularly critical for FSSAI/HACCP-compliant food businesses — a single fly sighting during audit can fail your certification.",
+    icon: Bug,
+    image: "/images/pests/fly.png",
+    accent: "orange",
+    category: "both",
+    startsFrom: 799,
+    duration: "60–90 min",
+    warranty: "60 days",
+    treatment: "spray",
+    safety: [
+      "Food-safe residual once dry",
+      "UV traps rated for food areas",
+      "Drain treatment biodegradable",
+      "FSSAI-compliant protocol",
+    ],
+    benefits: [
+      "Breaks breeding cycle at source",
+      "UV traps catch adult flies 24/7",
+      "Drain treatment eliminates fruit-fly larvae",
+      "FSSAI audit-ready documentation",
+    ],
+    treats: [
+      "Housefly (Musca domestica)",
+      "Fruit fly (Drosophila)",
+      "Drain fly (Psychodidae)",
+      "Blowfly (Calliphoridae)",
+    ],
+    process: [
+      {
+        title: "Breeding Site Audit",
+        description:
+          "Identify all fly breeding sites — garbage bins, drains, food waste, compost, pet areas. Source-reduction advisory prepared for each.",
+      },
+      {
+        title: "UV Light Trap Installation",
+        description:
+          "Wall-mounted UV light traps installed at strategic fly-entry points (commercial kitchens, dining areas). Traps operate 24/7, catching adults before they reach food.",
+      },
+      {
+        title: "Residual Spray",
+        description:
+          "Residual spray applied to fly resting surfaces — walls, ceilings, near windows. Flies rest on treated surfaces and die within hours.",
+      },
+      {
+        title: "Drain Treatment",
+        description:
+          "Biodegradable drain foam applied to kitchen and bathroom drains — eliminates fruit-fly and drain-fly larvae that breed in drain biofilm.",
+      },
+    ],
+    faqs: [
+      {
+        q: "Are UV light traps safe for food areas?",
+        a: "Yes. We use only FSSAI-compliant UV traps with shatterproof tubes and a catch tray (no zapping grid that aerosolises insect particles). These are the same models used in commercial kitchens and food manufacturing units.",
+      },
+      {
+        q: "Why do fruit flies keep coming back in my kitchen?",
+        a: "Fruit flies breed in moist organic matter — drain biofilm, garbage disposals, overripe fruit, and empty bottles. Eggs hatch in 8 hours at Indian room temperature. Unless you eliminate the breeding site (not just the visible adults), they will return. Our drain treatment addresses the most common hidden breeding source.",
+      },
+      {
+        q: "How is this different from general disinfection?",
+        a: "General disinfection targets pathogens on surfaces using ULV fogging. Fly control specifically targets fly populations using UV traps, residual on fly resting surfaces, and drain treatment for larvae. They are complementary, not substitutes.",
+      },
+    ],
+  },
+  {
+    slug: "fogging-service",
+    name: "Outdoor Mosquito Fogging",
+    short:
+      "Thermal fogging for campuses, gated communities, and event venues. Visible mosquito drop within 30 minutes.",
+    long:
+      "Outdoor thermal fogging is the fastest way to suppress adult mosquito populations across large open areas — gated communities, apartment complexes, parks, wedding venues, construction sites, and factory campuses. Our thermal fogger disperses a fine oil-based insecticide fog that penetrates shrubs, hedges, drains, and shaded areas where mosquitoes rest. Visible drop in mosquito activity within 30 minutes. Single-event fogging for events or monthly contracts for monsoon-season protection.",
+    icon: CloudFog,
+    image: "/images/services/mosquito.png",
+    accent: "teal",
+    category: "both",
+    startsFrom: 1999,
+    duration: "60 min per acre",
+    warranty: "Single event or monthly contract",
+    treatment: "fumigation",
+    safety: [
+      "Oil-based fog — penetrates foliage",
+      "Pyrethroid active (low mammalian toxicity)",
+      "Re-entry 30 minutes after fogging",
+      "Fish-pond cover advisory provided",
+    ],
+    benefits: [
+      "Visible mosquito drop in 30 minutes",
+      "Covers up to 2 acres per session",
+      "Penetrates shrubs, hedges, drains",
+      "Ideal for events, campuses, complexes",
+    ],
+    treats: [
+      "Aedes (dengue) adult mosquitoes",
+      "Anopheles (malaria) adult mosquitoes",
+      "Culex (filaria) adult mosquitoes",
+      "Outdoor resting flies",
+    ],
+    process: [
+      {
+        title: "Site Walkthrough",
+        description:
+          "Map the fogging route covering all mosquito resting sites — shrubs, hedges, drains, eaves, shaded walls, and tree canopies. Identify fish ponds and pet areas requiring cover.",
+      },
+      {
+        title: "Pre-Fog Advisory",
+        description:
+          "Inform residents/guests 24 hours in advance. Cover fish ponds, pet food, and open water. Close windows during fogging and for 30 minutes after.",
+      },
+      {
+        title: "Thermal Fogging",
+        description:
+          "Thermal fogger disperses 0.5–5 micron oil-based fog at dawn or dusk (peak mosquito activity). Fog penetrates all vegetation and shaded resting sites.",
+      },
+      {
+        title: "Re-Entry & Source Advisory",
+        description:
+          "Re-entry 30 minutes after fogging. Source-reduction advisory covering standing water, drains, and overhead tanks — fogging kills adults, source control prevents re-emergence.",
+      },
+    ],
+    faqs: [
+      {
+        q: "Is the fog safe for children and pets?",
+        a: "The active ingredient (pyrethroid) has low mammalian toxicity, but we recommend keeping children and pets indoors during fogging and for 30 minutes after — until the fog has fully dispersed. Cover fish ponds and pet food before treatment.",
+      },
+      {
+        q: "How long does the effect last?",
+        a: "Fogging kills adult mosquitoes present at time of treatment — visible drop within 30 minutes. However, new adults emerge from standing water within 7–10 days. For sustained control, monthly fogging during monsoon combined with larvicidal source treatment is recommended.",
+      },
+      {
+        q: "When is the best time to fog?",
+        a: "Dawn (5–7 AM) or dusk (5–7 PM) when mosquitoes are most active and the air is calm — fog drifts evenly through vegetation. Mid-day fogging is less effective because heat currents disperse the fog before it reaches mosquito resting sites.",
+      },
+      {
+        q: "Can you fog for a wedding or outdoor event?",
+        a: "Yes — single-event fogging is one of our most popular services. We fog the venue at dawn on the event day, with re-fogging available at dusk if needed. Includes pre-event source-reduction advisory for the surrounding area.",
       },
     ],
   },

@@ -11,6 +11,8 @@ import {
   Building2,
   School,
   Factory,
+  HardHat,
+  TrainFront,
   type LucideIcon,
 } from "lucide-react";
 
@@ -113,6 +115,30 @@ export const industries: Industry[] = [
       "Manufacturing units face the most demanding audit standards — BRC, AIB, ISO 22000, and customer-specific audits. Our manufacturing programme includes full IPM documentation, trend analysis, integrated rodent perimeter, flying insect control, and dedicated audit-attendance support. Trusted by Tier-1 FMCG and pharma manufacturers.",
     pests: ["Stored product pests", "Rodents", "Flies", "Birds"],
     compliance: ["BRC", "AIB", "ISO 22000", "HACCP"],
+  },
+  {
+    slug: "pre-post-construction",
+    name: "Pre & Post Construction",
+    icon: HardHat,
+    image: "/images/industries/manufacturing.jpg",
+    short:
+      "Anti-termite soil treatment during foundation stage — protects new structures for 10+ years.",
+    description:
+      "The single most effective termite defence is a chemical soil barrier applied during the construction phase — before the foundation slab is poured. Our pre-construction anti-termite treatment creates a continuous termiticide barrier beneath and around the structure, protecting the building for 10+ years. Post-construction treatment uses the drill-fill-seal method for existing structures. Trusted by builders, developers, and architects across Hyderabad, Chennai, and Bangalore.",
+    pests: ["Subterranean termites", "Drywood termites", "Wood borers"],
+    compliance: ["IS 6313 (Part 2)", "NBC 2016", "Builder warranty norms"],
+  },
+  {
+    slug: "transport-hubs",
+    name: "Transport Hubs & Ports",
+    icon: TrainFront,
+    image: "/images/industries/warehouse.jpg",
+    short:
+      "High-traffic pest control for airports, seaports, railway stations, and metro depots.",
+    description:
+      "Transport hubs face unique pest pressure — high footfall, food courts, baggage holding areas, cargo storage, and 24/7 operations. Our transport-hub programme combines discreet 24/7 monitoring, fly management for food courts, rodent perimeter for cargo zones, and bird exclusion for hangars and platforms. Compliant with AAI, IPA, and IR audit norms. We service terminals, depots, and cargo facilities across South India.",
+    pests: ["Rodents", "Flies", "Cockroaches", "Birds", "Stored product pests"],
+    compliance: ["AAI", "IPA (port health)", "IR audit norms", "FSMS"],
   },
 ];
 

@@ -6,7 +6,7 @@ import { PageHero } from "@/components/site/page-hero";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/site/reveal";
 import { CTASection } from "@/components/site/cta-section";
 import { FAQAccordion } from "@/components/site/faq-accordion";
-import { useNav } from "@/lib/store";
+import { InlineQuoteForm } from "@/components/site/inline-quote-form";
 import { services as allServices, servicesBySlug } from "@/data/services";
 import { locations } from "@/data/locations";
 import { company } from "@/data/company";
@@ -23,7 +23,6 @@ import {
 import { motion } from "framer-motion";
 
 export function ServiceDetailPage({ slug }: { slug: string }) {
-  const navigate = useNav((s) => s.navigate);
   const service = servicesBySlug(slug);
 
   if (!service) {
@@ -31,12 +30,12 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
       <div className="flex min-h-[60vh] items-center justify-center px-4">
         <div className="text-center">
           <h1 className="font-display text-2xl font-bold text-brown">Service not found</h1>
-          <button
-            onClick={() => navigate("services")}
+          <Link
+            href="/services"
             className="mt-4 inline-flex items-center gap-2 rounded-full bg-orange px-5 py-2.5 text-sm font-semibold text-white"
           >
             <ArrowLeft className="h-4 w-4" /> Back to all services
-          </button>
+          </Link>
         </div>
       </div>
     );
@@ -67,11 +66,11 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
             transition={{ duration: 0.4 }}
             className="mb-6 flex items-center gap-1.5 text-xs text-brown/70"
           >
-            <button onClick={() => navigate("home")} className="hover:text-orange">Home</button>
+            <Link href="/" className="hover:text-orange">Home</Link>
             <ChevronRight className="h-3 w-3 opacity-60" />
-            <button onClick={() => navigate("services")} className="hover:text-orange">Services</button>
+            <Link href="/services" className="hover:text-orange">Services</Link>
             <ChevronRight className="h-3 w-3 opacity-60" />
-            <span className="text-brown/80">{service.name}</span>
+            <span className="text-brown/80" aria-current="page">{service.name}</span>
           </motion.nav>
 
           <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:gap-12">
@@ -218,6 +217,14 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
                 </Link>
               </div>
             </motion.div>
+          </div>
+
+          {/* Inline quote form — converts visitors without forcing a page-away click */}
+          <div className="mt-8">
+            <InlineQuoteForm
+              serviceName={service.name}
+              serviceStartsFrom={service.startsFrom}
+            />
           </div>
         </div>
       </section>
@@ -367,20 +374,20 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
               <h2 className="font-display text-2xl font-bold text-brown">
                 Related services
               </h2>
-              <button
-                onClick={() => navigate("services")}
+              <Link
+                href="/services"
                 className="text-sm font-semibold text-orange hover:underline"
               >
                 View all →
-              </button>
+              </Link>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((s) => {
                 const RIcon = s.icon;
                 return (
-                  <button
+                  <Link
                     key={s.slug}
-                    onClick={() => navigate(`service:${s.slug}`)}
+                    href={`/services/${s.slug}`}
                     className="group flex items-start gap-4 rounded-2xl border border-brown/10 bg-white p-5 text-left shadow-premium transition-all hover:-translate-y-1 hover:shadow-lift"
                   >
                     <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-orange/10 text-orange transition-colors group-hover:bg-orange group-hover:text-white">
@@ -395,7 +402,7 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
                         ₹{s.startsFrom.toLocaleString("en-IN")} →
                       </div>
                     </div>
-                  </button>
+                  </Link>
                 );
               })}
             </div>

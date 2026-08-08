@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { PageHero } from "@/components/site/page-hero";
 import { CTASection } from "@/components/site/cta-section";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/site/reveal";
 import { pests, pestCategories, pestBySlug } from "@/data/pests";
-import { useNav } from "@/lib/store";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   AlertTriangle,
@@ -324,7 +324,6 @@ export function PestLibraryPage() {
 }
 
 function ServiceCtaBar({ serviceSlug, onClose }: { serviceSlug: string; onClose: () => void }) {
-  const navigate = useNav((s) => s.navigate);
   return (
     <div className="flex items-center justify-between gap-3">
       <div>
@@ -335,16 +334,14 @@ function ServiceCtaBar({ serviceSlug, onClose }: { serviceSlug: string; onClose:
           {serviceSlug.replace(/-/g, " ")}
         </div>
       </div>
-      <button
-        onClick={() => {
-          onClose();
-          navigate(`service:${serviceSlug}`);
-        }}
+      <Link
+        href={`/services/${serviceSlug}`}
+        onClick={onClose}
         className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white shadow-glow-orange gradient-orange"
       >
         View service
         <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-      </button>
+      </Link>
     </div>
   );
 }

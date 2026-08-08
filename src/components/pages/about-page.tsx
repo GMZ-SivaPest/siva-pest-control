@@ -6,6 +6,7 @@ import { Reveal, StaggerContainer, StaggerItem } from "@/components/site/reveal"
 import { SectionHeading } from "@/components/site/section-heading";
 import { CTASection } from "@/components/site/cta-section";
 import { Stats } from "@/components/site/stats";
+import { WhyChooseUs } from "@/components/site/why-choose-us";
 import { CountUp } from "@/components/site/count-up";
 import { brand } from "@/data/brand";
 import { company } from "@/data/company";
@@ -93,7 +94,7 @@ export function AboutPage() {
       <PageHero
         eyebrow="Our story"
         title="Fourteen years of calibrate-to-trust pest control"
-        subtitle="From a 3-technician Madhapur operation in 2012 to a three-city, 24-technician regional network — built on a single non-negotiable principle: child-safe first, always."
+        subtitle={`Founded in 2012 by ${company.founder} (${company.founderCredential}), Siva Pest Control has grown from a 3-technician Madhapur operation to a three-city regional network — built on a single non-negotiable principle: child-safe first, always.`}
         breadcrumb={[{ label: "Home", view: "home" }, { label: "About" }]}
       />
 
@@ -158,6 +159,9 @@ export function AboutPage() {
       </section>
 
       <Stats />
+
+      {/* Why Siva — moved from homepage (per client feedback Aug 2026) */}
+      <WhyChooseUs />
 
       {/* Values */}
       <section className="py-20 md:py-24">

@@ -5,6 +5,7 @@ import { Reveal } from "./reveal";
 import { SectionHeading } from "./section-heading";
 import { locations } from "@/data/locations";
 import { useNav } from "@/lib/store";
+import { company } from "@/data/company";
 import { ArrowUpRight, MapPin, Phone, Star, Users } from "lucide-react";
 
 /**
@@ -99,7 +100,7 @@ export function LocationsMap() {
                     <div className="text-[10px] uppercase tracking-wider text-brown/55">Cities</div>
                   </div>
                   <div>
-                    <div className="font-display text-lg font-bold text-brown">78</div>
+                    <div className="font-display text-lg font-bold text-brown">{company.stats.technicians}</div>
                     <div className="text-[10px] uppercase tracking-wider text-brown/55">Technicians</div>
                   </div>
                   <div>

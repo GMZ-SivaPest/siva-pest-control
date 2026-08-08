@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform, useScroll } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useScroll, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
@@ -19,6 +19,7 @@ import { useNav } from "@/lib/store";
 import { company } from "@/data/company";
 import { locations } from "@/data/locations";
 import { brand } from "@/data/brand";
+import { trackCTAClick, trackPhoneClick } from "@/lib/analytics";
 
 /**
  * Hero — premium cinematic homepage hero with:
@@ -35,6 +36,7 @@ export function Hero() {
   const navigate = useNav((s) => s.navigate);
   const ref = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
+  const reduceMotion = useReducedMotion();
   const bgY = useTransform(scrollY, [0, 600], [0, 120]);
   const fgY = useTransform(scrollY, [0, 600], [0, -60]);
   const overlayOpacity = useTransform(scrollY, [0, 500], [1, 0.4]);
@@ -100,14 +102,14 @@ export function Hero() {
         />
       </motion.div>
 
-      {/* === LAYER 2: Particle drift === */}
-      <ParticleDrift />
+      {/* === LAYER 2: Particle drift (skipped if user prefers reduced motion) === */}
+      {!reduceMotion && <ParticleDrift />}
 
       {/* === LAYER 3: Shield pulse centered on the dome === */}
-      <ShieldPulse />
+      {!reduceMotion && <ShieldPulse />}
 
       {/* === LAYER 4: City pins floating across the hero === */}
-      <CityPinConnections />
+      {!reduceMotion && <CityPinConnections />}
 
       {/* === LAYER 5: Foreground content with parallax === */}
       <motion.div style={{ y: fgY }} className="relative z-10">
@@ -164,14 +166,15 @@ export function Hero() {
               >
                 <Link
                   href="/contact"
-                  className="group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02]"
-                  style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
+                  onClick={() => trackCTAClick({ location: "hero", label: "Get Free Quote", href: "/contact" })}
+                  className="group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02] gradient-orange"
                 >
                   Get Free Quote
                   <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </Link>
                 <a
                   href={`tel:${company.phonePrimaryHref}`}
+                  onClick={() => trackPhoneClick({ location: "hero", phone: company.phonePrimary })}
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-all hover:bg-white/20"
                 >
                   <Phone className="h-4 w-4" />
@@ -214,7 +217,7 @@ export function Hero() {
                 </div>
                 <div className="text-sm text-white/85">
                   <span className="font-semibold text-white">4.9/5</span> from{" "}
-                  <span className="font-semibold text-white">5,700+</span> verified reviews
+                  <span className="font-semibold text-white">{company.stats.googleReviews.toLocaleString("en-IN")}+</span> verified reviews
                 </div>
               </motion.div>
             </div>
@@ -417,7 +420,7 @@ function HeroGlassComposition({
           <span className="ml-1 text-xs font-medium text-brown/60">/ 5</span>
         </div>
         <div className="text-[10px] font-medium uppercase tracking-wider text-brown/60">
-          500+ Google reviews
+          {company.stats.googleReviews.toLocaleString("en-IN")}+ Google reviews
         </div>
       </motion.div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useId } from "react";
 import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle2, Loader2 } from "lucide-react";
 import { Reveal } from "./reveal";
@@ -8,6 +8,7 @@ import { company } from "@/data/company";
 import { locations } from "@/data/locations";
 import { services } from "@/data/services";
 import { toast } from "sonner";
+import { trackLead, trackPhoneClick, trackCTAClick } from "@/lib/analytics";
 
 export function ContactForm() {
   const [submitting, setSubmitting] = useState(false);
@@ -39,6 +40,14 @@ export function ContactForm() {
     setSubmitting(false);
     setSubmitted(true);
     toast.success("Request received! Our team will call you within 2 hours.");
+
+    // Fire GA4 conversion event
+    trackLead({
+      location: "contact-form",
+      service: form.service,
+      city: form.city,
+      propertyType: form.propertyType,
+    });
   };
 
   return (
@@ -68,6 +77,7 @@ export function ContactForm() {
               <div className="mt-8 space-y-3">
                 <a
                   href={`tel:${company.phonePrimaryHref}`}
+                  onClick={() => trackPhoneClick({ location: "contact-form", phone: company.phonePrimary })}
                   className="group flex items-center gap-4 rounded-2xl border border-brown/10 bg-white p-4 shadow-premium transition-all hover:-translate-y-0.5 hover:shadow-lift"
                 >
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange/10 text-orange transition-colors group-hover:bg-orange group-hover:text-white">
@@ -241,8 +251,8 @@ export function ContactForm() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.01] disabled:opacity-70"
-                    style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
+                    onClick={() => trackCTAClick({ location: "contact-form-submit", label: "Request Free Quote" })}
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.01] disabled:opacity-70 gradient-orange"
                   >
                     {submitting ? (
                       <>
@@ -286,12 +296,18 @@ function Field({
   type?: string;
   required?: boolean;
 }) {
+  const reactId = useId();
+  const inputId = `field-${reactId}`;
   return (
     <div>
-      <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-brown/70">
+      <label
+        htmlFor={inputId}
+        className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-brown/70"
+      >
         {label} {required && <span className="text-orange">*</span>}
       </label>
       <input
+        id={inputId}
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -314,12 +330,18 @@ function SelectField({
   onChange: (v: string) => void;
   options: string[];
 }) {
+  const reactId = useId();
+  const selectId = `select-${reactId}`;
   return (
     <div>
-      <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-brown/70">
+      <label
+        htmlFor={selectId}
+        className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-brown/70"
+      >
         {label}
       </label>
       <select
+        id={selectId}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className="w-full rounded-xl border border-brown/15 bg-ivory/50 px-3 py-2.5 text-sm text-brown focus:border-orange focus:outline-none focus:ring-2 focus:ring-orange/20"

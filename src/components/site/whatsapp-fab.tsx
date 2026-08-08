@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, MessageCircle } from "lucide-react";
 import { company } from "@/data/company";
+import { trackWhatsAppClick, trackPhoneClick, trackCTAClick } from "@/lib/analytics";
 
 /**
  * Floating action buttons for mobile + sticky bottom CTA.
@@ -42,15 +43,16 @@ export function WhatsAppFab() {
             href={`${company.whatsappHref}?text=${message}`}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackWhatsAppClick({ location: "fab-desktop" })}
             initial={{ opacity: 0, scale: 0.6, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.6, y: 20 }}
             transition={{ type: "spring", damping: 22, stiffness: 280 }}
-            className="fixed bottom-6 right-6 z-40 hidden h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-premium hover:scale-105 md:flex"
+            className="fixed bottom-6 right-6 z-40 hidden h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-white shadow-premium hover:scale-105 md:flex"
             aria-label="Chat on WhatsApp"
           >
             <MessageCircle className="h-6 w-6" fill="currentColor" />
-            <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-[#25D366] opacity-30" />
+            <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-whatsapp opacity-30" />
           </motion.a>
         )}
       </AnimatePresence>
@@ -69,6 +71,7 @@ export function WhatsAppFab() {
             <div className="flex items-center gap-2">
               <a
                 href={`tel:${company.phonePrimaryHref}`}
+                onClick={() => trackPhoneClick({ location: "mobile-cta-bar", phone: company.phonePrimary })}
                 className="flex h-11 flex-1 items-center justify-center gap-1.5 rounded-full border border-brown/15 bg-white px-3 text-xs font-bold text-brown"
                 aria-label="Call us"
               >
@@ -79,7 +82,8 @@ export function WhatsAppFab() {
                 href={`${company.whatsappHref}?text=${message}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-11 flex-1 items-center justify-center gap-1.5 rounded-full bg-[#25D366] px-3 text-xs font-bold text-white"
+                onClick={() => trackWhatsAppClick({ location: "mobile-cta-bar" })}
+                className="flex h-11 flex-1 items-center justify-center gap-1.5 rounded-full bg-whatsapp px-3 text-xs font-bold text-white"
                 aria-label="WhatsApp us"
               >
                 <MessageCircle className="h-3.5 w-3.5" fill="currentColor" />
@@ -87,8 +91,8 @@ export function WhatsAppFab() {
               </a>
               <Link
                 href="/contact"
-                className="flex h-11 flex-[1.4] items-center justify-center rounded-full px-3 text-xs font-bold text-white shadow-glow-orange"
-                style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
+                onClick={() => trackCTAClick({ location: "mobile-cta-bar", label: "Free Quote", href: "/contact" })}
+                className="flex h-11 flex-[1.4] items-center justify-center rounded-full px-3 text-xs font-bold text-white shadow-glow-orange gradient-orange"
               >
                 Free Quote
               </Link>

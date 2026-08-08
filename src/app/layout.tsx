@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
+import { MotionConfig } from "framer-motion";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics, AnalyticsScript } from "@/components/site/analytics";
+import { CookieConsent } from "@/components/site/cookie-consent";
 import { company } from "@/data/company";
 import { brand } from "@/data/brand";
 import { locations } from "@/data/locations";
@@ -45,9 +48,8 @@ export const metadata: Metadata = {
   publisher: "Siva Pest Control",
   applicationName: "Siva Pest Control",
   category: "Home Services",
-  alternates: {
-    canonical: "https://www.sivapestcontrol.com",
-  },
+  // NOTE: per-page canonical URLs are set in each route's metadata.
+  // The homepage canonical lives in src/app/page.tsx.
   icons: {
     icon: [
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
@@ -143,6 +145,8 @@ const jsonLd = {
     bestRating: "5",
     worstRating: "1",
   },
+  // Let Google know which sub-organizations exist (one per city).
+  // Each location page also emits its own PestControl schema.
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Pest Control Services",
@@ -170,15 +174,38 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
+      <head>
+        {/* GA4 — server-rendered script for optimal load timing */}
+        <AnalyticsScript />
+      </head>
       <body
         className={`${inter.variable} ${manrope.variable} antialiased bg-background text-foreground`}
       >
+        {/* Skip-to-content link for keyboard & screen-reader users */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-orange focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-glow-orange"
+        >
+          Skip to content
+        </a>
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {children}
+
+        {/* Respect prefers-reduced-motion globally */}
+        <MotionConfig reducedMotion="user">
+          {children}
+        </MotionConfig>
+
+        {/* Analytics (client route tracker) */}
+        <Analytics />
+
+        {/* Privacy-first cookie consent banner */}
+        <CookieConsent />
+
         <Toaster />
       </body>
     </html>

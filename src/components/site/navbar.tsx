@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,6 +13,7 @@ import { isNavActive } from "@/lib/nav";
 import { services } from "@/data/services";
 import { locations } from "@/data/locations";
 import { viewToHref } from "@/lib/nav";
+import { trackCTAClick, trackPhoneClick } from "@/lib/analytics";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -20,6 +21,8 @@ export function Navbar() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [locationsOpen, setLocationsOpen] = useState(false);
   const pathname = usePathname();
+  const mobileDrawerRef = useRef<HTMLDivElement>(null);
+  const mobileToggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -40,8 +43,21 @@ export function Navbar() {
     };
   }, [mobileOpen]);
 
-  // Note: mobile menu closes are handled via onClick handlers on Link elements
-  // (no useEffect needed for route-change sync)
+  // Close mobile menu on Escape + restore focus to toggle
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileOpen(false);
+        mobileToggleRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [mobileOpen]);
+
+  // Mobile menu auto-closes on route change are handled via onClick handlers
+  // on each Link inside the drawer — no effect needed.
 
   return (
     <>
@@ -222,11 +238,12 @@ export function Navbar() {
                 <Link
                   key={item.view}
                   href={item.href}
+                  aria-current={isActive ? "page" : undefined}
                   className={cn(
                     "rounded-full px-4 py-2 text-sm font-medium transition-colors",
                     isActive
                       ? "text-orange"
-                      : "text-brown/75 hover:text-brown"
+                      : "text-brown/70 hover:text-brown"
                   )}
                 >
                   {item.label}
@@ -239,6 +256,7 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             <a
               href={`tel:${company.phonePrimaryHref}`}
+              onClick={() => trackPhoneClick({ location: "navbar", phone: company.phonePrimary })}
               className="hidden items-center gap-2 rounded-full border border-brown/15 px-4 py-2 text-sm font-semibold text-brown transition-colors hover:border-orange/40 hover:text-orange md:flex"
             >
               <Phone className="h-3.5 w-3.5" />
@@ -246,17 +264,20 @@ export function Navbar() {
             </a>
             <Link
               href="/contact"
-              className="hidden rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-glow-orange transition-all hover:bg-orange-deep hover:shadow-glow-orange sm:inline-flex"
-              style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
+              onClick={() => trackCTAClick({ location: "navbar", label: "Get Free Quote", href: "/contact" })}
+              className="hidden rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-glow-orange transition-all hover:brightness-110 hover:scale-[1.02] sm:inline-flex gradient-orange"
             >
               Get Free Quote
             </Link>
 
             {/* Mobile toggle */}
             <button
+              ref={mobileToggleRef}
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-brown/5 text-brown lg:hidden"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-brown/5 text-brown lg:hidden"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-menu"
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -278,46 +299,56 @@ export function Navbar() {
               className="absolute inset-0 bg-brown/40 backdrop-blur-sm"
               onClick={() => setMobileOpen(false)}
             />
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 28, stiffness: 280 }}
-              className="absolute right-0 top-0 h-full w-full max-w-sm bg-ivory shadow-premium overflow-y-auto"
-            >
-              <div className="flex h-16 items-center justify-between px-4 sm:px-6">
-                <LogoMark size={36} />
-                <button
-                  onClick={() => setMobileOpen(false)}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-brown/5 text-brown"
-                  aria-label="Close menu"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 28, stiffness: 280 }}
+            className="absolute right-0 top-0 h-full w-full max-w-sm bg-ivory shadow-premium overflow-y-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site menu"
+            id="mobile-menu"
+            ref={mobileDrawerRef}
+          >
+            <div className="flex h-16 items-center justify-between px-4 sm:px-6">
+              <LogoMark size={36} />
+              <button
+                onClick={() => setMobileOpen(false)}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-brown/5 text-brown"
+                aria-label="Close menu"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
 
               <div className="px-4 pb-8 sm:px-6">
                 <nav className="space-y-1">
-                  {mainNav.map((item) => (
-                    <Link
-                      key={item.view}
-                      href={item.href}
-                      onClick={() => setMobileOpen(false)}
-                      className={cn(
-                        "block w-full rounded-xl px-4 py-3 text-left text-base font-semibold transition-colors",
-                        isNavActive(pathname, item.view || "")
-                          ? "bg-orange/5 text-orange"
-                          : "text-brown hover:bg-orange/5 hover:text-orange"
-                      )}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
+                  {mainNav.map((item) => {
+                    const isActive = isNavActive(pathname, item.view || "");
+                    return (
+                      <Link
+                        key={item.view}
+                        href={item.href}
+                        onClick={() => setMobileOpen(false)}
+                        aria-current={isActive ? "page" : undefined}
+                        className={cn(
+                          "block w-full rounded-xl px-4 py-3 text-left text-base font-semibold transition-colors",
+                          isActive
+                            ? "bg-orange/5 text-orange"
+                            : "text-brown hover:bg-orange/5 hover:text-orange"
+                        )}
+                      >
+                        {item.label}
+                      </Link>
+                    );
+                  })}
                 </nav>
 
                 <div className="mt-6 space-y-3">
                   <a
                     href={`tel:${company.phonePrimaryHref}`}
+                    onClick={() => trackPhoneClick({ location: "mobile-menu", phone: company.phonePrimary })}
                     className="flex items-center justify-center gap-2 rounded-full border border-brown/15 px-4 py-3 text-sm font-semibold text-brown"
                   >
                     <Phone className="h-4 w-4" />
@@ -325,9 +356,11 @@ export function Navbar() {
                   </a>
                   <Link
                     href="/contact"
-                    onClick={() => setMobileOpen(false)}
-                    className="block w-full rounded-full bg-orange px-5 py-3.5 text-center text-sm font-semibold text-white shadow-glow-orange"
-                    style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
+                    onClick={() => {
+                      setMobileOpen(false);
+                      trackCTAClick({ location: "mobile-menu", label: "Get Free Quote", href: "/contact" });
+                    }}
+                    className="block w-full rounded-full px-5 py-3.5 text-center text-sm font-semibold text-white shadow-glow-orange gradient-orange"
                   >
                     Get Free Quote
                   </Link>

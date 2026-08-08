@@ -45,6 +45,10 @@
   --color-rust: var(--rust);
   --color-teal-soft: var(--teal-soft);
   --color-sand-soft: var(--sand-soft);
+  --color-ivory-deep: var(--ivory-deep);
+  --color-orange-deep: var(--orange-deep);
+  --color-brown-soft: var(--brown-soft);
+  --color-whatsapp: #25D366;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -135,6 +139,16 @@
     background-color: color-mix(in srgb, var(--orange) 25%, transparent);
     color: var(--brown);
   }
+  /* Global focus-visible style for keyboard users (WCAG 2.4.7) */
+  :focus-visible {
+    outline: 2px solid var(--orange);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  /* Remove default outline only when focus-visible is also supported */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
 }
 
 /* ---------- Brand utilities ---------- */
@@ -215,6 +229,13 @@
       0 1px 0 rgba(255, 255, 255, 0.6) inset,
       0 24px 60px -28px rgba(51, 36, 22, 0.28),
       0 8px 20px -10px rgba(51, 36, 22, 0.14);
+  }
+
+  .shadow-premium-lg {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.6) inset,
+      0 32px 80px -28px rgba(51, 36, 22, 0.38),
+      0 12px 28px -10px rgba(51, 36, 22, 0.2);
   }
 
   .shadow-lift {

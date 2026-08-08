@@ -1,10 +1,14 @@
+import type { Metadata } from "next";
 import { SiteChrome } from "@/components/site/site-chrome";
 import { ProcessPage } from "@/components/pages/process-page";
 
-export const metadata = {
-  title: "Our Process — From Inspection to 180-Day Warranty",
+export const metadata: Metadata = {
+  title: "Our Process",
   description:
-    "A documented 4-step process: free inspection, custom treatment plan, expert execution, and follow-up guarantee. Every visit logged, every warranty honoured.",
+    "A documented 5-step process: free inspection, custom treatment plan, expert execution, follow-up guarantee, and warranty support. Every visit logged, every warranty honoured.",
+  alternates: {
+    canonical: "https://www.sivapestcontrol.com/process",
+  },
 };
 
 export default function Process() {

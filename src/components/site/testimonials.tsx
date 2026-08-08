@@ -9,6 +9,7 @@ import { SectionHeading } from "./section-heading";
 import { testimonials, type Testimonial } from "@/data/testimonials";
 import { useNav } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { company } from "@/data/company";
 
 export function Testimonials() {
   const [index, setIndex] = useState(0);
@@ -40,7 +41,7 @@ export function Testimonials() {
         <SectionHeading
           eyebrow="Customer voices"
           title="Real stories from real customers"
-          subtitle="Over 5,700 verified reviews across three cities. Here are a few that capture what we work for."
+          subtitle={`${company.stats.googleReviews.toLocaleString("en-IN")}+ verified reviews across three cities. Here are a few that capture what we work for.`}
           light
         />
 

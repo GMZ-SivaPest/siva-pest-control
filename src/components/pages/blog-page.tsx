@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Clock, ArrowRight, Calendar } from "lucide-react";
 import { PageHero } from "@/components/site/page-hero";
@@ -55,16 +56,18 @@ export function BlogPage() {
             >
               <div className="grid md:grid-cols-2">
                 <div
-                  className={cn(
-                    "relative flex min-h-[260px] items-center justify-center text-7xl md:text-9xl",
-                    "bg-gradient-to-br from-ivory to-brown/5"
-                  )}
+                  className="relative min-h-[260px] overflow-hidden"
                 >
-                  <span className="opacity-90 transition-transform group-hover:scale-110">
-                    {featured.heroEmoji}
-                  </span>
+                  <Image
+                    src={featured.image}
+                    alt={featured.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(51,36,22,0) 50%, rgba(51,36,22,0.4) 100%)" }} />
                   <div className="absolute left-4 top-4">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-orange px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-orange px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white shadow-premium">
                       Featured
                     </span>
                   </div>
@@ -137,29 +140,28 @@ export function BlogPage() {
                   onClick={() => navigate(`blog:${post.slug}`)}
                   className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-brown/10 bg-white text-left shadow-premium transition-all hover:-translate-y-1 hover:shadow-premium-lg"
                 >
-                  <div
-                    className={cn(
-                      "flex h-40 items-center justify-center text-6xl",
-                      "bg-gradient-to-br from-ivory to-brown/5"
-                    )}
-                  >
-                    <span className="transition-transform group-hover:scale-110">
-                      {post.heroEmoji}
-                    </span>
-                  </div>
-                  <div className="flex flex-1 flex-col p-6">
-                    <div className="flex items-center gap-2 text-xs">
+                  <div className="relative h-40 overflow-hidden">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(51,36,22,0) 40%, rgba(51,36,22,0.7) 100%)" }} />
+                    <div className="absolute left-3 top-3">
                       <span
                         className={cn(
-                          "inline-flex items-center rounded-full px-2.5 py-1 font-semibold uppercase tracking-wider ring-1",
+                          "inline-flex items-center rounded-full px-2.5 py-1 font-semibold uppercase tracking-wider ring-1 backdrop-blur-md",
                           accentClasses[post.accent]
                         )}
                       >
                         {post.category}
                       </span>
-                      <span className="text-brown/50">{post.readingMinutes} min</span>
                     </div>
-                    <h3 className="mt-3 font-display text-lg font-bold leading-snug text-brown">
+                  </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <h3 className="mt-1 font-display text-lg font-bold leading-snug text-brown">
                       {post.title}
                     </h3>
                     <p className="mt-2 flex-1 text-sm leading-relaxed text-brown/70 line-clamp-3">

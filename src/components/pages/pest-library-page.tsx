@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { PageHero } from "@/components/site/page-hero";
 import { CTASection } from "@/components/site/cta-section";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/site/reveal";
@@ -103,40 +104,48 @@ export function PestLibraryPage() {
                 <StaggerItem key={pest.slug}>
                   <button
                     onClick={() => setSelected(pest.slug)}
-                    className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-brown/10 bg-white p-5 text-left shadow-premium transition-all hover:-translate-y-1 hover:shadow-lift"
+                    className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-brown/10 bg-white text-left shadow-premium transition-all hover:-translate-y-1 hover:shadow-lift"
                   >
-                    <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-orange/5 opacity-0 blur-2xl transition-opacity group-hover:opacity-100" />
-
-                    <div className="mb-4 flex items-start justify-between">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange/10 text-orange transition-colors group-hover:bg-orange group-hover:text-white">
-                        <pest.icon className="h-6 w-6" strokeWidth={1.6} />
-                      </div>
+                    {/* Pest image */}
+                    <div className="relative h-40 w-full overflow-hidden bg-gradient-to-br from-ivory to-brown/5">
+                      <Image
+                        src={pest.image}
+                        alt={pest.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(51,36,22,0) 50%, rgba(51,36,22,0.55) 100%)" }} />
                       <span
                         className={cn(
-                          "rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider ring-1",
+                          "absolute right-3 top-3 rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider ring-1 backdrop-blur-md",
                           threatColors[pest.threat]
                         )}
                       >
                         {pest.threat} threat
                       </span>
+                      <div className="absolute bottom-3 left-3 right-3">
+                        <h3 className="font-display text-base font-bold leading-tight text-white drop-shadow-md">
+                          {pest.name}
+                        </h3>
+                        <p className="mt-0.5 text-[11px] italic text-white/75">
+                          {pest.scientificName}
+                        </p>
+                      </div>
                     </div>
 
-                    <h3 className="font-display text-base font-bold leading-tight text-brown">
-                      {pest.name}
-                    </h3>
-                    <p className="mt-0.5 text-xs italic text-brown/55">
-                      {pest.scientificName}
-                    </p>
-                    <p className="mt-2 flex-1 text-sm leading-relaxed text-brown/65 line-clamp-3">
-                      {pest.description}
-                    </p>
+                    <div className="flex flex-1 flex-col p-5">
+                      <p className="flex-1 text-sm leading-relaxed text-brown/65 line-clamp-3">
+                        {pest.description}
+                      </p>
 
-                    <div className="mt-4 flex items-center justify-between border-t border-brown/5 pt-3 text-xs">
-                      <span className="text-brown/55">{pest.seasonality}</span>
-                      <span className="inline-flex items-center gap-1 font-semibold text-orange">
-                        View details
-                        <ArrowUpRight className="h-3 w-3" />
-                      </span>
+                      <div className="mt-4 flex items-center justify-between border-t border-brown/5 pt-3 text-xs">
+                        <span className="text-brown/55">{pest.seasonality}</span>
+                        <span className="inline-flex items-center gap-1 font-semibold text-orange">
+                          View details
+                          <ArrowUpRight className="h-3 w-3" />
+                        </span>
+                      </div>
                     </div>
                   </button>
                 </StaggerItem>
@@ -167,35 +176,43 @@ export function PestLibraryPage() {
               className="relative max-h-[92vh] w-full max-w-3xl overflow-hidden rounded-t-3xl bg-ivory shadow-premium sm:rounded-3xl"
             >
               {/* Header */}
-              <div className="relative bg-gradient-to-br from-brown to-[#1a0f08] p-6 text-white sm:p-8">
+              <div className="relative h-44 sm:h-52">
+                <Image
+                  src={selectedPest.image}
+                  alt={selectedPest.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 768px"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(51,36,22,0.3) 0%, rgba(51,36,22,0.85) 100%)" }} />
                 <div className="absolute inset-0 bg-dot-warm opacity-[0.05]" />
                 <button
                   onClick={() => setSelected(null)}
-                  className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur transition-colors hover:bg-white/20"
+                  className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur transition-colors hover:bg-white/25"
                   aria-label="Close"
                 >
                   <X className="h-4 w-4" />
                 </button>
 
-                <div className="relative flex items-start gap-4">
-                  <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl bg-orange/15 text-orange ring-1 ring-orange/30">
+                <div className="absolute bottom-5 left-5 right-5 flex items-end gap-4">
+                  <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl bg-orange/20 text-orange ring-1 ring-orange/40 backdrop-blur-md">
                     <selectedPest.icon className="h-7 w-7" strokeWidth={1.6} />
                   </div>
                   <div>
-                    <h2 className="font-display text-2xl font-bold">{selectedPest.name}</h2>
-                    <p className="mt-0.5 text-sm italic text-white/60">
+                    <h2 className="font-display text-2xl font-bold text-white drop-shadow-md">{selectedPest.name}</h2>
+                    <p className="mt-0.5 text-sm italic text-white/70">
                       {selectedPest.scientificName}
                     </p>
                     <div className="mt-2 flex flex-wrap items-center gap-2">
                       <span
                         className={cn(
-                          "rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider ring-1",
+                          "rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider ring-1 backdrop-blur-md",
                           threatColors[selectedPest.threat]
                         )}
                       >
                         {selectedPest.threat} threat
                       </span>
-                      <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/70 ring-1 ring-white/20">
+                      <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/80 ring-1 ring-white/20 backdrop-blur-md">
                         {selectedPest.seasonality}
                       </span>
                     </div>

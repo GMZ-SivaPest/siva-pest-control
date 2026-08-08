@@ -14,6 +14,7 @@ export interface Testimonial {
   text: string;
   service: string;
   date: string;
+  avatar: string;
   highlight?: string;
 }
 
@@ -28,6 +29,7 @@ export const testimonials: Testimonial[] = [
     text: "We had a stubborn German cockroach problem in our open kitchen that three other companies couldn't solve. Siva's gel-bait treatment eliminated them in 10 days — no spraying, no smell, no need to empty cabinets. The technician explained every step. Genuinely premium service.",
     service: "Cockroach Gel Treatment",
     date: "Mar 2026",
+    avatar: "/images/avatars/customer-2.jpg",
     highlight: "Eliminated in 10 days",
   },
   {
@@ -40,6 +42,7 @@ export const testimonials: Testimonial[] = [
     text: "We manage a 14-floor tech park with 9 anchor tenants. Siva handles the entire IPM programme across all floors with monthly service reports, trend analytics, and audit-ready documentation. They've attended three FSSAI audits with us — zero observations on pest control.",
     service: "Commercial IPM Programme",
     date: "Feb 2026",
+    avatar: "/images/avatars/customer-3.jpg",
     highlight: "Zero audit observations",
   },
   {
@@ -52,6 +55,7 @@ export const testimonials: Testimonial[] = [
     text: "Our 84-apartment complex was battling coastal roach pressure for years. Siva designed a coordinated building-wide protocol — every flat treated the same week, shared plumbing stacks addressed, monthly monitoring. We've been roach-free for 14 months now.",
     service: "Apartment-wide IPM",
     date: "Jan 2026",
+    avatar: "/images/avatars/customer-4.jpg",
     highlight: "14 months roach-free",
   },
   {
@@ -64,6 +68,7 @@ export const testimonials: Testimonial[] = [
     text: "Healthcare pest control has zero margin for error. Siva uses odour-free formulations, pheromone monitoring, and works around our ICU and sterile stores without disrupting operations. Their documentation satisfies every NABH audit. They're an extension of our infection-control team.",
     service: "Healthcare IPM",
     date: "Feb 2026",
+    avatar: "/images/avatars/customer-1.jpg",
     highlight: "NABH audit-ready",
   },
   {
@@ -76,6 +81,7 @@ export const testimonials: Testimonial[] = [
     text: "After a trip to Goa, we brought back bed bugs — the worst 3 weeks of our lives. Siva's two-cycle heat and spray protocol worked exactly as promised. The day-14 follow-up caught the nymphs. They even advised us on luggage hygiene. Genuinely caring team.",
     service: "Bed Bugs Elimination",
     date: "Apr 2026",
+    avatar: "/images/avatars/customer-4.jpg",
     highlight: "Two-cycle protocol worked",
   },
   {
@@ -88,6 +94,7 @@ export const testimonials: Testimonial[] = [
     text: "Three cloud kitchens, one vendor, zero pest incidents in 18 months. Siva's digital service reports are ready for any Swiggy or Zomato audit. They installed UV fly units in kitchens, drain fly treatment at every sink, and tamper-proof bait stations. Worth every rupee.",
     service: "Restaurant IPM",
     date: "Mar 2026",
+    avatar: "/images/avatars/customer-3.jpg",
     highlight: "Zero pest incidents",
   },
   {
@@ -100,6 +107,7 @@ export const testimonials: Testimonial[] = [
     text: "Our 25-year-old independent house had termite mud tubes in three rooms. Siva's drill-fill-seal treatment was meticulous — they covered every piece of furniture, sealed holes with matching cement, and provided a written 5-year warranty. Six months later, no signs of any activity.",
     service: "Anti-Termite Treatment",
     date: "Dec 2025",
+    avatar: "/images/avatars/customer-6.jpg",
     highlight: "5-year warranty honoured",
   },
   {
@@ -112,6 +120,7 @@ export const testimonials: Testimonial[] = [
     text: "We store FMCG inventory worth crores. Siva's perimeter rodent programme, indoor monitoring traps, and inbound fumigation protocol have reduced our pest-related rejection rate to zero. Their monthly trend reports are the first thing our quality team reviews.",
     service: "Warehouse IPM",
     date: "Feb 2026",
+    avatar: "/images/avatars/customer-1.jpg",
     highlight: "Zero pest rejections",
   },
   {
@@ -124,6 +133,7 @@ export const testimonials: Testimonial[] = [
     text: "With two toddlers at home, I was nervous about pest control chemicals. Siva's gel-bait method needs no evacuation, leaves no residue, and the technicians explained the safety profile of every product they used. The kids napped through the treatment. Premium in every sense.",
     service: "Cockroach Gel Treatment",
     date: "Mar 2026",
+    avatar: "/images/avatars/customer-2.jpg",
     highlight: "Child-safe, no evacuation",
   },
 ];

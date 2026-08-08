@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowRight, Calendar, Clock } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, Calendar } from "lucide-react";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
 import { blogPosts } from "@/data/blog";
@@ -49,24 +50,34 @@ export function BlogTeaser() {
                 onClick={() => navigate(`blog:${post.slug}`)}
                 className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-brown/10 bg-white text-left shadow-premium transition-all hover:-translate-y-1 hover:shadow-premium-lg"
               >
-                <div className="flex h-36 items-center justify-center bg-gradient-to-br from-ivory to-brown/5 text-5xl">
-                  <span className="transition-transform group-hover:scale-110">
-                    {post.heroEmoji}
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col p-5">
-                  <div className="flex items-center gap-2 text-xs">
+                <div className="relative h-44 overflow-hidden">
+                  <Image
+                    src={post.image}
+                    alt={post.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(51,36,22,0) 40%, rgba(51,36,22,0.75) 100%)",
+                    }}
+                  />
+                  <div className="absolute left-3 top-3">
                     <span
                       className={cn(
-                        "inline-flex items-center rounded-full px-2.5 py-1 font-semibold uppercase tracking-wider ring-1",
+                        "inline-flex items-center rounded-full px-2.5 py-1 font-semibold uppercase tracking-wider ring-1 backdrop-blur-md",
                         accentRing[post.accent]
                       )}
                     >
                       {post.category}
                     </span>
-                    <span className="text-brown/50">{post.readingMinutes} min</span>
                   </div>
-                  <h3 className="mt-3 font-display text-base font-bold leading-snug text-brown line-clamp-3">
+                </div>
+                <div className="flex flex-1 flex-col p-5">
+                  <h3 className="font-display text-base font-bold leading-snug text-brown line-clamp-3">
                     {post.title}
                   </h3>
                   <p className="mt-2 flex-1 text-sm leading-relaxed text-brown/70 line-clamp-2">

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { PageHero } from "@/components/site/page-hero";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/site/reveal";
 import { CTASection } from "@/components/site/cta-section";
@@ -7,6 +8,7 @@ import { FAQAccordion } from "@/components/site/faq-accordion";
 import { useNav } from "@/lib/store";
 import { services as allServices, servicesBySlug } from "@/data/services";
 import { locations } from "@/data/locations";
+import { company } from "@/data/company";
 import {
   CheckCircle2,
   Clock,
@@ -140,7 +142,7 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
                   <ChevronRight className="h-4 w-4" />
                 </button>
                 <a
-                  href="tel:+919000024680"
+                  href={`tel:${company.phonePrimaryHref}`}
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-brown/15 bg-white/60 px-6 py-3.5 text-sm font-semibold text-brown backdrop-blur transition-colors hover:border-orange/40 hover:text-orange"
                 >
                   <Phone className="h-4 w-4" />
@@ -149,16 +151,34 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
               </motion.div>
             </div>
 
-            {/* Right column — service card */}
+            {/* Right column — service image + card */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
             >
-              <div className="sticky top-24 rounded-3xl border border-brown/10 bg-white p-6 shadow-premium sm:p-8">
-                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-orange/10 text-orange">
-                  <Icon className="h-7 w-7" strokeWidth={1.6} />
+              <div className="sticky top-24 overflow-hidden rounded-3xl border border-brown/10 bg-white shadow-premium">
+                {/* Service image */}
+                <div className="relative h-56 w-full overflow-hidden">
+                  <Image
+                    src={service.image}
+                    alt={service.name}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 400px"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(51,36,22,0) 50%, rgba(51,36,22,0.7) 100%)" }} />
+                  <div className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center rounded-xl bg-white/85 text-orange backdrop-blur-md">
+                    <Icon className="h-5 w-5" strokeWidth={1.6} />
+                  </div>
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <div className="text-[10px] font-semibold uppercase tracking-wider text-white/80">Starts from</div>
+                    <div className="font-display text-2xl font-bold text-white drop-shadow-md">
+                      ₹{service.startsFrom.toLocaleString("en-IN")}
+                    </div>
+                  </div>
                 </div>
+                <div className="p-6 sm:p-8">
                 <h3 className="font-display text-lg font-bold text-brown">
                   Quick service facts
                 </h3>
@@ -187,6 +207,7 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
                     </dd>
                   </div>
                 </dl>
+                </div>
 
                 <button
                   onClick={() => navigate("contact")}

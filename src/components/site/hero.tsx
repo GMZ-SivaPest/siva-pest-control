@@ -11,6 +11,7 @@ import {
   MapPin,
   CheckCircle2,
 } from "lucide-react";
+import Image from "next/image";
 import { useNav } from "@/lib/store";
 import { company } from "@/data/company";
 import { locations } from "@/data/locations";
@@ -168,10 +169,15 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* RIGHT — 3D Shield + city map composition */}
-          <div className="relative flex items-center justify-center">
-            <HeroShield rotateX={rotateX} rotateY={rotateY} />
-          </div>
+          {/* RIGHT — Cinematic hero image with floating shield + city pins */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="relative flex items-center justify-center"
+          >
+            <HeroImageComposition rotateX={rotateX} rotateY={rotateY} />
+          </motion.div>
         </div>
 
         {/* Bottom stats strip */}
@@ -199,199 +205,120 @@ export function Hero() {
 }
 
 /**
- * HeroShield — the centerpiece 3D shield with concentric rings,
- * animated city pin connections, and drifting protective particles.
+ * HeroImageComposition — the cinematic hero image with subtle 3D tilt,
+ * premium glassmorphism overlay cards, floating shield medallion,
+ * and city pin accents over the image.
  */
-function HeroShield({
+function HeroImageComposition({
   rotateX,
   rotateY,
 }: {
   rotateX: any;
   rotateY: any;
 }) {
-  const [pulseKey, setPulseKey] = useState(0);
-
-  useEffect(() => {
-    const t = setInterval(() => setPulseKey((k) => k + 1), 4000);
-    return () => clearInterval(t);
-  }, []);
-
   return (
     <motion.div
       style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: 1200 }}
-      className="relative aspect-square w-full max-w-[520px]"
+      className="relative aspect-[4/3] w-full max-w-[620px] lg:aspect-[5/5]"
     >
-      {/* Particle field — outward-drifting dots */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative h-[80%] w-[80%]">
-          {[...Array(18)].map((_, i) => {
-            const angle = (i / 18) * Math.PI * 2;
-            const dist = 80 + (i % 3) * 40;
-            const dx = Math.cos(angle) * dist;
-            const dy = Math.sin(angle) * dist;
-            const delay = (i * 0.3) % 4;
-            const size = 3 + (i % 4);
-            return (
-              <motion.span
-                key={`${pulseKey}-${i}`}
-                className="absolute left-1/2 top-1/2 rounded-full"
-                style={{
-                  width: size,
-                  height: size,
-                  background: i % 3 === 0 ? "#D77005" : i % 3 === 1 ? "#719899" : "#D8AE7F",
-                  ["--dx" as any]: `${dx}px`,
-                  ["--dy" as any]: `${dy}px`,
-                  animation: `drift ${4 + (i % 3)}s ease-out ${delay}s infinite`,
-                }}
-              />
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Concentric rotating rings */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        {/* Outer slow ring with dashed pattern */}
-        <svg
-          viewBox="0 0 400 400"
-          className="absolute h-full w-full animate-spin-slow text-orange/30"
-          fill="none"
-        >
-          <circle
-            cx="200"
-            cy="200"
-            r="190"
-            stroke="currentColor"
-            strokeWidth="1"
-            strokeDasharray="3 8"
-          />
-        </svg>
-
-        {/* Mid ring — counter-rotating */}
-        <svg
-          viewBox="0 0 400 400"
-          className="absolute h-[88%] w-[88%] animate-spin-rev-slow text-teal/40"
-          fill="none"
-        >
-          <circle
-            cx="200"
-            cy="200"
-            r="180"
-            stroke="currentColor"
-            strokeWidth="0.8"
-            strokeDasharray="2 12"
-          />
-        </svg>
-
-        {/* Solid warm ring */}
-        <div className="absolute h-[72%] w-[72%] rounded-full border border-brown/15" />
-        <div className="absolute h-[60%] w-[60%] rounded-full border-2 border-orange/25" />
-      </div>
-
-      {/* Central shield medallion */}
+      {/* Main image with rounded premium frame */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.85 }}
+        initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-0 flex items-center justify-center"
-        style={{ transform: "translateZ(60px)" }}
+        transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        className="relative h-full w-full overflow-hidden rounded-3xl border border-white/40 shadow-premium-lg"
+        style={{ transform: "translateZ(40px)" }}
       >
-        <div className="relative flex h-[46%] w-[46%] items-center justify-center">
-          {/* Glow base */}
-          <div
-            className="absolute inset-0 rounded-full opacity-60 blur-2xl"
-            style={{ background: "radial-gradient(circle, #D77005 0%, transparent 70%)" }}
-          />
+        <Image
+          src="/images/hero/hero-main.png"
+          alt="Protected modern Indian home at golden hour — Siva Pest Control"
+          fill
+          priority
+          sizes="(max-width: 1024px) 100vw, 620px"
+          className="object-cover"
+        />
+        {/* Warm gradient overlay for premium feel + text legibility */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(51,36,22,0) 0%, rgba(51,36,22,0.05) 50%, rgba(51,36,22,0.45) 100%)",
+          }}
+        />
+        {/* Subtle orange glow from bottom-left */}
+        <div
+          className="absolute inset-0 opacity-60"
+          style={{
+            background:
+              "radial-gradient(circle at 15% 90%, rgba(215,112,5,0.25) 0%, transparent 50%)",
+          }}
+        />
 
-          {/* Shield SVG */}
-          <svg
-            viewBox="0 0 200 220"
-            className="relative h-full w-full drop-shadow-2xl"
-            fill="none"
-          >
-            <defs>
-              <linearGradient id="shield-fill" x1="100" y1="10" x2="100" y2="210" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#4A3624" />
-                <stop offset="1" stopColor="#221610" />
-              </linearGradient>
-              <linearGradient id="shield-rim" x1="100" y1="10" x2="100" y2="210" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#E88521" />
-                <stop offset="1" stopColor="#B85C04" />
-              </linearGradient>
-              <radialGradient id="shield-sheen" cx="0.3" cy="0.2" r="0.7">
-                <stop offset="0" stopColor="#FFFFFF" stopOpacity="0.25" />
-                <stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
-              </radialGradient>
-            </defs>
-
-            <path
-              d="M100 10 L180 38 V110 C180 162 145 198 100 215 C55 198 20 162 20 110 V38 Z"
-              fill="url(#shield-fill)"
-              stroke="url(#shield-rim)"
-              strokeWidth="3"
-            />
-            <path
-              d="M100 10 L180 38 V110 C180 162 145 198 100 215 C55 198 20 162 20 110 V38 Z"
-              fill="url(#shield-sheen)"
-            />
-
-            {/* Inner border */}
-            <path
-              d="M100 22 L168 46 V110 C168 154 138 184 100 200 C62 184 32 154 32 110 V46 Z"
-              fill="none"
-              stroke="#D77005"
-              strokeWidth="0.8"
-              strokeOpacity="0.5"
-            />
-
-            {/* Central S monogram */}
-            <path
-              d="M115 75 C100 75 88 84 88 98 C88 112 102 116 118 121 C134 126 140 134 140 148 C140 162 124 172 108 172"
-              stroke="#FFFFFF"
-              strokeWidth="5"
-              strokeLinecap="round"
-              fill="none"
-            />
-
-            {/* Top tick marks */}
-            {[0, 1, 2, 3, 4].map((i) => (
-              <line
-                key={i}
-                x1={100}
-                y1="28"
-                x2={100}
-                y2="32"
-                stroke="#D8AE7F"
-                strokeWidth="1.5"
-                transform={`rotate(${(i - 2) * 18} 100 30)`}
-              />
-            ))}
-          </svg>
-
-          {/* Floating shield-check badge */}
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -right-4 -top-4 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-lift sm:-right-6 sm:-top-6 sm:h-14 sm:w-14"
-          >
-            <ShieldCheck className="h-6 w-6 text-orange sm:h-7 sm:w-7" />
-          </motion.div>
-
-          {/* Floating warranty badge */}
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute -bottom-3 -left-4 flex h-12 w-12 flex-col items-center justify-center rounded-full bg-white shadow-lift sm:-bottom-5 sm:-left-6 sm:h-16 sm:w-16"
-          >
-            <span className="font-display text-sm font-bold text-brown sm:text-base">180</span>
-            <span className="text-[8px] font-semibold uppercase tracking-wider text-brown/60 sm:text-[9px]">
-              day
-            </span>
-          </motion.div>
+        {/* Image badge: protected home label */}
+        <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/85 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-brown backdrop-blur-md shadow-premium">
+          <ShieldCheck className="h-3 w-3 text-orange" />
+          Protected Home
         </div>
       </motion.div>
 
-      {/* Animated city pins with connecting lines */}
+      {/* Floating glass card — top-right: rating */}
+      <motion.div
+        animate={{ y: [0, -8, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -right-3 top-12 z-10 w-44 rounded-2xl border border-white/50 bg-white/85 p-3 shadow-premium backdrop-blur-xl sm:-right-6 sm:w-52"
+        style={{ transform: "translateZ(80px)" }}
+      >
+        <div className="flex items-center gap-1">
+          {[...Array(5)].map((_, i) => (
+            <Star key={i} className="h-3.5 w-3.5 fill-orange text-orange" />
+          ))}
+        </div>
+        <div className="mt-1.5 font-display text-xl font-bold text-brown">
+          4.9
+          <span className="ml-1 text-xs font-medium text-brown/60">/ 5</span>
+        </div>
+        <div className="text-[10px] font-medium uppercase tracking-wider text-brown/60">
+          500+ Google reviews
+        </div>
+      </motion.div>
+
+      {/* Floating glass card — bottom-left: response time */}
+      <motion.div
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+        className="absolute -left-3 bottom-12 z-10 w-48 rounded-2xl border border-white/50 bg-white/85 p-3 shadow-premium backdrop-blur-xl sm:-left-6 sm:w-56"
+        style={{ transform: "translateZ(80px)" }}
+      >
+        <div className="flex items-center gap-2">
+          <div
+            className="flex h-9 w-9 items-center justify-center rounded-full text-white shadow-glow-orange"
+            style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
+          >
+            <Clock className="h-4 w-4" />
+          </div>
+          <div>
+            <div className="font-display text-base font-bold text-brown">30 min</div>
+            <div className="text-[10px] font-medium uppercase tracking-wider text-brown/60">
+              Response time
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Floating shield medallion — bottom-right */}
+      <motion.div
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.7 }}
+        className="absolute -bottom-4 -right-3 z-10 flex h-16 w-16 flex-col items-center justify-center rounded-full bg-white shadow-premium-lg sm:-right-5 sm:h-20 sm:w-20"
+        style={{ transform: "translateZ(100px)" }}
+      >
+        <span className="font-display text-base font-bold text-brown sm:text-lg">180</span>
+        <span className="text-[8px] font-semibold uppercase tracking-wider text-brown/60 sm:text-[9px]">
+          day warranty
+        </span>
+      </motion.div>
+
+      {/* City pins floating over image */}
       <CityPinConnections />
     </motion.div>
   );

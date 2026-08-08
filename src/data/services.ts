@@ -32,6 +32,7 @@ export interface Service {
   short: string;
   long: string;
   icon: LucideIcon;
+  image: string;
   accent: ServiceAccent;
   category: "residential" | "commercial" | "both";
   startsFrom: number;
@@ -54,9 +55,10 @@ export const services: Service[] = [
     long:
       "Our signature gel-bait treatment targets German and American cockroaches at the nest level. Odourless, non-staining, and child-safe, the gel is applied in micro-dots behind appliances, inside hinges, and along pheromone trails. Foraging cockroaches consume the bait and carry it back to the colony, eliminating the entire population within 7 to 14 days. Includes a targeted crack-and-crevice ant barrier at no extra cost.",
     icon: Bug,
+    image: "/images/services/cockroach.png",
     accent: "orange",
     category: "both",
-    startsFrom: 1499,
+    startsFrom: 799,
     duration: "45 to 60 min",
     warranty: "180 days",
     treatment: "gel",
@@ -128,9 +130,10 @@ export const services: Service[] = [
     long:
       "Subterranean termites cause irreversible structural damage before they're ever seen. Our anti-termite treatment creates a continuous chemical barrier around and beneath your property using the drill-fill-seal method, combined with a transferable termiticide that worker termites carry back to the colony. Each treatment is backed by a written 5-year warranty with annual inspection included.",
     icon: ShieldCheck,
+    image: "/images/services/termite.png",
     accent: "brown",
     category: "both",
-    startsFrom: 6500,
+    startsFrom: 999,
     duration: "3 to 5 hours",
     warranty: "5 years",
     treatment: "spray",
@@ -197,9 +200,10 @@ export const services: Service[] = [
     long:
       "Bed bugs are resistant to most over-the-counter chemicals. Our protocol combines a residual spray with a thermal steam pass on mattress seams, headboards, and baseboards, followed by a second cycle at day 14 to catch newly-hatched nymphs. Includes encasement advisory and a 90-day re-treatment warranty.",
     icon: Droplets,
+    image: "/images/services/bed-bug.png",
     accent: "rust",
     category: "both",
-    startsFrom: 2500,
+    startsFrom: 1299,
     duration: "90 min per cycle",
     warranty: "90 days",
     treatment: "spray",
@@ -266,9 +270,10 @@ export const services: Service[] = [
     long:
       "Rats and mice cause structural damage, fire risk, and disease. Our programme combines mechanical snap-trapping, tamper-proof bait stations, and structural exclusion — sealing the holes that let them in. Includes a 90-day monitoring window with weekly trap-checks during the first month.",
     icon: Rat,
+    image: "/images/services/rodent.png",
     accent: "brown",
     category: "both",
-    startsFrom: 3200,
+    startsFrom: 899,
     duration: "2 hours initial + monitoring",
     warranty: "90 days",
     treatment: "trapping",
@@ -331,9 +336,10 @@ export const services: Service[] = [
     long:
       "Dengue and malaria cases spike during monsoon across Hyderabad, Chennai and Bangalore. Our mosquito programme combines residual misting of resting sites (shrubs, eaves, walls) with larvicidal treatment of breeding spots (stagnant water, drains, gutters). Includes a 30-day residual effect and advisory on source reduction around your property.",
     icon: Droplets,
+    image: "/images/services/mosquito.png",
     accent: "teal",
     category: "both",
-    startsFrom: 2200,
+    startsFrom: 599,
     duration: "60 min",
     warranty: "60 days",
     treatment: "spray",
@@ -396,9 +402,10 @@ export const services: Service[] = [
     long:
       "Beyond pest control, we offer hospital-grade surface disinfection using ultra-low-volume (ULV) fogging with WHO-recommended actives. Ideal for move-in cleaning, post-illness recovery, daycare sanitisation, and outbreak response in offices. Includes high-touch surface wipe-down and air-circulation protocol.",
     icon: Sparkles,
+    image: "/images/services/ant.png",
     accent: "teal",
     category: "both",
-    startsFrom: 1800,
+    startsFrom: 499,
     duration: "60 to 90 min",
     warranty: "Single service",
     treatment: "fumigation",
@@ -461,9 +468,10 @@ export const services: Service[] = [
     long:
       "Bird fouling damages paint, blocks gutters, and spreads respiratory disease. Our bird management programme uses humane exclusion only — stainless steel spikes on ledges, nylon netting on ducts and balconies, and acoustic deterrents where appropriate. Fully compliant with AWBI guidelines. Backed by a 3-year material warranty.",
     icon: Bird,
+    image: "/images/services/bird.png",
     accent: "teal",
     category: "both",
-    startsFrom: 4500,
+    startsFrom: 1499,
     duration: "Half-day installation",
     warranty: "3 years material",
     treatment: "exclusion",
@@ -526,9 +534,10 @@ export const services: Service[] = [
     long:
       "Commercial clients need more than one-off treatments — they need a documented IPM programme that satisfies FSSAI, ISO 22000, and HACCP auditors. We assign a dedicated account manager, install tamper-proof monitor stations, conduct scheduled visits, and provide digital service reports with trend analytics. Ideal for food processing, hospitality, retail, healthcare, and warehousing.",
     icon: Factory,
+    image: "/images/services/commercial.png",
     accent: "orange",
     category: "commercial",
-    startsFrom: 12000,
+    startsFrom: 1499,
     duration: "Bimonthly scheduled",
     warranty: "Contract-bound",
     treatment: "baiting",

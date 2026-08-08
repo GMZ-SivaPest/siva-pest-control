@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Star, Quote, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Reveal } from "./reveal";
@@ -75,12 +76,23 @@ export function Testimonials() {
 
                   {/* Author + meta */}
                   <div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6">
-                    <div>
-                      <div className="font-semibold text-white">{current.name}</div>
-                      <div className="text-sm text-white/60">{current.role}</div>
-                      <div className="mt-1 flex items-center gap-1 text-xs text-white/50">
-                        <MapPin className="h-3 w-3" />
-                        {current.location}, {current.city}
+                    <div className="flex items-center gap-3">
+                      <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full ring-2 ring-white/20">
+                        <Image
+                          src={current.avatar}
+                          alt={current.name}
+                          fill
+                          sizes="48px"
+                          className="object-cover"
+                        />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-white">{current.name}</div>
+                        <div className="text-sm text-white/60">{current.role}</div>
+                        <div className="mt-1 flex items-center gap-1 text-xs text-white/50">
+                          <MapPin className="h-3 w-3" />
+                          {current.location}, {current.city}
+                        </div>
                       </div>
                     </div>
                     <div className="text-right">
@@ -145,7 +157,7 @@ export function Testimonials() {
               transition={{ duration: 0.6, delay: i * 0.08 }}
               className="group rounded-2xl border border-white/10 bg-white/[0.04] p-5 text-left backdrop-blur transition-all hover:bg-white/[0.08]"
             >
-              <div className="mb-2 flex items-center gap-1">
+              <div className="mb-3 flex items-center gap-1">
                 {[...Array(t.rating)].map((_, i) => (
                   <Star key={i} className="h-3 w-3 fill-orange text-orange" />
                 ))}
@@ -153,10 +165,21 @@ export function Testimonials() {
               <p className="text-sm leading-relaxed text-white/75 line-clamp-4">
                 "{t.text}"
               </p>
-              <div className="mt-4 border-t border-white/10 pt-3">
-                <div className="text-xs font-semibold text-white">{t.name}</div>
-                <div className="text-[11px] text-white/50">
-                  {t.role} · {t.location}
+              <div className="mt-4 flex items-center gap-3 border-t border-white/10 pt-3">
+                <div className="relative h-9 w-9 flex-shrink-0 overflow-hidden rounded-full ring-1 ring-white/20">
+                  <Image
+                    src={t.avatar}
+                    alt={t.name}
+                    fill
+                    sizes="36px"
+                    className="object-cover"
+                  />
+                </div>
+                <div>
+                  <div className="text-xs font-semibold text-white">{t.name}</div>
+                  <div className="text-[11px] text-white/50">
+                    {t.role} · {t.location}
+                  </div>
                 </div>
               </div>
             </motion.button>

@@ -19,6 +19,7 @@ export interface Pest {
   name: string;
   scientificName: string;
   icon: LucideIcon;
+  image: string;
   category: "insect" | "rodent" | "arachnid" | "bird" | "other";
   threat: "high" | "medium" | "low";
   description: string;
@@ -36,6 +37,7 @@ export const pests: Pest[] = [
     name: "German Cockroach",
     scientificName: "Blattella germanica",
     icon: Bug,
+    image: "/images/pests/cockroach.png",
     category: "insect",
     threat: "high",
     description:
@@ -70,6 +72,7 @@ export const pests: Pest[] = [
     name: "American Cockroach",
     scientificName: "Periplaneta americana",
     icon: Bug,
+    image: "/images/pests/cockroach.png",
     category: "insect",
     threat: "high",
     description:
@@ -104,6 +107,7 @@ export const pests: Pest[] = [
     name: "Subterranean Termite",
     scientificName: "Coptotermes formosanus",
     icon: ShieldCheck,
+    image: "/images/pests/termite.png",
     category: "insect",
     threat: "high",
     description:
@@ -138,6 +142,7 @@ export const pests: Pest[] = [
     name: "House Rat / Roof Rat",
     scientificName: "Rattus rattus",
     icon: Rat,
+    image: "/images/pests/rodent.png",
     category: "rodent",
     threat: "high",
     description:
@@ -172,6 +177,7 @@ export const pests: Pest[] = [
     name: "Aedes Mosquito (Dengue)",
     scientificName: "Aedes aegypti",
     icon: BugPlay,
+    image: "/images/pests/mosquito.png",
     category: "insect",
     threat: "high",
     description:
@@ -205,6 +211,7 @@ export const pests: Pest[] = [
     name: "Bed Bug",
     scientificName: "Cimex lectularius",
     icon: Bug,
+    image: "/images/pests/bedbug.png",
     category: "insect",
     threat: "medium",
     description:
@@ -239,6 +246,7 @@ export const pests: Pest[] = [
     name: "Common House Spider",
     scientificName: "Parasteatoda tepidariorum",
     icon: Hexagon,
+    image: "/images/pests/spider.png",
     category: "arachnid",
     threat: "low",
     description:
@@ -272,6 +280,7 @@ export const pests: Pest[] = [
     name: "Rock Pigeon",
     scientificName: "Columba livia",
     icon: Bird,
+    image: "/images/pests/fly.png",
     category: "bird",
     threat: "medium",
     description:
@@ -306,6 +315,7 @@ export const pests: Pest[] = [
     name: "Red Paper Wasp",
     scientificName: "Polistes spp.",
     icon: BugOff,
+    image: "/images/pests/fly.png",
     category: "insect",
     threat: "medium",
     description:

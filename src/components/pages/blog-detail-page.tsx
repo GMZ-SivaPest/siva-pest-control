@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { ArrowLeft, Calendar, Clock, ArrowRight, Tag } from "lucide-react";
 import { Reveal } from "@/components/site/reveal";
 import { CTASection } from "@/components/site/cta-section";
@@ -128,17 +129,18 @@ export function BlogDetailPage({ slug }: { slug: string }) {
           </Reveal>
         </header>
 
-        {/* Hero emoji block */}
+        {/* Hero image */}
         <div className="mt-10">
-          <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-            <div className="flex h-56 items-center justify-center rounded-3xl bg-gradient-to-br from-ivory to-brown/5 text-8xl md:h-72 md:text-9xl">
-              <motion.span
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
-              >
-                {post.heroEmoji}
-              </motion.span>
+          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+            <div className="relative h-64 overflow-hidden rounded-3xl shadow-premium-lg md:h-80">
+              <Image
+                src={post.image}
+                alt={post.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 768px"
+                className="object-cover"
+              />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(51,36,22,0) 50%, rgba(51,36,22,0.4) 100%)" }} />
             </div>
           </div>
         </div>
@@ -205,16 +207,21 @@ export function BlogDetailPage({ slug }: { slug: string }) {
                     onClick={() => navigate(`blog:${rp.slug}`)}
                     className="group flex h-full flex-col overflow-hidden rounded-2xl border border-brown/10 bg-white text-left shadow-premium transition-all hover:-translate-y-1 hover:shadow-premium-lg"
                   >
-                    <div className="flex h-32 items-center justify-center bg-gradient-to-br from-ivory to-brown/5 text-5xl">
-                      <span className="transition-transform group-hover:scale-110">
-                        {rp.heroEmoji}
+                    <div className="relative h-32 overflow-hidden">
+                      <Image
+                        src={rp.image}
+                        alt={rp.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(51,36,22,0) 40%, rgba(51,36,22,0.65) 100%)" }} />
+                      <span className="absolute left-3 top-3 inline-flex items-center rounded-full bg-white/85 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-brown backdrop-blur-md">
+                        {rp.category}
                       </span>
                     </div>
                     <div className="flex flex-1 flex-col p-5">
-                      <span className="text-[11px] font-semibold uppercase tracking-wider text-orange">
-                        {rp.category}
-                      </span>
-                      <h3 className="mt-2 font-display text-base font-bold leading-snug text-brown">
+                      <h3 className="font-display text-base font-bold leading-snug text-brown line-clamp-2">
                         {rp.title}
                       </h3>
                       <p className="mt-2 flex-1 text-sm leading-relaxed text-brown/70 line-clamp-2">

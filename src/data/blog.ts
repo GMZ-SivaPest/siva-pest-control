@@ -11,7 +11,8 @@ export interface BlogPost {
   author: string;
   publishedOn: string; // ISO date
   readingMinutes: number;
-  heroEmoji: string; // simple visual marker; no external imagery required
+  image: string;
+  heroEmoji: string; // legacy fallback
   accent: "orange" | "teal" | "brown" | "rust";
   keywords: string[];
   body: {
@@ -31,6 +32,7 @@ export const blogPosts: BlogPost[] = [
     author: "Siva Pest Control Editorial",
     publishedOn: "2026-07-22",
     readingMinutes: 6,
+    image: "/images/blog/monsoon.png",
     heroEmoji: "🌧️",
     accent: "teal",
     keywords: ["monsoon pest control", "mosquito control", "south india"],
@@ -111,6 +113,7 @@ export const blogPosts: BlogPost[] = [
     author: "Siva Pest Control Editorial",
     publishedOn: "2026-07-08",
     readingMinutes: 7,
+    image: "/images/blog/termite-detection.png",
     heroEmoji: "🐜",
     accent: "rust",
     keywords: ["termite control", "termite detection", "wood damage"],
@@ -202,6 +205,7 @@ export const blogPosts: BlogPost[] = [
     author: "Siva Pest Control Editorial",
     publishedOn: "2026-06-25",
     readingMinutes: 8,
+    image: "/images/blog/fssai.png",
     heroEmoji: "🍽️",
     accent: "orange",
     keywords: ["fssai compliance", "restaurant pest control", "audit"],
@@ -302,6 +306,7 @@ export const blogPosts: BlogPost[] = [
     author: "Siva Pest Control Editorial",
     publishedOn: "2026-06-10",
     readingMinutes: 5,
+    image: "/images/blog/child-safe.png",
     heroEmoji: "👶",
     accent: "teal",
     keywords: ["child safe pest control", "pet safe", "herbal pest control"],
@@ -379,6 +384,7 @@ export const blogPosts: BlogPost[] = [
     author: "Siva Pest Control Editorial",
     publishedOn: "2026-05-28",
     readingMinutes: 6,
+    image: "/images/blog/bed-bugs-pg.png",
     heroEmoji: "🛏️",
     accent: "rust",
     keywords: ["bed bugs treatment", "pg accommodation", "co-living"],
@@ -450,6 +456,7 @@ export const blogPosts: BlogPost[] = [
     author: "Siva Pest Control Editorial",
     publishedOn: "2026-05-12",
     readingMinutes: 4,
+    image: "/images/blog/pre-monsoon-checklist.png",
     heroEmoji: "✅",
     accent: "orange",
     keywords: ["pre monsoon pest control", "home checklist", "prevention"],

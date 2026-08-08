@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { PageHero } from "@/components/site/page-hero";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
@@ -49,40 +50,40 @@ const values = [
 
 const milestones = [
   {
-    year: "2009",
+    year: "2012",
     title: "Founded in Hyderabad",
     description:
       "Started as a 3-technician operation in Madhapur serving residential customers within 5km.",
   },
   {
-    year: "2013",
+    year: "2015",
     title: "Commercial IPM launch",
     description:
       "Pioneered the first FSSAI-compliant commercial IPM programme in Hyderabad's restaurant sector.",
   },
   {
-    year: "2016",
+    year: "2018",
     title: "Chennai expansion",
     description:
       "Opened the T. Nagar field office. Brought our science-led protocols to coastal Tamil Nadu.",
   },
   {
-    year: "2019",
+    year: "2021",
     title: "Bangalore launch",
     description:
       "Expanded to Koramangala. Adapted protocols for Bangalore's tech-park and gated-community density.",
   },
   {
-    year: "2022",
+    year: "2023",
     title: "ISO 9001 certification",
     description:
       "Achieved ISO 9001:2015 certification across all three branches. Standardised protocols company-wide.",
   },
   {
     year: "2026",
-    title: "16 years, 18,500+ homes",
+    title: "14 years, 12,000+ homes",
     description:
-      "Now serving 3 cities with 78 certified technicians. Preparing Pune and Coimbatore expansion for late 2026.",
+      "Now serving 3 cities with 24 certified technicians. Preparing Pune and Coimbatore expansion for late 2026.",
   },
 ];
 
@@ -91,10 +92,32 @@ export function AboutPage() {
     <>
       <PageHero
         eyebrow="Our story"
-        title="Sixteen years of calibrate-to-trust pest control"
-        subtitle="From a 3-technician Madhapur operation in 2009 to a three-city, 78-technician regional network — built on a single non-negotiable principle: child-safe first, always."
+        title="Fourteen years of calibrate-to-trust pest control"
+        subtitle="From a 3-technician Madhapur operation in 2012 to a three-city, 24-technician regional network — built on a single non-negotiable principle: child-safe first, always."
         breadcrumb={[{ label: "Home", view: "home" }, { label: "About" }]}
       />
+
+      {/* Hero image */}
+      <section className="pb-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Reveal>
+            <div className="relative h-64 overflow-hidden rounded-3xl shadow-premium-lg md:h-80 lg:h-96">
+              <Image
+                src="/images/misc/about-hero.png"
+                alt="Siva Pest Control field team — certified technicians across Hyderabad, Chennai and Bangalore"
+                fill
+                sizes="(max-width: 768px) 100vw, 1200px"
+                className="object-cover"
+              />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(51,36,22,0) 50%, rgba(51,36,22,0.5) 100%)" }} />
+              <div className="absolute bottom-6 left-6 right-6 text-white">
+                <div className="font-display text-xl font-bold drop-shadow-md md:text-2xl">Field-tested, certified, locally trusted</div>
+                <div className="mt-1 text-sm text-white/85">14 years · 3 cities · 24 certified technicians</div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
       {/* Mission + Vision */}
       <section className="py-16 md:py-20">

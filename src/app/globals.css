@@ -43,6 +43,7 @@
   --color-rust: var(--rust);
   --color-ivory-deep: var(--ivory-deep);
   --color-orange-deep: var(--orange-deep);
+  --color-orange-ink: var(--orange-ink);
   --color-brown-soft: var(--brown-soft);
   --color-whatsapp: #25D366;
 
@@ -65,6 +66,13 @@
   --teal-soft: #A9C2C2;
   --orange: #D77005;
   --orange-deep: #B85C04;
+  /* `--orange-ink` is the WCAG-AA-compliant variant of `--orange` for use
+     as TEXT against ivory/light backgrounds. `--orange` (#D77005) only
+     achieves 3.0:1 on ivory (#F7F1E8) which fails the 4.5:1 minimum for
+     small text. `--orange-ink` (#9B4F05) achieves ~5.3:1 on ivory.
+     Use `text-orange` only for icons/large text on dark backgrounds; use
+     `text-orange-ink` for any small text against light backgrounds. */
+  --orange-ink: #9B4F05;
   --brown: #332416;
   --brown-soft: #4A3624;
   --rust: #99341F;

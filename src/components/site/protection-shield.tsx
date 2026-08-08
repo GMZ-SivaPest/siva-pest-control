@@ -88,6 +88,13 @@ export function ProtectionShield() {
             return (
               <motion.div
                 key={i}
+                // role=img + aria-label exposes the pest species to screen
+                // readers. Without an explicit role, ARIA spec forbids
+                // aria-label on a <div> (audit: aria-prohibited-attr).
+                // The motion.div is purely decorative; the three-pillar
+                // promise below carries the actual content meaning.
+                role="img"
+                aria-label={pest.label}
                 className="absolute flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-lg shadow-premium backdrop-blur-md"
                 style={{ left: `${startX}%`, top: `${startY}%` }}
                 initial={{ opacity: 0, scale: 0.5 }}
@@ -112,7 +119,6 @@ export function ProtectionShield() {
                         times: [0, 0.6, 1],
                       }
                 }
-                aria-label={pest.label}
               >
                 <span aria-hidden>{pest.icon}</span>
               </motion.div>

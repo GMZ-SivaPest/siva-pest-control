@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
@@ -145,6 +145,18 @@ export function HeroSlider() {
   const [paused, setPaused] = useState(false);
   const reduceMotion = useReducedMotion();
 
+  // Track the first render so we can SKIP the entry animation on the initial
+  // slide. Without this, Framer Motion sets opacity:0 on the hero image and
+  // h1 in the SSR HTML, and the LCP element only paints after JS hydrates
+  // and animates it back to opacity:1 — which Lighthouse measured as a
+  // 3.3s element-render-delay. By passing `initial={false}` on first paint
+  // we let the hero image render at full opacity immediately; subsequent
+  // slide transitions still animate normally.
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    isFirstRender.current = false;
+  }, []);
+
   const next = useCallback(
     () => setActive((i) => (i + 1) % SLIDES.length),
     []
@@ -208,7 +220,7 @@ export function HeroSlider() {
       <AnimatePresence mode="wait">
         <motion.div
           key={slide.id}
-          initial={{ opacity: 0, scale: 1.05 }}
+          initial={isFirstRender.current ? false : { opacity: 0, scale: 1.05 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
@@ -255,7 +267,7 @@ export function HeroSlider() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={slide.id}
-                initial={{ opacity: 0, y: 24 }}
+                initial={isFirstRender.current ? false : { opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}

@@ -231,6 +231,7 @@ export function ShowcaseCarousel() {
       <Reveal className="mt-12" delay={0.1}>
         <div
           className="marquee-viewport mask-fade-edges"
+          role="region"
           aria-label="Pest control service showcase — scrolling marquee"
         >
           <ul
@@ -259,6 +260,12 @@ function ShowcaseCard({ slide }: { slide: ShowcaseSlide }) {
   return (
     <Link
       href={slide.href}
+      // tabIndex=-1: this Link sits inside an aria-hidden="true" marquee.
+      // WCAG aria-hidden-focus rule requires focusable descendants of
+      // aria-hidden elements to be removed from the tab order. The same
+      // slide content is reachable through the page's regular service
+      // sections / previous-works cards — the marquee is purely decorative.
+      tabIndex={-1}
       className="group relative block aspect-[5/4] overflow-hidden rounded-3xl shadow-premium ring-1 ring-brown/10"
     >
       <Image

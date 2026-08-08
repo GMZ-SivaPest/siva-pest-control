@@ -22,8 +22,13 @@ export function LogoMark({
   withWordmark = true,
   variant = "default",
 }: LogoMarkProps) {
+  // WCAG: rgba(51,36,22,0.6) on ivory gives only 3.95:1 contrast, failing
+  // the 4.5:1 minimum. Bumping alpha to 0.85 yields ~7:1 contrast on ivory
+  // (#4F4036 on #F7F1E8) — comfortably passes AA for the small uppercase
+  // tagline text. The light variant stays at 0.7 because white backdrop
+  // gives higher base contrast.
   const textColor = variant === "light" ? "#FFFFFF" : "#332416";
-  const subColor = variant === "light" ? "rgba(255,255,255,0.7)" : "rgba(51,36,22,0.6)";
+  const subColor = variant === "light" ? "rgba(255,255,255,0.7)" : "rgba(51,36,22,0.85)";
 
   return (
     <div className={cn("flex items-center gap-3", className)}>

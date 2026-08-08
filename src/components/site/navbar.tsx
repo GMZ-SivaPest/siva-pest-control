@@ -69,11 +69,16 @@ export function Navbar() {
         )}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8 md:h-20">
-          {/* Logo */}
+          {/* Logo
+           * NOTE: aria-label is intentionally omitted — the LogoMark below
+           * renders visible text "SIVA PEST CONTROL" which becomes the
+           * accessible name. Adding aria-label="Siva Pest Control home"
+           * previously caused an a11y failure (label-content-name-mismatch)
+           * because the aria-label text didn't include the visible text.
+           */}
           <Link
             href="/"
             className="flex items-center transition-opacity hover:opacity-80"
-            aria-label="Siva Pest Control home"
           >
             <LogoMark size={42} variant={light ? "light" : "default"} />
           </Link>
@@ -97,7 +102,7 @@ export function Navbar() {
                       className={cn(
                         "flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors",
                         isActive
-                          ? "text-orange"
+                          ? "text-orange-ink"
                           : light
                             ? "text-white/90 hover:text-white"
                             : "text-brown/75 hover:text-brown"
@@ -156,7 +161,7 @@ export function Navbar() {
                               </div>
                               <Link
                                 href="/contact"
-                                className="text-xs font-semibold text-orange hover:underline"
+                                className="text-xs font-semibold text-orange-ink hover:underline"
                               >
                                 Get a free assessment →
                               </Link>
@@ -183,7 +188,7 @@ export function Navbar() {
                       className={cn(
                         "flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors",
                         isActive
-                          ? "text-orange"
+                          ? "text-orange-ink"
                           : light
                             ? "text-white/90 hover:text-white"
                             : "text-brown/75 hover:text-brown"
@@ -224,7 +229,7 @@ export function Navbar() {
                                     {loc.technicians} technicians · {loc.responseTime}
                                   </div>
                                 </div>
-                                <div className="text-xs font-semibold text-orange opacity-0 transition-opacity group-hover:opacity-100">
+                                <div className="text-xs font-semibold text-orange-ink opacity-0 transition-opacity group-hover:opacity-100">
                                   View →
                                 </div>
                               </Link>
@@ -232,7 +237,7 @@ export function Navbar() {
                             <div className="mt-2 rounded-xl bg-brown/5 px-4 py-3">
                               <Link
                                 href="/locations"
-                                className="text-xs font-semibold text-orange hover:underline"
+                                className="text-xs font-semibold text-orange-ink hover:underline"
                               >
                                 See all coverage areas →
                               </Link>
@@ -253,7 +258,7 @@ export function Navbar() {
                   className={cn(
                     "rounded-full px-4 py-2 text-sm font-medium transition-colors",
                     isActive
-                      ? "text-orange"
+                      ? "text-orange-ink"
                       : light
                         ? "text-white/90 hover:text-white"
                         : "text-brown/75 hover:text-brown"
@@ -358,8 +363,8 @@ export function Navbar() {
                         className={cn(
                           "block w-full rounded-xl px-4 py-3 text-left text-base font-semibold transition-colors",
                           isActive
-                            ? "bg-orange/5 text-orange"
-                            : "text-brown hover:bg-orange/5 hover:text-orange"
+                            ? "bg-orange/10 text-orange-ink"
+                            : "text-brown hover:bg-orange/5 hover:text-orange-ink"
                         )}
                       >
                         {item.label}

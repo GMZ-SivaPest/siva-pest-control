@@ -3,7 +3,11 @@ import { SiteChrome } from "@/components/site/site-chrome";
 import { HomePage } from "@/components/pages/home-page";
 
 export const metadata: Metadata = {
-  title: undefined, // use default title from layout
+  // Title intentionally omitted — Next.js will fall back to the `default`
+  // title set in src/app/layout.tsx, which is what we want on the homepage.
+  // Setting `title: undefined` previously caused Lighthouse to flag the
+  // page as "missing <title>" because Next 16 reads it as "explicitly
+  // empty" rather than "inherit from layout".
   description:
     "Licensed pest control across Hyderabad, Chennai and Bangalore. Child-safe, 30-min response, 180-day warranty. ISO 9001 certified.",
   alternates: {

@@ -97,15 +97,15 @@ export function LocationsMap() {
                 <div className="mt-4 grid grid-cols-3 gap-2 border-t border-brown/10 pt-4 text-center">
                   <div>
                     <div className="font-display text-lg font-bold text-brown">3</div>
-                    <div className="text-[10px] uppercase tracking-wider text-brown/55">Cities</div>
+                    <div className="text-[10px] uppercase tracking-wider text-brown/70">Cities</div>
                   </div>
                   <div>
                     <div className="font-display text-lg font-bold text-brown">{company.stats.technicians}</div>
-                    <div className="text-[10px] uppercase tracking-wider text-brown/55">Technicians</div>
+                    <div className="text-[10px] uppercase tracking-wider text-brown/70">Technicians</div>
                   </div>
                   <div>
                     <div className="font-display text-lg font-bold text-brown">74+</div>
-                    <div className="text-[10px] uppercase tracking-wider text-brown/55">Zones</div>
+                    <div className="text-[10px] uppercase tracking-wider text-brown/70">Zones</div>
                   </div>
                 </div>
               </div>
@@ -136,7 +136,7 @@ export function LocationsMap() {
                         {loc.state}
                       </span>
                     </div>
-                    <p className="mt-1 text-xs font-medium text-brown/55">{loc.tagline}</p>
+                    <p className="mt-1 text-xs font-medium text-brown/70">{loc.tagline}</p>
                     <p className="mt-3 text-sm leading-relaxed text-brown/70">
                       {loc.shortIntro}
                     </p>

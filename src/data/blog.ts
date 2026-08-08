@@ -9,17 +9,22 @@ export interface BlogPost {
   excerpt: string;
   category: "Residential" | "Commercial" | "Seasonal" | "Pest Guide" | "Industry";
   author: string;
+  authorBio?: string;
+  authorImage?: string;
   publishedOn: string; // ISO date
+  updatedOn?: string; // ISO date — when last reviewed
   readingMinutes: number;
   image: string;
   heroEmoji: string; // legacy fallback
   accent: "orange" | "teal" | "brown" | "rust";
   keywords: string[];
-  body: {
-    type: "p" | "h2" | "h3" | "ul" | "callout";
-    text?: string;
-    items?: string[];
-  }[];
+  body: BlogPostBodyBlock[];
+}
+
+export interface BlogPostBodyBlock {
+  type: "p" | "h2" | "h3" | "ul" | "callout";
+  text?: string;
+  items?: string[];
 }
 
 export const blogPosts: BlogPost[] = [

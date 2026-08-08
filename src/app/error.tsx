@@ -65,7 +65,7 @@ export default function Error({
         </div>
 
         {error.digest && (
-          <p className="mt-8 text-xs text-brown/45">
+          <p className="mt-8 text-xs text-brown/65">
             Error reference: <code className="font-mono">{error.digest}</code>
           </p>
         )}

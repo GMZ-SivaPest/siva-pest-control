@@ -30,19 +30,8 @@ export const metadata: Metadata = {
   },
   description:
     "Licensed pest control services across Hyderabad, Chennai and Bangalore. Science-led, locally trusted, fully guaranteed. Residential and commercial protection with 30-min response and child-safe treatments.",
-  keywords: [
-    "pest control Hyderabad",
-    "pest control Chennai",
-    "pest control Bangalore",
-    "termite control",
-    "cockroach treatment",
-    "bed bugs treatment",
-    "rodent control",
-    "mosquito control",
-    "commercial pest control",
-    "FSSAI pest control",
-    "Siva Pest Control",
-  ],
+  // Note: keywords meta tag intentionally omitted — Google has ignored it
+  // since 2009 and it adds page weight for zero SEO benefit.
   authors: [{ name: "Siva Pest Control" }],
   creator: "Siva Pest Control",
   publisher: "Siva Pest Control",
@@ -78,6 +67,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@sivapestcontrol",
+    creator: "@sivapestcontrol",
     title: "Siva Pest Control — Licensed Protection",
     description:
       "Science-led pest control across Hyderabad, Chennai and Bangalore.",

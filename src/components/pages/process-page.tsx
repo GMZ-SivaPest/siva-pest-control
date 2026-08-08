@@ -69,7 +69,7 @@ export function ProcessPage() {
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-orange/10 text-orange transition-colors group-hover:bg-orange group-hover:text-white">
                     <standard.icon className="h-6 w-6" strokeWidth={1.6} />
                   </div>
-                  <div className="text-[10px] font-semibold uppercase tracking-wider text-brown/45">
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-brown/65">
                     Standard 0{i + 1}
                   </div>
                   <h3 className="mt-1 font-display text-base font-bold leading-tight text-brown">

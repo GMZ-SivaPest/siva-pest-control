@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { PageHero } from "@/components/site/page-hero";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/site/reveal";
 import { CTASection } from "@/components/site/cta-section";
@@ -64,7 +65,7 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="mb-6 flex items-center gap-1.5 text-xs text-brown/55"
+            className="mb-6 flex items-center gap-1.5 text-xs text-brown/70"
           >
             <button onClick={() => navigate("home")} className="hover:text-orange">Home</button>
             <ChevronRight className="h-3 w-3 opacity-60" />
@@ -133,14 +134,13 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
                 transition={{ duration: 0.6, delay: 0.24 }}
                 className="mt-8 flex flex-col gap-3 sm:flex-row"
               >
-                <button
-                  onClick={() => navigate("contact")}
-                  className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02]"
-                  style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02] gradient-orange"
                 >
                   Book this service
-                  <ChevronRight className="h-4 w-4" />
-                </button>
+                  <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
                 <a
                   href={`tel:${company.phonePrimaryHref}`}
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-brown/15 bg-white/60 px-6 py-3.5 text-sm font-semibold text-brown backdrop-blur transition-colors hover:border-orange/40 hover:text-orange"
@@ -209,14 +209,13 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
                 </dl>
                 </div>
 
-                <button
-                  onClick={() => navigate("contact")}
-                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-orange px-5 py-3 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02]"
-                  style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
+                <Link
+                  href="/contact"
+                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02] gradient-orange"
                 >
                   Get Free Quote
-                  <ChevronRight className="h-4 w-4" />
-                </button>
+                  <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
               </div>
             </motion.div>
           </div>

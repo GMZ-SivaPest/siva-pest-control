@@ -114,13 +114,9 @@ export function CookieConsent() {
                 <div className="mt-4 flex flex-wrap items-center gap-2">
                   <button
                     onClick={accept}
-                    className="inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 text-xs font-semibold text-white shadow-glow-orange transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange/40"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, #E88521 0%, #B85C04 100%)",
-                    }}
+                    className="inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 text-xs font-semibold text-white shadow-glow-orange transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange/40 gradient-orange"
                   >
-                    <Check className="h-3.5 w-3.5" />
+                    <Check className="h-3.5 w-3.5" aria-hidden="true" />
                     Accept all
                   </button>
                   <button
@@ -135,7 +131,7 @@ export function CookieConsent() {
               <button
                 onClick={decline}
                 aria-label="Close consent banner"
-                className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-brown/50 hover:bg-brown/5 hover:text-brown focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange/40"
+                className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-brown/65 hover:bg-brown/5 hover:text-brown focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange/40"
               >
                 <X className="h-4 w-4" />
               </button>

@@ -38,9 +38,9 @@ const reasons = [
   },
   {
     icon: Clock,
-    title: "2-hour response window",
+    title: "30-minute average response",
     description:
-      "Local field teams in each city mean we reach you faster. Most pin codes in Hyderabad, Chennai and Bangalore have a 2-hour response window — no waiting days for a technician.",
+      "Local field teams in each city mean we reach you faster. Most pin codes in Hyderabad, Chennai and Bangalore see a 30-minute average response time — no waiting days for a technician.",
     accent: "orange",
   },
   {

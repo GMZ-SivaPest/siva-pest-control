@@ -31,18 +31,17 @@ export function Footer() {
             <h3 className="font-display text-2xl font-bold text-white sm:text-3xl">
               Ready to protect your space?
             </h3>
-            <p className="mt-2 max-w-xl text-sm text-white/60">
+            <p className="mt-2 max-w-xl text-sm text-white/75">
               Free inspection, fixed-price quote, certified technicians. Same-day service available across Hyderabad, Chennai and Bangalore.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02]"
-              style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
+              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02] gradient-orange"
             >
               Get Free Quote
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-4 w-4" aria-hidden="true" />
             </Link>
             <a
               href={`tel:${company.phonePrimaryHref}`}
@@ -54,41 +53,44 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Main footer grid */}
-        <div className="grid gap-10 py-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
+        {/* Main footer grid
+            — Brand col + 4 nav cols on lg+
+            — Brand col + 1 nav col on md (prevents ultra-tall tablet footer)
+            — Stacked on mobile */}
+        <div className="grid gap-10 py-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
           {/* Brand column */}
           <div className="lg:pr-6">
             <LogoMark size={44} variant="light" />
-            <p className="mt-5 text-sm leading-relaxed text-white/60">
+            <p className="mt-5 text-sm leading-relaxed text-white/75">
               {brand.description}
             </p>
             <div className="mt-6 space-y-3 text-sm">
               <a
                 href={`tel:${company.phonePrimaryHref}`}
-                className="flex items-center gap-3 text-white/70 transition-colors hover:text-orange"
+                className="flex items-center gap-3 text-white/80 transition-colors hover:text-orange"
               >
                 <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10">
-                  <Phone className="h-3.5 w-3.5" />
+                  <Phone className="h-3.5 w-3.5" aria-hidden="true" />
                 </span>
                 {company.phonePrimary}
               </a>
               <a
                 href={`mailto:${company.email}`}
-                className="flex items-center gap-3 text-white/70 transition-colors hover:text-orange"
+                className="flex items-center gap-3 text-white/80 transition-colors hover:text-orange"
               >
                 <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10">
-                  <Mail className="h-3.5 w-3.5" />
+                  <Mail className="h-3.5 w-3.5" aria-hidden="true" />
                 </span>
                 {company.email}
               </a>
-              <div className="flex items-start gap-3 text-white/70">
+              <div className="flex items-start gap-3 text-white/80">
                 <span className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10">
-                  <Clock className="h-3.5 w-3.5" />
+                  <Clock className="h-3.5 w-3.5" aria-hidden="true" />
                 </span>
                 <span>
                   {company.hours}
                   <br />
-                  <span className="text-xs text-white/50">{company.emergencyNote}</span>
+                  <span className="text-xs text-white/75">{company.emergencyNote}</span>
                 </span>
               </div>
             </div>
@@ -106,9 +108,10 @@ export function Footer() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-white/60 ring-1 ring-white/10 transition-all hover:bg-orange hover:text-white hover:ring-orange"
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-white/5 text-white/80 ring-1 ring-white/10 transition-all hover:bg-orange hover:text-white hover:ring-orange"
+                  aria-label="Social media link"
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon className="h-4 w-4" aria-hidden="true" />
                 </a>
               ))}
             </div>
@@ -125,7 +128,7 @@ export function Footer() {
                   <li key={item.label}>
                     <Link
                       href={item.href}
-                      className="text-sm text-white/60 transition-colors hover:text-white"
+                      className="text-sm text-white/80 transition-colors hover:text-white"
                     >
                       {item.label}
                     </Link>
@@ -138,8 +141,8 @@ export function Footer() {
 
         {/* Locations strip */}
         <div className="border-t border-white/10 py-6">
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-white/50">
-            <span className="font-semibold uppercase tracking-wider text-white/70">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-white/75">
+            <span className="font-semibold uppercase tracking-wider text-white/85">
               Coverage:
             </span>
             {locations.map((loc) => (
@@ -148,17 +151,17 @@ export function Footer() {
                 href={`/locations/${loc.slug}`}
                 className="inline-flex items-center gap-1.5 transition-colors hover:text-orange"
               >
-                <MapPin className="h-3 w-3" />
+                <MapPin className="h-3 w-3" aria-hidden="true" />
                 {loc.city}
-                <span className="text-white/30">·</span>
-                <span className="text-white/40">{loc.coverage.length} zones</span>
+                <span className="text-white/40" aria-hidden="true">·</span>
+                <span className="text-white/80">{loc.coverage.length} zones</span>
               </Link>
             ))}
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-6 text-xs text-white/50 sm:flex-row">
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-6 text-xs text-white/75 sm:flex-row">
           <div>
             © {new Date().getFullYear()} {company.legalName}. All rights reserved.
           </div>

@@ -28,7 +28,10 @@ export function LogoMark({
   return (
     <div className={cn("flex items-center gap-3", className)}>
       <div
-        className="relative flex-shrink-0 overflow-hidden rounded-full ring-1 ring-brown/10"
+        className={cn(
+          "relative flex-shrink-0 overflow-hidden rounded-full",
+          variant === "light" ? "ring-2 ring-white/40 shadow-[0_4px_20px_rgba(0,0,0,0.35)]" : "ring-1 ring-brown/10"
+        )}
         style={{ width: size, height: size }}
       >
         <Image

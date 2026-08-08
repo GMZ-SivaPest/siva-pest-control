@@ -81,7 +81,7 @@ export default function NotFound() {
 
           {/* Popular services */}
           <div className="mt-20">
-            <p className="text-center text-xs font-semibold uppercase tracking-[0.18em] text-brown/55">
+            <p className="text-center text-xs font-semibold uppercase tracking-[0.18em] text-brown/70">
               Or explore our most popular services
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -100,7 +100,7 @@ export default function NotFound() {
                       <div className="truncate text-sm font-semibold text-brown">
                         {service.name}
                       </div>
-                      <div className="text-xs text-brown/55">
+                      <div className="text-xs text-brown/70">
                         From ₹{service.startsFrom.toLocaleString("en-IN")}
                       </div>
                     </div>

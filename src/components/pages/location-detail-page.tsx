@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { PageHero } from "@/components/site/page-hero";
 import { Reveal } from "@/components/site/reveal";
 import { CTASection } from "@/components/site/cta-section";
@@ -60,7 +61,7 @@ export function LocationDetailPage({ slug }: { slug: string }) {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="mb-6 flex items-center gap-1.5 text-xs text-brown/55"
+            className="mb-6 flex items-center gap-1.5 text-xs text-brown/70"
           >
             <button onClick={() => navigate("home")} className="hover:text-orange">Home</button>
             <ChevronRight className="h-3 w-3 opacity-60" />
@@ -176,14 +177,13 @@ export function LocationDetailPage({ slug }: { slug: string }) {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => navigate("contact")}
-                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-orange px-5 py-3 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02]"
-                  style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
+                <Link
+                  href="/contact"
+                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02] gradient-orange"
                 >
                   Book service in {location.city}
-                  <ChevronRight className="h-4 w-4" />
-                </button>
+                  <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
               </div>
             </motion.div>
           </div>
@@ -205,7 +205,7 @@ export function LocationDetailPage({ slug }: { slug: string }) {
                     {location.coverage.length} zones we serve in {location.city}
                   </h2>
                 </div>
-                <div className="text-sm text-brown/55">
+                <div className="text-sm text-brown/70">
                   Don't see your area? Call us — we often accommodate nearby pin codes.
                 </div>
               </div>
@@ -227,7 +227,7 @@ export function LocationDetailPage({ slug }: { slug: string }) {
 
               {/* Landmarks */}
               <div className="mt-8 border-t border-brown/10 pt-6">
-                <div className="text-xs font-semibold uppercase tracking-wider text-brown/55">
+                <div className="text-xs font-semibold uppercase tracking-wider text-brown/70">
                   Local landmarks we know
                 </div>
                 <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -283,7 +283,7 @@ export function LocationDetailPage({ slug }: { slug: string }) {
                   <p className="text-sm leading-relaxed text-brown/75">"{t.text}"</p>
                   <div className="mt-4 border-t border-brown/5 pt-3">
                     <div className="text-sm font-semibold text-brown">{t.name}</div>
-                    <div className="text-xs text-brown/55">
+                    <div className="text-xs text-brown/70">
                       {t.role} · {t.location}
                     </div>
                   </div>
@@ -312,7 +312,7 @@ export function LocationDetailPage({ slug }: { slug: string }) {
 
       <CTASection
         title={`Ready to protect your ${location.city} property?`}
-        subtitle={`Free inspection, fixed-price quote. Our ${location.city} field team is ready to dispatch within 2 hours.`}
+        subtitle={`Free inspection, fixed-price quote. Our ${location.city} field team is ready to dispatch within 30 minutes.`}
       />
     </>
   );

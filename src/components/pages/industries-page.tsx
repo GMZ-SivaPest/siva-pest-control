@@ -44,7 +44,7 @@ export function IndustriesPage() {
 
                   {/* Pests treated */}
                   <div className="mt-5">
-                    <div className="text-[10px] font-semibold uppercase tracking-wider text-brown/55">
+                    <div className="text-[10px] font-semibold uppercase tracking-wider text-brown/70">
                       Pests covered
                     </div>
                     <div className="mt-2 flex flex-wrap gap-1.5">
@@ -61,7 +61,7 @@ export function IndustriesPage() {
 
                   {/* Compliance */}
                   <div className="mt-5 border-t border-brown/5 pt-4">
-                    <div className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-brown/55">
+                    <div className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-brown/70">
                       Compliance standards
                     </div>
                     <div className="flex flex-wrap gap-2">

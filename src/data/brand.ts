@@ -14,6 +14,11 @@ export const brand = {
   foundedYear: 2012,
   yearsOfExperience: 14,
   responseTimeHours: 0.5,
+  /** ISO date — when the marketing copy / service descriptions were last
+      reviewed. Used by sitemap.ts as the lastModified date for static
+      routes and service/location detail routes. Update this when you
+      ship meaningful content changes (audit P2). */
+  contentLastUpdated: "2026-08-08",
   guaranteeLabel: "180-Day Service Warranty",
   certifications: [
     "ISO 9001:2015 Certified",

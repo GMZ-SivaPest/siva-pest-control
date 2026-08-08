@@ -198,7 +198,7 @@ export function AboutPage() {
           <SectionHeading
             eyebrow="Our journey"
             title="From Madhapur to three cities"
-            subtitle="Sixteen years of careful, customer-led growth — never franchise, never contractor, never compromise."
+            subtitle={`${company.yearsOfExperience}+ years of careful, customer-led growth — never franchise, never contractor, never compromise.`}
           />
 
           <div className="mt-12 space-y-3">
@@ -260,7 +260,7 @@ export function AboutPage() {
       </section>
 
       <CTASection
-        title="Join 18,500+ protected homes and businesses"
+        title={`Join ${(company.stats.homesProtected + company.stats.commercialSites).toLocaleString("en-IN")}+ protected homes and businesses`}
         subtitle="Free inspection, fixed-price quote, certified technicians. Same-day service across Hyderabad, Chennai and Bangalore."
       />
     </>

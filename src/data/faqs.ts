@@ -25,12 +25,12 @@ export const faqs: Faq[] = [
   {
     category: "general",
     q: "Do you offer same-day or emergency service?",
-    a: "Yes. We maintain a 2-hour response window in most pin codes across Hyderabad, Chennai, and Bangalore. For genuine emergencies (rodent in a nursery, swarm of bees, etc.), call our priority line and we'll dispatch the nearest technician. Emergency surcharge applies only for after-hours (8 PM – 8 AM) callouts.",
+    a: "Yes. We maintain a 30-minute average response window in most pin codes across Hyderabad, Chennai, and Bangalore, with same-day service available. For genuine emergencies (rodent in a nursery, swarm of bees, etc.), call our priority line and we'll dispatch the nearest technician. Emergency surcharge applies only for after-hours (8 PM – 8 AM) callouts.",
   },
   {
     category: "general",
     q: "How long has Siva Pest Control been in business?",
-    a: "We were founded in Hyderabad in 2009 and have grown to three cities over 16 years. We've protected over 18,500 homes and 1,240 commercial sites. We're ISO 9001:2015 certified, IPCW licensed, and use only CIB & RC registered products.",
+    a: "We were founded in Hyderabad in 2012 and have grown to three cities over 14+ years. We've protected over 12,000 homes and 480 commercial sites. We're ISO 9001:2015 certified, FSSAI compliant, CIB & RC registered, and a Green Pro Service Provider.",
   },
 
   // Safety

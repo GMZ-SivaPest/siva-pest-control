@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { PageHero } from "@/components/site/page-hero";
 import { CTASection } from "@/components/site/cta-section";
@@ -28,6 +28,21 @@ export function PestLibraryPage() {
   const [category, setCategory] = useState<string>("all");
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
+  const selectedPest = pests.find((p) => p.slug === selected) || null;
+
+  // Close pest modal on Escape + lock body scroll while open
+  useEffect(() => {
+    if (!selected) return;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelected(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [selected]);
 
   const filtered = pests.filter((p) => {
     const matchesCat = category === "all" || p.category === category;
@@ -38,8 +53,6 @@ export function PestLibraryPage() {
       p.description.toLowerCase().includes(search.toLowerCase());
     return matchesCat && matchesSearch;
   });
-
-  const selectedPest = selected ? pestBySlug(selected) : null;
 
   return (
     <>
@@ -94,7 +107,7 @@ export function PestLibraryPage() {
                 <Search className="h-6 w-6" />
               </div>
               <h3 className="font-display text-lg font-bold text-brown">No pests found</h3>
-              <p className="mt-1 text-sm text-brown/55">
+              <p className="mt-1 text-sm text-brown/70">
                 Try a different search or category filter.
               </p>
             </div>
@@ -140,7 +153,7 @@ export function PestLibraryPage() {
                       </p>
 
                       <div className="mt-4 flex items-center justify-between border-t border-brown/5 pt-3 text-xs">
-                        <span className="text-brown/55">{pest.seasonality}</span>
+                        <span className="text-brown/70">{pest.seasonality}</span>
                         <span className="inline-flex items-center gap-1 font-semibold text-orange">
                           View details
                           <ArrowUpRight className="h-3 w-3" />
@@ -163,6 +176,9 @@ export function PestLibraryPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${selectedPest.name} details`}
           >
             <div
               className="absolute inset-0 bg-brown/50 backdrop-blur-sm"
@@ -188,10 +204,10 @@ export function PestLibraryPage() {
                 <div className="absolute inset-0 bg-dot-warm opacity-[0.05]" />
                 <button
                   onClick={() => setSelected(null)}
-                  className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur transition-colors hover:bg-white/25"
-                  aria-label="Close"
+                  className="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur transition-colors hover:bg-white/25"
+                  aria-label="Close pest details"
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-5 w-5" aria-hidden="true" />
                 </button>
 
                 <div className="absolute bottom-5 left-5 right-5 flex items-end gap-4">
@@ -312,7 +328,7 @@ function ServiceCtaBar({ serviceSlug, onClose }: { serviceSlug: string; onClose:
   return (
     <div className="flex items-center justify-between gap-3">
       <div>
-        <div className="text-[10px] font-semibold uppercase tracking-wider text-brown/55">
+        <div className="text-[10px] font-semibold uppercase tracking-wider text-brown/70">
           Recommended service
         </div>
         <div className="font-display text-sm font-bold capitalize text-brown">
@@ -324,11 +340,10 @@ function ServiceCtaBar({ serviceSlug, onClose }: { serviceSlug: string; onClose:
           onClose();
           navigate(`service:${serviceSlug}`);
         }}
-        className="inline-flex items-center gap-2 rounded-full bg-orange px-4 py-2 text-xs font-semibold text-white shadow-glow-orange"
-        style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
+        className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white shadow-glow-orange gradient-orange"
       >
         View service
-        <ArrowUpRight className="h-3.5 w-3.5" />
+        <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
       </button>
     </div>
   );

@@ -12,9 +12,20 @@ import { cn } from "@/lib/utils";
 import { isNavActive } from "@/lib/nav";
 import { services } from "@/data/services";
 import { locations } from "@/data/locations";
-import { viewToHref } from "@/lib/nav";
 import { trackCTAClick, trackPhoneClick } from "@/lib/analytics";
 
+/**
+ * Navbar — fixed top navigation.
+ *
+ * Behaviour:
+ * - On the homepage (over the cinematic hero) the navbar starts transparent
+ *   with LIGHT text + LIGHT logo variant so the brand is readable against
+ *   the dark hero image. After 12px of scroll it transitions to the ivory
+ *   glass background with DARK text.
+ * - On every other route the navbar is always solid (ivory glass) with
+ *   dark text, because those routes do not have a full-bleed dark hero
+ *   behind them.
+ */
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -23,6 +34,10 @@ export function Navbar() {
   const pathname = usePathname();
   const mobileDrawerRef = useRef<HTMLDivElement>(null);
   const mobileToggleRef = useRef<HTMLButtonElement>(null);
+
+  const isHome = pathname === "/";
+  // `light` = use light text + light logo (only when transparent over hero)
+  const light = isHome && !scrolled && !mobileOpen;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -56,15 +71,12 @@ export function Navbar() {
     return () => window.removeEventListener("keydown", onKey);
   }, [mobileOpen]);
 
-  // Mobile menu auto-closes on route change are handled via onClick handlers
-  // on each Link inside the drawer — no effect needed.
-
   return (
     <>
       <header
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-          scrolled
+          scrolled || !isHome
             ? "border-b border-brown/10 bg-ivory/85 backdrop-blur-xl shadow-premium"
             : "bg-transparent"
         )}
@@ -76,7 +88,7 @@ export function Navbar() {
             className="flex items-center transition-opacity hover:opacity-80"
             aria-label="Siva Pest Control home"
           >
-            <LogoMark size={42} />
+            <LogoMark size={42} variant={light ? "light" : "default"} />
           </Link>
 
           {/* Desktop nav */}
@@ -91,6 +103,7 @@ export function Navbar() {
                     className="relative"
                     onMouseEnter={() => setServicesOpen(true)}
                     onMouseLeave={() => setServicesOpen(false)}
+                    onFocus={() => setServicesOpen(true)}
                   >
                     <Link
                       href="/services"
@@ -98,8 +111,12 @@ export function Navbar() {
                         "flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors",
                         isActive
                           ? "text-orange"
-                          : "text-brown/75 hover:text-brown"
+                          : light
+                            ? "text-white/90 hover:text-white"
+                            : "text-brown/75 hover:text-brown"
                       )}
+                      aria-expanded={servicesOpen}
+                      aria-haspopup="true"
                     >
                       Services
                       <ChevronDown
@@ -117,8 +134,9 @@ export function Navbar() {
                           exit={{ opacity: 0, y: 8 }}
                           transition={{ duration: 0.18 }}
                           className="absolute left-1/2 top-full -translate-x-1/2 pt-3"
+                          style={{ maxWidth: "calc(100vw - 2rem)" }}
                         >
-                          <div className="glass-card w-[640px] rounded-2xl p-3 shadow-premium">
+                          <div className="glass-card w-[640px] max-w-[calc(100vw-2rem)] rounded-2xl p-3 shadow-premium">
                             <div className="grid grid-cols-2 gap-1">
                               {services.map((service) => (
                                 <Link
@@ -132,13 +150,13 @@ export function Navbar() {
                                       "bg-orange/10 text-orange group-hover:bg-orange group-hover:text-white"
                                     )}
                                   >
-                                    <service.icon className="h-4 w-4" />
+                                    <service.icon className="h-4 w-4" aria-hidden="true" />
                                   </div>
                                   <div className="min-w-0">
                                     <div className="text-sm font-semibold text-brown">
                                       {service.name}
                                     </div>
-                                    <div className="truncate text-xs text-brown/60">
+                                    <div className="truncate text-xs text-brown/65">
                                       {service.short.split("—")[0].trim()}
                                     </div>
                                   </div>
@@ -146,7 +164,7 @@ export function Navbar() {
                               ))}
                             </div>
                             <div className="mt-2 flex items-center justify-between rounded-xl bg-brown/5 px-4 py-3">
-                              <div className="text-xs text-brown/70">
+                              <div className="text-xs text-brown/75">
                                 Not sure which service you need?
                               </div>
                               <Link
@@ -171,6 +189,7 @@ export function Navbar() {
                     className="relative"
                     onMouseEnter={() => setLocationsOpen(true)}
                     onMouseLeave={() => setLocationsOpen(false)}
+                    onFocus={() => setLocationsOpen(true)}
                   >
                     <Link
                       href="/locations"
@@ -178,8 +197,12 @@ export function Navbar() {
                         "flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors",
                         isActive
                           ? "text-orange"
-                          : "text-brown/75 hover:text-brown"
+                          : light
+                            ? "text-white/90 hover:text-white"
+                            : "text-brown/75 hover:text-brown"
                       )}
+                      aria-expanded={locationsOpen}
+                      aria-haspopup="true"
                     >
                       Locations
                       <ChevronDown
@@ -197,8 +220,9 @@ export function Navbar() {
                           exit={{ opacity: 0, y: 8 }}
                           transition={{ duration: 0.18 }}
                           className="absolute left-1/2 top-full -translate-x-1/2 pt-3"
+                          style={{ maxWidth: "calc(100vw - 2rem)" }}
                         >
-                          <div className="glass-card w-[420px] rounded-2xl p-3 shadow-premium">
+                          <div className="glass-card w-[420px] max-w-[calc(100vw-2rem)] rounded-2xl p-3 shadow-premium">
                             {locations.map((loc) => (
                               <Link
                                 key={loc.slug}
@@ -209,7 +233,7 @@ export function Navbar() {
                                   <div className="text-sm font-semibold text-brown">
                                     {loc.city}
                                   </div>
-                                  <div className="text-xs text-brown/60">
+                                  <div className="text-xs text-brown/65">
                                     {loc.technicians} technicians · {loc.responseTime}
                                   </div>
                                 </div>
@@ -243,7 +267,9 @@ export function Navbar() {
                     "rounded-full px-4 py-2 text-sm font-medium transition-colors",
                     isActive
                       ? "text-orange"
-                      : "text-brown/70 hover:text-brown"
+                      : light
+                        ? "text-white/90 hover:text-white"
+                        : "text-brown/75 hover:text-brown"
                   )}
                 >
                   {item.label}
@@ -257,9 +283,14 @@ export function Navbar() {
             <a
               href={`tel:${company.phonePrimaryHref}`}
               onClick={() => trackPhoneClick({ location: "navbar", phone: company.phonePrimary })}
-              className="hidden items-center gap-2 rounded-full border border-brown/15 px-4 py-2 text-sm font-semibold text-brown transition-colors hover:border-orange/40 hover:text-orange md:flex"
+              className={cn(
+                "hidden items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-colors md:flex",
+                light
+                  ? "border-white/30 text-white hover:border-white/60 hover:bg-white/10"
+                  : "border-brown/15 text-brown hover:border-orange/40 hover:text-orange"
+              )}
             >
-              <Phone className="h-3.5 w-3.5" />
+              <Phone className="h-3.5 w-3.5" aria-hidden="true" />
               {company.phonePrimary}
             </a>
             <Link
@@ -274,7 +305,12 @@ export function Navbar() {
             <button
               ref={mobileToggleRef}
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-brown/5 text-brown lg:hidden"
+              className={cn(
+                "inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors lg:hidden",
+                light
+                  ? "bg-white/10 text-white hover:bg-white/20"
+                  : "bg-brown/5 text-brown hover:bg-brown/10"
+              )}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
@@ -293,7 +329,7 @@ export function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 lg:hidden"
+            className="fixed inset-0 z-[60] lg:hidden"
           >
             <div
               className="absolute inset-0 bg-brown/40 backdrop-blur-sm"
@@ -351,7 +387,7 @@ export function Navbar() {
                     onClick={() => trackPhoneClick({ location: "mobile-menu", phone: company.phonePrimary })}
                     className="flex items-center justify-center gap-2 rounded-full border border-brown/15 px-4 py-3 text-sm font-semibold text-brown"
                   >
-                    <Phone className="h-4 w-4" />
+                    <Phone className="h-4 w-4" aria-hidden="true" />
                     {company.phonePrimary}
                   </a>
                   <Link
@@ -367,7 +403,7 @@ export function Navbar() {
                 </div>
 
                 <div className="mt-8 rounded-2xl bg-brown/5 p-4 text-center">
-                  <div className="text-xs font-semibold uppercase tracking-wider text-brown/50">
+                  <div className="text-xs font-semibold uppercase tracking-wider text-brown/60">
                     Serving
                   </div>
                   <div className="mt-1 text-sm font-semibold text-brown">

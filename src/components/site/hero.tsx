@@ -73,7 +73,7 @@ export function Hero() {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(51,36,22,0.65) 0%, rgba(51,36,22,0.35) 35%, rgba(51,36,22,0.55) 75%, rgba(51,36,22,0.85) 100%)",
+              "linear-gradient(180deg, rgba(28,18,10,0.80) 0%, rgba(40,28,16,0.40) 32%, rgba(51,36,22,0.55) 70%, rgba(28,18,10,0.92) 100%)",
           }}
         />
         {/* Side gradient for navbar legibility */}
@@ -81,7 +81,7 @@ export function Hero() {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, rgba(51,36,22,0.45) 0%, rgba(51,36,22,0) 35%, rgba(51,36,22,0) 65%, rgba(51,36,22,0.35) 100%)",
+              "linear-gradient(90deg, rgba(28,18,10,0.55) 0%, rgba(28,18,10,0) 30%, rgba(28,18,10,0) 70%, rgba(28,18,10,0.40) 100%)",
           }}
         />
         {/* Warm orange glow from bottom-left (brand warmth) */}
@@ -133,14 +133,20 @@ export function Hero() {
               <motion.h1
                 initial={{ opacity: 0, y: 22 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-white text-balance drop-shadow-lg sm:text-5xl lg:text-[3.75rem]"
+                transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+                className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-white text-balance sm:text-5xl lg:text-[3.75rem]"
+                style={{
+                  textShadow:
+                    "0 2px 24px rgba(0,0,0,0.45), 0 1px 3px rgba(0,0,0,0.55)",
+                }}
               >
                 Premium protection,{" "}
                 <span
                   className="bg-clip-text text-transparent"
                   style={{
                     backgroundImage: "linear-gradient(135deg, #F4B266 0%, #E88521 50%, #D77005 100%)",
+                    // Fallback solid color in case the gradient fails to render
+                    color: "#E88521",
                   }}
                 >
                   scientifically delivered.
@@ -150,8 +156,11 @@ export function Hero() {
               <motion.p
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
-                className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/85 text-pretty lg:mx-0 sm:text-lg"
+                transition={{ duration: 0.7, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
+                className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/90 text-pretty lg:mx-0 sm:text-lg"
+                style={{
+                  textShadow: "0 1px 12px rgba(0,0,0,0.45)",
+                }}
               >
                 Child-safe, pet-safe, odour-controlled pest control across Hyderabad, Chennai
                 and Bangalore. Backed by certified technicians, written warranties, and a
@@ -433,10 +442,9 @@ function HeroGlassComposition({
       >
         <div className="flex items-center gap-2">
           <div
-            className="flex h-9 w-9 items-center justify-center rounded-full text-white shadow-glow-orange"
-            style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
+            className="flex h-9 w-9 items-center justify-center rounded-full text-white shadow-glow-orange gradient-orange"
           >
-            <Clock className="h-4 w-4" />
+            <Clock className="h-4 w-4" aria-hidden="true" />
           </div>
           <div>
             <div className="font-display text-base font-bold text-brown">30 min</div>

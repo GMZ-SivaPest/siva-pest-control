@@ -72,7 +72,7 @@ export function IndustriesShowcase() {
                   </div>
 
                   {/* Compliance row */}
-                  <div className="mt-3 flex items-center gap-1.5 border-t border-brown/5 pt-2.5 text-[11px] text-brown/55">
+                  <div className="mt-3 flex items-center gap-1.5 border-t border-brown/5 pt-2.5 text-[11px] text-brown/70">
                     <CheckCircle2 className="h-3 w-3 text-teal" />
                     <span className="truncate">{industry.compliance[0]}</span>
                     {industry.compliance.length > 1 && (

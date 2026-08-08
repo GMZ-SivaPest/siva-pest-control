@@ -60,7 +60,7 @@ export function PageHero({
               transition={{ duration: 0.4 }}
               className={cn(
                 "mb-6 flex items-center justify-center gap-1.5 text-xs",
-                isDark ? "text-white/60" : "text-brown/55"
+                isDark ? "text-white/60" : "text-brown/70"
               )}
             >
               {breadcrumb.map((crumb, i) => (

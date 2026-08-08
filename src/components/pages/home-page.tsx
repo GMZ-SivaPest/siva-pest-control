@@ -8,6 +8,7 @@ import { ProcessTimeline } from "@/components/site/process-timeline";
 import { LocationsMap } from "@/components/site/locations-map";
 import { IndustriesShowcase } from "@/components/site/industries-showcase";
 import { Testimonials } from "@/components/site/testimonials";
+import { ShowcaseCarousel } from "@/components/site/showcase-carousel";
 import { FAQAccordion } from "@/components/site/faq-accordion";
 import { CTASection } from "@/components/site/cta-section";
 import { SectionHeading } from "@/components/site/section-heading";
@@ -20,6 +21,7 @@ export function HomePage() {
   return (
     <>
       <Hero />
+      <ShowcaseCarousel />
       <Stats />
       <ServicesTeaser />
       <WhyChooseUs />
@@ -53,7 +55,7 @@ export function HomePage() {
           {brand.certifications.map((cert) => (
             <div
               key={cert}
-              className="text-xs font-semibold uppercase tracking-wider text-brown/60"
+              className="text-xs font-semibold uppercase tracking-wider text-brown/65"
             >
               {cert}
             </div>

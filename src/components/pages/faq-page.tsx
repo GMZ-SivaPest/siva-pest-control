@@ -6,6 +6,7 @@ import { CTASection } from "@/components/site/cta-section";
 import { FAQAccordion } from "@/components/site/faq-accordion";
 import { Reveal } from "@/components/site/reveal";
 import { faqs, type Faq } from "@/data/faqs";
+import { company } from "@/data/company";
 import { cn } from "@/lib/utils";
 import { HelpCircle } from "lucide-react";
 
@@ -26,7 +27,7 @@ export function FaqPage() {
       <PageHero
         eyebrow="Help centre"
         title="Frequently asked questions"
-        subtitle="Everything most customers ask before booking. Can't find your question? Call us or use the contact form — we reply within 2 hours during business hours."
+        subtitle="Everything most customers ask before booking. Can't find your question? Call us or use the contact form — we reply within 30 minutes during business hours."
         breadcrumb={[{ label: "Home", view: "home" }, { label: "FAQ" }]}
       />
 
@@ -100,18 +101,17 @@ export function FaqPage() {
                     Still have questions?
                   </h3>
                   <p className="mt-1 text-sm text-brown/65">
-                    Our team is available {`Mon–Sat · 8 AM – 8 PM`}. Call us, WhatsApp us, or
-                    send a message through the contact form — we reply within 2 hours during
+                    Our team is available {company.hoursShort}. Call us, WhatsApp us, or
+                    send a message through the contact form — we reply within 30 minutes during
                     business hours.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 sm:flex-row">
                   <a
-                    href="tel:+919000024680"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-orange px-5 py-3 text-sm font-semibold text-white shadow-glow-orange"
-                    style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
+                    href={`tel:${company.phonePrimaryHref}`}
+                    className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-glow-orange gradient-orange"
                   >
-                    Call +91 90000 24680
+                    Call {company.phonePrimary}
                   </a>
                 </div>
               </div>

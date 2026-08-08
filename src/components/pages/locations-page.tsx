@@ -6,6 +6,7 @@ import { CTASection } from "@/components/site/cta-section";
 import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
 import { locations } from "@/data/locations";
+import { company } from "@/data/company";
 import { useNav } from "@/lib/store";
 import { motion } from "framer-motion";
 import { ArrowUpRight, MapPin, Phone, Star, Users, Clock } from "lucide-react";
@@ -18,7 +19,7 @@ export function LocationsPage() {
       <PageHero
         eyebrow="Where we serve"
         title="Three cities, one standard of excellence"
-        subtitle="Local field teams in Hyderabad, Chennai and Bangalore — 78 certified technicians, 74+ coverage zones, 2-hour response windows. We're not a national call-centre; we're your neighbours."
+        subtitle={`Local field teams in Hyderabad, Chennai and Bangalore — ${company.stats.technicians} certified technicians, 74+ coverage zones, 30-minute average response. We're not a national call-centre; we're your neighbours.`}
         breadcrumb={[{ label: "Home", view: "home" }, { label: "Locations" }]}
       />
 
@@ -77,7 +78,7 @@ export function LocationsPage() {
 
                 {/* Body */}
                 <div className="p-6">
-                  <div className="text-xs font-semibold uppercase tracking-wider text-brown/55">
+                  <div className="text-xs font-semibold uppercase tracking-wider text-brown/70">
                     Coverage zones
                   </div>
                   <div className="mt-3 flex flex-wrap gap-1.5">
@@ -92,7 +93,7 @@ export function LocationsPage() {
                   </div>
 
                   <div className="mt-5 rounded-xl bg-brown/[0.03] p-3">
-                    <div className="text-[10px] font-semibold uppercase tracking-wider text-brown/55">
+                    <div className="text-[10px] font-semibold uppercase tracking-wider text-brown/70">
                       Field office
                     </div>
                     <div className="mt-1 text-xs text-brown/75">

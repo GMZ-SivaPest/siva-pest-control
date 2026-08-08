@@ -12,7 +12,7 @@ const stats = [
     value: company.stats.homesProtected,
     suffix: "+",
     label: "Homes protected",
-    sublabel: "Across 3 cities since 2009",
+    sublabel: `Across 3 cities since ${company.foundedYear}`,
     accent: "orange",
   },
   {
@@ -48,7 +48,7 @@ export function Stats() {
         <SectionHeading
           eyebrow="By the numbers"
           title="Trust earned, one treatment at a time"
-          subtitle="Sixteen years of protecting South Indian homes and businesses — backed by data, not just promises."
+          subtitle={`${company.yearsOfExperience}+ years of protecting South Indian homes and businesses — backed by data, not just promises.`}
         />
 
         <StaggerContainer className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -83,7 +83,7 @@ export function Stats() {
                 <div className="mt-2 text-sm font-semibold text-brown">
                   {stat.label}
                 </div>
-                <div className="mt-1 text-xs text-brown/55">
+                <div className="mt-1 text-xs text-brown/65">
                   {stat.sublabel}
                 </div>
               </div>

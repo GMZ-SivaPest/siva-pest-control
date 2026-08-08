@@ -78,7 +78,7 @@ export function ServicesTeaser() {
                       {service.short}
                     </p>
 
-                    <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-brown/55">
+                    <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-brown/70">
                       <span className="inline-flex items-center gap-1.5">
                         <Clock className="h-3.5 w-3.5" />
                         {service.duration}
@@ -119,7 +119,7 @@ export function ServicesTeaser() {
             View all {services.length} services
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
-          <p className="text-xs text-brown/55">
+          <p className="text-xs text-brown/70">
             Residential, commercial, and Integrated Pest Management — every treatment certified and warranty-backed.
           </p>
         </motion.div>

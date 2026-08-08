@@ -168,7 +168,7 @@ export function BlogPage() {
                       {post.excerpt}
                     </p>
                     <div className="mt-4 flex items-center justify-between border-t border-brown/5 pt-3">
-                      <span className="flex items-center gap-1.5 text-xs text-brown/50">
+                      <span className="flex items-center gap-1.5 text-xs text-brown/65">
                         <Calendar className="h-3 w-3" />
                         {formatDate(post.publishedOn)}
                       </span>

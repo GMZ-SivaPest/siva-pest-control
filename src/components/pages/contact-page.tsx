@@ -4,6 +4,7 @@ import { PageHero } from "@/components/site/page-hero";
 import { ContactForm } from "@/components/site/contact-form";
 import { Reveal } from "@/components/site/reveal";
 import { locations } from "@/data/locations";
+import { company } from "@/data/company";
 import { Phone, MapPin, Clock, MessageCircle } from "lucide-react";
 
 export function ContactPage() {
@@ -12,7 +13,7 @@ export function ContactPage() {
       <PageHero
         eyebrow="Get in touch"
         title="Let's design your protection plan"
-        subtitle="Free inspection, fixed-price quote, certified technician dispatch. Our team responds within 2 hours during business hours — across all three cities."
+        subtitle="Free inspection, fixed-price quote, certified technician dispatch. Our team responds within 30 minutes during business hours — across all three cities."
         breadcrumb={[{ label: "Home", view: "home" }, { label: "Contact" }]}
       />
 
@@ -73,12 +74,12 @@ export function ContactPage() {
                     </div>
 
                     <a
-                      href={`https://wa.me/919000024680?text=Hi%20Siva%20Pest%20Control,%20I%27d%20like%20to%20book%20a%20service%20in%20${encodeURIComponent(loc.city)}`}
+                      href={`${company.whatsappHref}?text=Hi%20Siva%20Pest%20Control,%20I%27d%20like%20to%20book%20a%20service%20in%20${encodeURIComponent(loc.city)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full border border-brown/15 bg-white px-4 py-2.5 text-xs font-semibold text-brown transition-colors hover:border-teal/40 hover:text-teal"
                     >
-                      <MessageCircle className="h-3.5 w-3.5" />
+                      <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" />
                       WhatsApp {loc.city} office
                     </a>
                   </div>

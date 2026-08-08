@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import {
   initAnalytics,
@@ -17,9 +17,13 @@ import {
  *   2. Tracks a page_view on every pathname / searchParams change
  *   3. Honors NEXT_PUBLIC_GA_MEASUREMENT_ID — if unset, renders nothing
  *
+ * Wrapped in <Suspense> because `useSearchParams()` opts the page into
+ * client-side rendering during static generation — without Suspense the
+ * build fails on every page that includes this component.
+ *
  * This component renders no visible UI.
  */
-export function Analytics() {
+function AnalyticsInner() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -62,6 +66,14 @@ export function Analytics() {
         style={{ display: "none" }}
       />
     </>
+  );
+}
+
+export function Analytics() {
+  return (
+    <Suspense fallback={null}>
+      <AnalyticsInner />
+    </Suspense>
   );
 }
 

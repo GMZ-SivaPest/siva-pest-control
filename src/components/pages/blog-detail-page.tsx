@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowLeft, Calendar, Clock, ArrowRight, Tag } from "lucide-react";
 import { Reveal } from "@/components/site/reveal";
 import { CTASection } from "@/components/site/cta-section";
@@ -174,20 +175,19 @@ export function BlogDetailPage({ slug }: { slug: string }) {
                 service available across Hyderabad, Chennai and Bangalore.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
-                <button
-                  onClick={() => navigate("contact")}
-                  className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-glow-orange transition-transform hover:scale-105"
-                  style={{ background: "linear-gradient(135deg, #E88521 0%, #B85C04 100%)" }}
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-glow-orange transition-transform hover:scale-105 gradient-orange"
                 >
                   Book Free Inspection
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-                <button
-                  onClick={() => navigate("services")}
-                  className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/10"
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+                <Link
+                  href="/services"
+                  className="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/20"
                 >
                   Explore Services
-                </button>
+                </Link>
               </div>
             </div>
           </div>

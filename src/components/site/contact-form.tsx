@@ -39,7 +39,7 @@ export function ContactForm() {
 
     setSubmitting(false);
     setSubmitted(true);
-    toast.success("Request received! Our team will call you within 2 hours.");
+    toast.success("Request received! Our team will call you within 30 minutes.");
 
     // Fire GA4 conversion event
     trackLead({
@@ -68,7 +68,7 @@ export function ContactForm() {
                 Let's design your protection plan
               </h2>
               <p className="mt-4 text-base leading-relaxed text-brown/70 text-pretty">
-                Share a few details and our team will call you back within 2 hours
+                Share a few details and our team will call you back within 30 minutes
                 (during business hours) with a fixed-price quote. No obligation, no
                 upsell — just a clear, expert recommendation.
               </p>
@@ -84,7 +84,7 @@ export function ContactForm() {
                     <Phone className="h-5 w-5" />
                   </div>
                   <div>
-                    <div className="text-xs font-medium uppercase tracking-wider text-brown/55">
+                    <div className="text-xs font-medium uppercase tracking-wider text-brown/65">
                       Call us
                     </div>
                     <div className="font-display text-base font-semibold text-brown">
@@ -101,7 +101,7 @@ export function ContactForm() {
                     <Mail className="h-5 w-5" />
                   </div>
                   <div>
-                    <div className="text-xs font-medium uppercase tracking-wider text-brown/55">
+                    <div className="text-xs font-medium uppercase tracking-wider text-brown/65">
                       Email us
                     </div>
                     <div className="font-display text-base font-semibold text-brown">
@@ -115,13 +115,13 @@ export function ContactForm() {
                     <Clock className="h-5 w-5" />
                   </div>
                   <div>
-                    <div className="text-xs font-medium uppercase tracking-wider text-brown/55">
+                    <div className="text-xs font-medium uppercase tracking-wider text-brown/65">
                       Working hours
                     </div>
                     <div className="font-display text-base font-semibold text-brown">
                       {company.hours}
                     </div>
-                    <div className="text-xs text-brown/55">{company.emergencyNote}</div>
+                    <div className="text-xs text-brown/65">{company.emergencyNote}</div>
                   </div>
                 </div>
               </div>
@@ -137,7 +137,7 @@ export function ContactForm() {
                       <MapPin className="h-3 w-3 text-orange" />
                       {loc.city}
                     </div>
-                    <div className="mt-1 text-[11px] leading-relaxed text-brown/60">
+                    <div className="mt-1 text-[11px] leading-relaxed text-brown/65">
                       {loc.address.line1}
                     </div>
                     <div className="mt-1 text-[11px] font-medium text-orange">
@@ -166,7 +166,7 @@ export function ContactForm() {
                   </h3>
                   <p className="mt-2 max-w-sm text-sm text-brown/65">
                     Thank you, {form.name}. Our team will call you on {form.phone} within
-                    2 hours during business hours. For urgent matters, please call us directly.
+                    30 minutes during business hours. For urgent matters, please call us directly.
                   </p>
                   <button
                     onClick={() => {
@@ -267,7 +267,7 @@ export function ContactForm() {
                     )}
                   </button>
 
-                  <p className="text-center text-xs text-brown/55">
+                  <p className="text-center text-xs text-brown/70">
                     By submitting, you agree to be contacted about your request. We never
                     share your details. No spam, ever.
                   </p>

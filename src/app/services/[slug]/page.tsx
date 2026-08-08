@@ -24,13 +24,13 @@ export async function generateMetadata({
     };
   }
 
-  // Per-service Service schema (richer than the global OfferCatalog entry)
+  // Build the JSON-LD blocks (also emitted via <script> tags in the JSX below)
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
     name: service.name,
     description: service.long,
-    image: `https://www.sivapestcontrol.com${service.image}`,
+    image: `${BASE}${service.image}`,
     url: `${BASE}/services/${service.slug}`,
     provider: {
       "@type": "PestControl",
@@ -49,6 +49,17 @@ export async function generateMetadata({
       availability: "https://schema.org/InStock",
     },
     warranty: service.warranty,
+  };
+
+  // BreadcrumbList schema — helps Google show breadcrumbs in search results
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: BASE },
+      { "@type": "ListItem", position: 2, name: "Services", item: `${BASE}/services` },
+      { "@type": "ListItem", position: 3, name: service.name, item: `${BASE}/services/${service.slug}` },
+    ],
   };
 
   // FAQPage schema (if the service has FAQs)
@@ -85,11 +96,7 @@ export async function generateMetadata({
         },
       ],
     },
-    other: {
-      // JSON-LD emitted via <script> tag in the page body
-      "service-schema": JSON.stringify(serviceSchema),
-      ...(faqSchema ? { "faq-schema": JSON.stringify(faqSchema) } : {}),
-    },
+    // No `other` field — JSON-LD is emitted via <script> tags in the page body below.
   };
 }
 
@@ -108,12 +115,12 @@ export default async function ServiceDetailRoute({
     "@type": "Service",
     name: service.name,
     description: service.long,
-    image: `https://www.sivapestcontrol.com${service.image}`,
-    url: `https://www.sivapestcontrol.com/services/${service.slug}`,
+    image: `${BASE}${service.image}`,
+    url: `${BASE}/services/${service.slug}`,
     provider: {
       "@type": "PestControl",
       name: "Siva Pest Control",
-      url: "https://www.sivapestcontrol.com",
+      url: BASE,
     },
     areaServed: [
       { "@type": "City", name: "Hyderabad" },
@@ -126,6 +133,18 @@ export default async function ServiceDetailRoute({
       priceCurrency: "INR",
       availability: "https://schema.org/InStock",
     },
+    warranty: service.warranty,
+  };
+
+  // BreadcrumbList schema — helps Google show breadcrumbs in search results
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: BASE },
+      { "@type": "ListItem", position: 2, name: "Services", item: `${BASE}/services` },
+      { "@type": "ListItem", position: 3, name: service.name, item: `${BASE}/services/${service.slug}` },
+    ],
   };
 
   const faqSchema =
@@ -146,6 +165,10 @@ export default async function ServiceDetailRoute({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       {faqSchema && (
         <script

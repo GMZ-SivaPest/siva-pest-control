@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, Calendar } from "lucide-react";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
 import { blogPosts } from "@/data/blog";
-import { useNav } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 function formatDate(iso: string) {
@@ -29,7 +29,6 @@ const accentRing: Record<string, string> = {
  * for SEO. Renders nothing if no posts exist.
  */
 export function BlogTeaser() {
-  const navigate = useNav((s) => s.navigate);
   const latest = blogPosts.slice(0, 3);
 
   if (latest.length === 0) return null;
@@ -46,8 +45,8 @@ export function BlogTeaser() {
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {latest.map((post, i) => (
             <Reveal key={post.slug} delay={i * 0.08}>
-              <button
-                onClick={() => navigate(`blog:${post.slug}`)}
+              <Link
+                href={`/blog/${post.slug}`}
                 className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-brown/10 bg-white text-left shadow-premium transition-all hover:-translate-y-1 hover:shadow-premium-lg"
               >
                 <div className="relative h-44 overflow-hidden">
@@ -94,19 +93,19 @@ export function BlogTeaser() {
                     </span>
                   </div>
                 </div>
-              </button>
+              </Link>
             </Reveal>
           ))}
         </div>
 
         <div className="mt-10 text-center">
-          <button
-            onClick={() => navigate("blog")}
+          <Link
+            href="/blog"
             className="inline-flex items-center gap-2 rounded-full border border-brown/15 bg-white px-6 py-3 text-sm font-semibold text-brown shadow-sm transition-all hover:border-orange/40 hover:text-orange"
           >
             View all articles
             <ArrowRight className="h-4 w-4" />
-          </button>
+          </Link>
         </div>
       </div>
     </section>

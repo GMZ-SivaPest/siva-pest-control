@@ -4,10 +4,12 @@ import { Navbar } from "./navbar";
 import { Footer } from "./footer";
 import { WhatsAppFab } from "./whatsapp-fab";
 import { NavBridge } from "./nav-bridge";
+import { ServicesMarquee } from "./services-marquee";
 
 /**
  * SiteChrome — shared layout wrapper for every page.
- * Renders Navbar (sticky) + main content + Footer + WhatsApp FAB.
+ * Renders Navbar (sticky) + ServicesMarquee (sticky below navbar) +
+ * main content + Footer + WhatsApp FAB.
  *
  * Used by every App Router route file:
  *   <SiteChrome>
@@ -19,6 +21,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen flex-col bg-background">
       <NavBridge />
       <Navbar />
+      <ServicesMarquee />
       <main
         id="main"
         className="flex-1 pb-20 md:pb-0"

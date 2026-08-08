@@ -15,19 +15,14 @@ import { locations } from "@/data/locations";
 import { trackCTAClick, trackPhoneClick } from "@/lib/analytics";
 
 /**
- * Navbar — fixed top navigation.
+ * Navbar — sticky top navigation.
  *
  * Behaviour:
- * - On the homepage (over the cinematic hero) the navbar starts transparent
- *   with LIGHT text + LIGHT logo variant so the brand is readable against
- *   the dark hero image. After 12px of scroll it transitions to the ivory
- *   glass background with DARK text.
- * - On every other route the navbar is always solid (ivory glass) with
- *   dark text, because those routes do not have a full-bleed dark hero
- *   behind them.
+ * - Always solid (ivory glass + dark text) on every route.
+ * - Sticky (in-flow) so a ServicesMarquee strip can stick directly below it.
+ * - Mobile drawer for < lg screens.
  */
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [locationsOpen, setLocationsOpen] = useState(false);
@@ -35,16 +30,11 @@ export function Navbar() {
   const mobileDrawerRef = useRef<HTMLDivElement>(null);
   const mobileToggleRef = useRef<HTMLButtonElement>(null);
 
-  const isHome = pathname === "/";
-  // `light` = use light text + light logo (only when transparent over hero)
-  const light = isHome && !scrolled && !mobileOpen;
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  // Navbar is now always solid (ivory glass) because a ServicesMarquee strip
+  // sits directly below it on every page — a transparent navbar over the hero
+  // would visually clash with the solid marquee strip below.
+  // `light` is forced false; kept in code for future toggling.
+  const light = false;
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -75,10 +65,7 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-          scrolled || !isHome
-            ? "border-b border-brown/10 bg-ivory/85 backdrop-blur-xl shadow-premium"
-            : "bg-transparent"
+          "sticky top-0 z-50 border-b border-brown/10 bg-ivory/85 backdrop-blur-xl shadow-premium transition-all duration-300"
         )}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8 md:h-20">

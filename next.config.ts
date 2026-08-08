@@ -36,10 +36,10 @@ const nextConfig: NextConfig = {
   images: {
     // Negotiate modern formats when the browser supports them.
     formats: ["image/avif", "image/webp"],
-    remotePatterns: [
-      // Allow locally served carousel images + any future OSS-hosted assets.
-      { protocol: "https", hostname: "**" },
-    ],
+    // All site images live under /public/images — no remote hosts needed.
+    // If you later move images to a CDN, add its hostname here explicitly.
+    // Do NOT use hostname: "**" — it disables next/image's safety check.
+    remotePatterns: [],
   },
 
   // Trailing-slash normalization + legacy URL redirects.

@@ -2,15 +2,13 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { Reveal, StaggerContainer, StaggerItem } from "./reveal";
 import { SectionHeading } from "./section-heading";
 import { industries } from "@/data/industries";
 import { ArrowUpRight, CheckCircle2 } from "lucide-react";
-import { useNav } from "@/lib/store";
 
 export function IndustriesShowcase() {
-  const navigate = useNav((s) => s.navigate);
-
   return (
     <section className="relative py-20 md:py-24">
       <div className="absolute inset-0 -z-10 gradient-warm-soft" />
@@ -26,8 +24,8 @@ export function IndustriesShowcase() {
         <StaggerContainer className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" stagger={0.05}>
           {industries.map((industry) => (
             <StaggerItem key={industry.slug}>
-              <button
-                onClick={() => navigate("industries")}
+              <Link
+                href="/industries"
                 className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-brown/10 bg-white text-left shadow-premium transition-all hover:-translate-y-1 hover:shadow-lift"
               >
                 {/* Industry image */}
@@ -82,7 +80,7 @@ export function IndustriesShowcase() {
                     )}
                   </div>
                 </div>
-              </button>
+              </Link>
             </StaggerItem>
           ))}
         </StaggerContainer>

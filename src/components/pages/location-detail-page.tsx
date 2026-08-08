@@ -5,7 +5,6 @@ import { PageHero } from "@/components/site/page-hero";
 import { Reveal } from "@/components/site/reveal";
 import { CTASection } from "@/components/site/cta-section";
 import { FAQAccordion } from "@/components/site/faq-accordion";
-import { useNav } from "@/lib/store";
 import { locationBySlug } from "@/data/locations";
 import { testimonialsByCity } from "@/data/testimonials";
 import { motion } from "framer-motion";
@@ -24,7 +23,6 @@ import {
 } from "lucide-react";
 
 export function LocationDetailPage({ slug }: { slug: string }) {
-  const navigate = useNav((s) => s.navigate);
   const location = locationBySlug(slug);
 
   if (!location) {
@@ -32,12 +30,12 @@ export function LocationDetailPage({ slug }: { slug: string }) {
       <div className="flex min-h-[60vh] items-center justify-center px-4">
         <div className="text-center">
           <h1 className="font-display text-2xl font-bold text-brown">Location not found</h1>
-          <button
-            onClick={() => navigate("locations")}
+          <Link
+            href="/locations"
             className="mt-4 inline-flex items-center gap-2 rounded-full bg-orange px-5 py-2.5 text-sm font-semibold text-white"
           >
             <ArrowLeft className="h-4 w-4" /> Back to locations
-          </button>
+          </Link>
         </div>
       </div>
     );
@@ -63,9 +61,9 @@ export function LocationDetailPage({ slug }: { slug: string }) {
             transition={{ duration: 0.4 }}
             className="mb-6 flex items-center gap-1.5 text-xs text-brown/70"
           >
-            <button onClick={() => navigate("home")} className="hover:text-orange">Home</button>
+            <Link href="/" className="hover:text-orange">Home</Link>
             <ChevronRight className="h-3 w-3 opacity-60" />
-            <button onClick={() => navigate("locations")} className="hover:text-orange">Locations</button>
+            <Link href="/locations" className="hover:text-orange">Locations</Link>
             <ChevronRight className="h-3 w-3 opacity-60" />
             <span className="text-brown/80">{location.city}</span>
           </motion.nav>

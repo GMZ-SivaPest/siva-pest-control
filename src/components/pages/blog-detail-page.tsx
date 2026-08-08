@@ -7,7 +7,6 @@ import { ArrowLeft, Calendar, Clock, ArrowRight, Tag } from "lucide-react";
 import { Reveal } from "@/components/site/reveal";
 import { CTASection } from "@/components/site/cta-section";
 import { blogPostBySlug, blogPosts, type BlogPostBodyBlock } from "@/data/blog";
-import { useNav } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { notFound } from "next/navigation";
 
@@ -67,7 +66,6 @@ function BodyBlock({ block }: { block: BlogPostBodyBlock }) {
 }
 
 export function BlogDetailPage({ slug }: { slug: string }) {
-  const navigate = useNav((s) => s.navigate);
   const post = blogPostBySlug(slug);
 
   if (!post) {
@@ -84,16 +82,16 @@ export function BlogDetailPage({ slug }: { slug: string }) {
 
   return (
     <>
-      <article className="pt-24 md:pt-32">
+      <article className="pt-8 md:pt-12">
         {/* Header */}
         <header className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <button
-            onClick={() => navigate("blog")}
+          <Link
+            href="/blog"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-brown/60 transition-colors hover:text-orange"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to all articles
-          </button>
+          </Link>
 
           <Reveal>
             <div className="mt-6 flex flex-wrap items-center gap-3 text-xs">
@@ -202,9 +200,9 @@ export function BlogDetailPage({ slug }: { slug: string }) {
               </h2>
               <div className="mt-8 grid gap-6 md:grid-cols-3">
                 {relatedPosts.map((rp) => (
-                  <button
+                  <Link
                     key={rp.slug}
-                    onClick={() => navigate(`blog:${rp.slug}`)}
+                    href={`/blog/${rp.slug}`}
                     className="group flex h-full flex-col overflow-hidden rounded-2xl border border-brown/10 bg-white text-left shadow-premium transition-all hover:-translate-y-1 hover:shadow-premium-lg"
                   >
                     <div className="relative h-32 overflow-hidden">
@@ -231,7 +229,7 @@ export function BlogDetailPage({ slug }: { slug: string }) {
                         Read · {rp.readingMinutes} min
                       </span>
                     </div>
-                  </button>
+                  </Link>
                 ))}
               </div>
             </div>

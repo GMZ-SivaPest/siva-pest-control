@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Clock, ArrowRight, Calendar } from "lucide-react";
 import { PageHero } from "@/components/site/page-hero";
@@ -9,7 +10,6 @@ import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
 import { CTASection } from "@/components/site/cta-section";
 import { blogPosts, blogCategories, type BlogPost } from "@/data/blog";
-import { useNav } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 const accentClasses: Record<BlogPost["accent"], string> = {
@@ -29,7 +29,6 @@ function formatDate(iso: string) {
 
 export function BlogPage() {
   const [active, setActive] = useState<"All" | BlogPost["category"]>("All");
-  const navigate = useNav((s) => s.navigate);
 
   const filtered =
     active === "All"
@@ -50,8 +49,8 @@ export function BlogPage() {
       <section className="py-12 md:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal>
-            <button
-              onClick={() => navigate(`blog:${featured.slug}`)}
+            <Link
+              href={`/blog/${featured.slug}`}
               className="group block w-full overflow-hidden rounded-3xl border border-brown/10 bg-white text-left shadow-premium transition-all hover:shadow-premium-lg"
             >
               <div className="grid md:grid-cols-2">
@@ -103,7 +102,7 @@ export function BlogPage() {
                   </div>
                 </div>
               </div>
-            </button>
+            </Link>
           </Reveal>
         </div>
       </section>
@@ -136,8 +135,8 @@ export function BlogPage() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((post, i) => (
               <Reveal key={post.slug} delay={i * 0.06}>
-                <button
-                  onClick={() => navigate(`blog:${post.slug}`)}
+                <Link
+                  href={`/blog/${post.slug}`}
                   className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-brown/10 bg-white text-left shadow-premium transition-all hover:-translate-y-1 hover:shadow-premium-lg"
                 >
                   <div className="relative h-40 overflow-hidden">
@@ -178,7 +177,7 @@ export function BlogPage() {
                       </span>
                     </div>
                   </div>
-                </button>
+                </Link>
               </Reveal>
             ))}
           </div>

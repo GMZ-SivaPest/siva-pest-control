@@ -26,36 +26,36 @@ const COMPARISONS: Comparison[] = [
     id: "kitchen",
     title: "Cockroach infestation → Gel-bait treated kitchen",
     before: {
-      src: "/images/carousel/cockroach-colony.jpg",
-      alt: "Severe cockroach infestation in kitchen corner",
+      src: "/images/before-after/kitchen-before.jpg",
+      alt: "South Indian apartment kitchen corner with German cockroach infestation — before treatment",
     },
     after: {
-      src: "/images/carousel/kitchen-treatment.jpg",
-      alt: "Same kitchen after Siva gel-bait treatment",
+      src: "/images/before-after/kitchen-after.jpg",
+      alt: "Same South Indian apartment kitchen corner after Siva gel-bait treatment — clean and pest-free",
     },
   },
   {
     id: "termite",
-    title: "Termite damage → Treated & protected",
+    title: "Termite damage → Drill-fill-seal barrier",
     before: {
-      src: "/images/carousel/termite-damage.jpg",
-      alt: "Termite damage on wooden door frame",
+      src: "/images/before-after/termite-before.jpg",
+      alt: "Wooden door frame with severe subterranean termite damage and mud tubes — before treatment",
     },
     after: {
-      src: "/images/carousel/termite-inspection.jpg",
-      alt: "Same area after termite drill-fill treatment",
+      src: "/images/before-after/termite-after.jpg",
+      alt: "Same wooden door frame after Siva drill-fill-seal termite barrier treatment — sealed and protected",
     },
   },
   {
     id: "mosquito",
-    title: "Mosquito colony → Fogged outdoor area",
+    title: "Mosquito breeding ground → Fogged & treated yard",
     before: {
-      src: "/images/carousel/mosquito-colony.jpg",
-      alt: "Mosquito colony in stagnant water",
+      src: "/images/before-after/mosquito-before.jpg",
+      alt: "Residential backyard with stagnant water puddle and mosquito swarm — before treatment",
     },
     after: {
-      src: "/images/carousel/mosquito-fogging.jpg",
-      alt: "Area after mosquito fogging treatment",
+      src: "/images/before-after/mosquito-after.jpg",
+      alt: "Same backyard corner after Siva fogging and larvicide treatment — dry, clean, mosquito-free",
     },
   },
 ];
@@ -109,7 +109,7 @@ export function BeforeAfterSlider() {
         <SectionHeading
           eyebrow="See the difference"
           title="The result, not the marketing"
-          subtitle="Drag the slider to see what our treatments actually deliver. No filters, no stock photos — real Siva field work."
+          subtitle="Drag the slider to see what our treatments actually deliver. Each pair shows the same scene before and after a Siva treatment — real field photography, no stock images, no filters."
         />
 
         {/* Tab switcher */}
@@ -164,10 +164,15 @@ export function BeforeAfterSlider() {
                 className="object-cover"
                 priority
               />
-              {/* BEFORE image (top layer, clipped from left to position %) */}
+              {/* BEFORE image (top layer, clipped via clip-path so it stays
+                  aligned with the after image without setting width on a
+                  fill Image — Next.js forbids fill + style.width) */}
               <div
-                className="absolute inset-0 overflow-hidden"
-                style={{ width: `${position}%` }}
+                className="absolute inset-0"
+                style={{
+                  clipPath: `inset(0 ${100 - position}% 0 0)`,
+                  WebkitClipPath: `inset(0 ${100 - position}% 0 0)`,
+                }}
               >
                 <Image
                   src={active.before.src}

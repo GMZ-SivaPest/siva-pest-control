@@ -7,13 +7,11 @@ import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
 import { locations } from "@/data/locations";
 import { company } from "@/data/company";
-import { useNav } from "@/lib/store";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { ArrowUpRight, MapPin, Phone, Star, Users, Clock } from "lucide-react";
 
 export function LocationsPage() {
-  const navigate = useNav((s) => s.navigate);
-
   return (
     <>
       <PageHero
@@ -112,13 +110,13 @@ export function LocationsPage() {
                     </a>
                   </div>
 
-                  <button
-                    onClick={() => navigate(`location:${loc.slug}`)}
+                  <Link
+                    href={`/locations/${loc.slug}`}
                     className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full border border-brown/15 bg-white px-4 py-2.5 text-sm font-semibold text-brown transition-all hover:border-orange/40 hover:text-orange"
                   >
                     View {loc.city} detail
                     <ArrowUpRight className="h-3.5 w-3.5" />
-                  </button>
+                  </Link>
                 </div>
               </motion.div>
             ))}

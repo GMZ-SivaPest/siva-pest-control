@@ -438,3 +438,115 @@ Next Steps (optional):
 - Run the build with `bun run build` to verify production compilation
 - Consider adding "before/after" case study image pairs to service detail pages
 - Add Google Maps embeds to /contact page (currently only text addresses)
+
+---
+Task ID: floating-cta-icons
+Agent: Main (Super Z)
+Task: Redesign floating CTA — desktop floating WhatsApp "Chat" icon with hover-expand label; mobile bottom bar with two icon buttons (Phone + WhatsApp only, drop the third "Free Quote" button).
+
+Work Log:
+- Read existing whatsapp-fab.tsx (already had desktop single WhatsApp FAB + mobile 3-button bar: Call / WhatsApp / Free Quote)
+- Read site-chrome.tsx (already sets main pb-20 md:pb-0 — sufficient for new mobile bar height)
+- Read company.ts for phone + whatsapp href constants
+- Rewrote whatsapp-fab.tsx:
+  * Desktop: premium 56px floating WhatsApp button bottom-right that expands to 200px "Chat with us" pill on hover, icon slides left, label fades in, keeps pulse ring + adds a subtle red notification dot for chat feel
+  * Mobile: simplified bottom bar to TWO equal icon buttons (Phone orange-gradient left, WhatsApp green right), each with circular icon + uppercase label, frosted-glass backdrop, safe-area padding, active:scale micro-feedback, red notification dot on WhatsApp
+  * Removed unused Link / X imports
+  * Preserved: AnimatePresence enter/exit, scroll threshold (400px), hide-on-/contact, analytics tracking (trackPhoneClick / trackWhatsAppClick), aria-labels
+- Ran `npx tsc --noEmit` — no type errors
+
+Stage Summary:
+- Final file: src/components/site/whatsapp-fab.tsx (181 lines)
+- Desktop: premium expanding "Chat with us" WhatsApp FAB
+- Mobile: clean two-icon bottom bar (Call + WhatsApp)
+- Free Quote CTA intentionally removed from mobile bar — still reachable via hero + nav + each section CTA (avoids 3-button crowding the user did not ask for)
+
+---
+Task ID: image-design-playbook
+Agent: Main (Super Z)
+Task: Implement signature visual pieces from user's 21-section design playbook — focus on "protection not pests" brand metaphor. User asked "what about the image designs" after pasting detailed playbook.
+
+Work Log:
+- Audited existing components vs. playbook: hero glass composition, services gallery, locations map, stats, testimonials already implemented. Missing the premium signature pieces.
+- Inventoried image assets: 43 pest images, 11 treatment images, 12 carousel images (cockroach-colony, mosquito-colony, termite-damage, rodent-infestation, kitchen-treatment, gel-bait, fogging, snake-rescue, etc.) — real field photography already in place.
+- Built 6 new pure-CSS/SVG components (no new images needed):
+  1. protection-shield.tsx — signature animation: 8 pest emojis (roach/ant/mosquito/spider/rodent/bedbug/bee/scorpion) drift inward toward central orange shield, deflect and dissolve at the protection boundary. Concentric pulse rings emanate from shield. House silhouette at base. Three-pillar "Inspect → Treat → Protect" cards below.
+  2. before-after-slider.tsx — draggable comparison with 3 real before/after pairs (cockroach colony→treated kitchen, termite damage→treated area, mosquito colony→fogged area). Pointer events for unified mouse+touch, keyboard accessible (arrow keys move slider 5%), tab switcher between comparisons.
+  3. pest-trail-divider.tsx — organic section separator with 3 variants: "ant" (dotted line with crawling ant emoji + pulsing dots), "mosquito" (wavy SVG line with mosquito drifting along the wave on an 18s loop), "minimal" (5 pulsing dots). All respect prefers-reduced-motion.
+  4. manifesto.tsx — large typography section ("WE DON'T JUST CONTROL PESTS. WE PROTECT SPACES.") on dark brown background with tiny animated cockroach crawling on the gradient text, 4 promise chips, link to /about.
+  5. protection-cta.tsx — dark premium final CTA (#1A1208 bg) with giant ShieldCheck silhouette behind text at 7% opacity, 6 pest emojis drifting at 8-12% opacity around the canvas, 14 orange particles rising, warm radial glow from bottom. "See a pest? Don't wait." headline with orange gradient on "Don't wait."
+  6. wave-divider.tsx — organic SVG wave separator with 2-layer wave path, flip prop for symmetric pairs, configurable bg color.
+- Restructured home-page.tsx to match playbook's recommended visual journey: Hero → ShowcaseCarousel → Stats → [ant trail divider] → Manifesto → ProtectionShield → [wave divider] → ServicesGallery → [mosquito trail divider] → BeforeAfterSlider → WhyChooseStrip → LocationsMap → IndustriesShowcase → Testimonials → BlogTeaser → ProtectionCTA → Certifications strip. Replaced lighter CTASection with ProtectionCTA.
+- All components use Reveal/SectionHeading for consistency, respect prefers-reduced-motion, use existing brand tokens (gradient-orange, shadow-glow-orange, bg-grid-warm, bg-dot-warm).
+- TypeScript: clean. Next.js production build: SUCCESS — all 38 routes compiled, all 6 new components ship without errors.
+
+Stage Summary:
+- 6 new files in src/components/site/: protection-shield.tsx, before-after-slider.tsx, pest-trail-divider.tsx, manifesto.tsx, protection-cta.tsx, wave-divider.tsx
+- 1 file rewritten: src/components/pages/home-page.tsx (new 14-section visual journey)
+- Brand metaphor now consistent across homepage: "Pests are the problem. Protection is our brand." — 10% pest accent rule respected (subtle silhouettes, trails, single crawling insect on typography)
+- Signature moment: ProtectionShield animation is the visual centerpiece — pests approach, meet science, turn back
+
+---
+Task ID: hero-slider-services-marquee-about-mv
+Agent: Main (Super Z)
+Task: Three changes — (1) replace cinematic hero with auto-rotating 5-6 image carousel with proper pest-control content, (2) show all services auto-scrolling continuously below header for direct access, (3) redesign About page Mission & Vision section better.
+
+Work Log:
+- Inventoried available real photography: 6 hero images, 12 carousel images (cockroach-colony, kitchen-treatment, termite-damage, rodent-infestation, mosquito-fogging, protected-home, etc.), 11 treatment images. All real pest-control field imagery.
+- Inventoried all 14 services with slug + name + image + startsFrom price.
+
+NEW COMPONENT 1 — src/components/site/hero-slider.tsx (380 lines):
+- 6-slide auto-rotating carousel telling the pest-control story:
+  Slide 1: "When you see one, there are hundreds." (cockroach colony, rust accent, stat: 1→30,000 in 90 days)
+  Slide 2: "They eat 24/7 — you'll never hear them." (termite damage, orange accent, stat: 5-year warranty barrier)
+  Slide 3: "Rats chew wires — and start fires." (rodent infestation, rust accent, stat: 25% of urban house fires)
+  Slide 4: "Targeted gel-bait, not blanket spray." (kitchen treatment, teal accent, stat: 7 days colony collapse)
+  Slide 5: "Reclaim your garden & terrace." (mosquito fogging, teal accent, stat: 30-min response)
+  Slide 6: "Your space, protected for 180 days." (protected home, orange accent, stat: 12,000+ homes protected)
+- Auto-advances every 6s, pauses on hover, swipeable on touch (pointer events), arrow-key nav for keyboard users
+- Progress bar at bottom shows time-to-next-slide, animated with framer-motion
+- Clickable dots with active state showing accent color, slide counter "01 / 06"
+- AnimatePresence crossfade on slide change (image scale 1.05→1, opacity 0→1)
+- Trust row always visible below CTAs: 4.9/5 rating, child-safe, 180-day warranty, 30-min response
+- Each slide CTA links to relevant /services/[slug] page, all tracked with trackCTAClick
+- Respects prefers-reduced-motion (no auto-advance, just static first slide)
+
+NEW COMPONENT 2 — src/components/site/services-marquee.tsx (95 lines):
+- Continuous horizontal auto-scroll of ALL 14 services in pill-shaped chips
+- Each chip: thumbnail (28px circular) + service name + price (₹499-₹1,999) + arrow icon
+- Marquee track renders TWO copies for seamless loop (uses existing marquee-x CSS keyframe)
+- Pauses on hover, respects prefers-reduced-motion
+- Each chip is a real <Link href="/services/[slug]"> — crawlable, keyboard-accessible
+- Frosted-glass ivory strip with left/right edge fades for premium feel
+- Sticky below navbar so always visible while scrolling
+
+LAYOUT CHANGE — site-chrome.tsx + navbar.tsx + page-hero.tsx + blog-detail-page.tsx:
+- Navbar changed from `fixed top-0` to `sticky top-0` so it takes up space in flow
+- Navbar no longer transparent-on-home (was conflicting with solid marquee strip below)
+- Removed unused scrolled state + isHome logic + useEffect scroll listener from navbar
+- ServicesMarquee added to site-chrome between Navbar and main, sticky top-16 md:top-20
+- page-hero.tsx padding reduced from pt-32/pt-40 to pt-12/pt-16 (no longer needs to clear fixed navbar)
+- blog-detail-page.tsx padding reduced from pt-24/pt-32 to pt-8/pt-12
+
+ABOUT PAGE REDESIGN — src/components/pages/about-page.tsx Mission & Vision section:
+- Replaced simple 2-card grid with premium split layout:
+  * Section header: "Built on principle, not on shortcuts." with orange gradient on "not on shortcuts"
+  * MISSION CARD (left-image, right-copy on desktop): white card with big "01" background number, Target icon, "Make premium, science-led pest control accessible" headline with orange "accessible" highlight, 4 value chips (Child-safe first / Science over spray / Local teams / Transparent pricing), right-side about-hero image with floating "12,000+ homes protected" glass stat card
+  * VISION CARD (left-visual, right-copy, dark premium): gradient-brown background with warm/teal glow accents, concentric target rings composition with center medallion showing Sparkles icon + "2030", big "02" background number, "Be South India's most trusted pest control brand by 2030" headline with orange "trusted" highlight, 4 vision chips (Scientific rigour / Operational reliability / Genuine customer care / Warranties honoured)
+  * Founder quote: large blockquote "Any exterminator can spray. We're here for the family..." with orange opening quote mark, founder name + credential (M.Sc. (Ag) Entomology) attribution with Users icon avatar
+- Removed unused Building2 import
+
+HOMEPAGE UPDATE — src/components/pages/home-page.tsx:
+- Replaced <Hero /> import with <HeroSlider />
+- Hero section now uses auto-rotating carousel instead of static cinematic hero
+
+VERIFICATION:
+- npx tsc --noEmit — clean (no type errors)
+- npx next build — SUCCESS, all 38 routes compiled, all components ship
+
+Stage Summary:
+- 3 new files: hero-slider.tsx, services-marquee.tsx (components); about-page.tsx redesigned section
+- 4 files modified: site-chrome.tsx (added ServicesMarquee), navbar.tsx (fixed→sticky, removed transparency), page-hero.tsx + blog-detail-page.tsx (reduced top padding), home-page.tsx (uses HeroSlider)
+- Homepage hero is now a 6-slide story-driven carousel (problem → threat → approach → treatment → result → promise)
+- All 14 services now accessible from every page via sticky marquee below navbar
+- About page Mission & Vision is now a premium 3-part composition (mission card + vision card + founder quote) instead of plain 2-card grid

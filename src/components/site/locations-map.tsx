@@ -1,20 +1,23 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { Reveal } from "./reveal";
 import { SectionHeading } from "./section-heading";
 import { locations } from "@/data/locations";
-import { useNav } from "@/lib/store";
 import { company } from "@/data/company";
 import { ArrowUpRight, MapPin, Phone, Star, Users } from "lucide-react";
+
+// Framer Motion 12: motion(Component) creates a motion-enabled version of any
+// external component (like next/link). Both Link-with-anim instances below
+// use this so Googlebot still sees real <a href> tags, not <button>.
+const MotionLink = motion.create(Link);
 
 /**
  * LocationsMap — stylised South India map with three city pins,
  * coverage zones, and city detail cards.
  */
 export function LocationsMap() {
-  const navigate = useNav((s) => s.navigate);
-
   return (
     <section className="relative overflow-hidden py-20 md:py-24">
       <div className="absolute inset-0 -z-10 gradient-warm" />
@@ -69,15 +72,16 @@ export function LocationsMap() {
                 {/* City pins overlaid */}
                 <div className="absolute inset-0">
                   {locations.map((loc, i) => (
-                    <motion.button
+                    <MotionLink
                       key={loc.slug}
-                      onClick={() => navigate(`location:${loc.slug}`)}
+                      href={`/locations/${loc.slug}`}
                       initial={{ opacity: 0, scale: 0.5 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: 0.3 + i * 0.15 }}
                       className="group absolute -translate-x-1/2 -translate-y-1/2"
                       style={{ left: `${loc.mapCoords.x}%`, top: `${loc.mapCoords.y}%` }}
+                      aria-label={`View pest control services in ${loc.city}`}
                     >
                       <span
                         className="absolute inset-0 m-auto h-4 w-4 rounded-full bg-orange/40"
@@ -89,7 +93,7 @@ export function LocationsMap() {
                       <span className="absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold text-brown">
                         {loc.city}
                       </span>
-                    </motion.button>
+                    </MotionLink>
                   ))}
                 </div>
 
@@ -115,9 +119,9 @@ export function LocationsMap() {
           {/* RIGHT — City cards */}
           <div className="grid gap-4">
             {locations.map((loc, i) => (
-              <motion.button
+              <MotionLink
                 key={loc.slug}
-                onClick={() => navigate(`location:${loc.slug}`)}
+                href={`/locations/${loc.slug}`}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
@@ -176,7 +180,7 @@ export function LocationsMap() {
                     </span>
                   </div>
                 </div>
-              </motion.button>
+              </MotionLink>
             ))}
           </div>
         </div>

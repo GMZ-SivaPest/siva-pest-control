@@ -1,24 +1,26 @@
 "use client";
 
-import { Hero } from "@/components/site/hero";
+import dynamic from "next/dynamic";
+import { HeroSlider } from "@/components/site/hero-slider";
+import { ShowcaseCarousel } from "@/components/site/showcase-carousel";
 import { Stats } from "@/components/site/stats";
 import { Manifesto } from "@/components/site/manifesto";
 import { ProtectionShield } from "@/components/site/protection-shield";
-import { ShowcaseCarousel } from "@/components/site/showcase-carousel";
 import { ServicesGallery } from "@/components/site/services-gallery";
-import { BeforeAfterSlider } from "@/components/site/before-after-slider";
 import { PestTrailDivider } from "@/components/site/pest-trail-divider";
 import { WaveDivider } from "@/components/site/wave-divider";
-import { WhyChooseStrip } from "@/components/site/why-choose-strip";
-import { LocationsMap } from "@/components/site/locations-map";
-import { IndustriesShowcase } from "@/components/site/industries-showcase";
-import { Testimonials } from "@/components/site/testimonials";
-import { ProtectionCTA } from "@/components/site/protection-cta";
-import { BlogTeaser } from "@/components/site/blog-teaser";
 import { brand } from "@/data/brand";
 
 /**
  * HomePage — premium "protection not pests" visual journey.
+ *
+ * Performance strategy:
+ *   - Above-the-fold sections (Hero, ShowcaseCarousel, Stats) are eagerly
+ *     imported so they ship in the First Load JS bundle.
+ *   - Below-the-fold sections are loaded via next/dynamic with ssr: true
+ *     (still server-rendered for SEO/SEO, but split into separate chunks
+ *     so the homepage's initial JS payload stays small). The browser
+ *     fetches these chunks lazily as the user scrolls.
  *
  * Design philosophy (per Aug 2026 design playbook):
  *   "Make protection the visual metaphor, not bugs."
@@ -28,26 +30,57 @@ import { brand } from "@/data/brand";
  *   1.  Hero (cinematic, parallax, city pins)
  *   2.  ShowcaseCarousel (auto-scrolling field-work gallery)
  *   3.  Stats (4 key numbers, image cards)
- *   4.  Manifesto (large typography + small pest accent)        ← NEW
- *   5.  ProtectionShield (signature brand animation)            ← NEW
+ *   4.  Manifesto (large typography + small pest accent)
+ *   5.  ProtectionShield (signature brand animation)
  *   6.  ServicesGallery (image grid of ALL 14 services)
- *   7.  BeforeAfterSlider (draggable result comparison)         ← NEW
+ *   7.  BeforeAfterSlider (draggable result comparison)
  *   8.  WhyChooseStrip (4 image-card reasons)
  *   9.  LocationsMap (3 cities served)
  *  10.  IndustriesShowcase (image grid of industries)
  *  11.  Testimonials (horizontal continuous scroll)
  *  12.  BlogTeaser (latest 3 articles)
- *  13.  ProtectionCTA (dark premium final CTA with shield)      ← NEW
+ *  13.  ProtectionCTA (dark premium final CTA with shield)
  *  14.  Certifications strip (footer of trust)
  *
  * Pest trail dividers + wave dividers used selectively between
  * sections for organic visual rhythm (playbook #10, #11).
  */
+
+// Lazy-loaded below-the-fold sections (separate JS chunks, SSR preserved for SEO)
+const BeforeAfterSlider = dynamic(
+  () => import("@/components/site/before-after-slider").then((m) => m.BeforeAfterSlider),
+  { ssr: true, loading: () => <div className="h-[600px] bg-brown/5" aria-hidden /> }
+);
+const WhyChooseStrip = dynamic(
+  () => import("@/components/site/why-choose-strip").then((m) => m.WhyChooseStrip),
+  { ssr: true, loading: () => <div className="h-[400px] bg-brown/5" aria-hidden /> }
+);
+const LocationsMap = dynamic(
+  () => import("@/components/site/locations-map").then((m) => m.LocationsMap),
+  { ssr: true, loading: () => <div className="h-[500px] bg-brown/5" aria-hidden /> }
+);
+const IndustriesShowcase = dynamic(
+  () => import("@/components/site/industries-showcase").then((m) => m.IndustriesShowcase),
+  { ssr: true, loading: () => <div className="h-[400px] bg-brown/5" aria-hidden /> }
+);
+const Testimonials = dynamic(
+  () => import("@/components/site/testimonials").then((m) => m.Testimonials),
+  { ssr: true, loading: () => <div className="h-[400px] bg-brown/5" aria-hidden /> }
+);
+const BlogTeaser = dynamic(
+  () => import("@/components/site/blog-teaser").then((m) => m.BlogTeaser),
+  { ssr: true, loading: () => <div className="h-[400px] bg-brown/5" aria-hidden /> }
+);
+const ProtectionCTA = dynamic(
+  () => import("@/components/site/protection-cta").then((m) => m.ProtectionCTA),
+  { ssr: true, loading: () => <div className="h-[400px] bg-brown/5" aria-hidden /> }
+);
+
 export function HomePage() {
   return (
     <>
-      {/* 01 — Cinematic hero */}
-      <Hero />
+      {/* 01 — Auto-rotating hero carousel with pest-control story slides */}
+      <HeroSlider />
 
       {/* 02 — Auto-scrolling field-work gallery */}
       <ShowcaseCarousel />

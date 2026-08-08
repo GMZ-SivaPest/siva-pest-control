@@ -1,0 +1,16 @@
+{
+  "name": "Siva Pest Control",
+  "short_name": "Siva Pest",
+  "description": "Licensed pest control across Hyderabad, Chennai and Bangalore.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F1E8",
+  "theme_color": "#332416",
+  "icons": [
+    { "src": "/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/favicon-16.png", "sizes": "16x16", "type": "image/png" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/logo-256.png", "sizes": "256x256", "type": "image/png", "purpose": "any" },
+    { "src": "/logo-256.png", "sizes": "256x256", "type": "image/png", "purpose": "maskable" }
+  ]
+}

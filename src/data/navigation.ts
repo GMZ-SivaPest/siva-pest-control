@@ -24,6 +24,7 @@ export const mainNav: NavItem[] = [
   },
   { label: "Process", view: "process" },
   { label: "Pest Library", view: "pests" },
+  { label: "Blog", view: "blog" },
   { label: "FAQ", view: "faq" },
 ];
 
@@ -34,6 +35,7 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
       { label: "About Us", view: "about" },
       { label: "Our Process", view: "process" },
       { label: "Pest Library", view: "pests" },
+      { label: "Insights Blog", view: "blog" },
       { label: "FAQ", view: "faq" },
       { label: "Contact", view: "contact" },
     ],

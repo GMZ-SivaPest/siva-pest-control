@@ -13,6 +13,9 @@ import { PestLibraryPage } from "@/components/pages/pest-library-page";
 import { IndustriesPage } from "@/components/pages/industries-page";
 import { FaqPage } from "@/components/pages/faq-page";
 import { ContactPage } from "@/components/pages/contact-page";
+import { BlogPage } from "@/components/pages/blog-page";
+import { BlogDetailPage } from "@/components/pages/blog-detail-page";
+import { WhatsAppFab } from "@/components/site/whatsapp-fab";
 import { useNav } from "@/lib/store";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -46,6 +49,10 @@ export function SiteShell() {
         return <IndustriesPage />;
       case "faq":
         return <FaqPage />;
+      case "blog":
+        return <BlogPage />;
+      case "blog-detail":
+        return <BlogDetailPage slug={params.slug} />;
       case "contact":
         return <ContactPage />;
       default:
@@ -70,6 +77,7 @@ export function SiteShell() {
         </AnimatePresence>
       </main>
       <Footer />
+      <WhatsAppFab />
     </div>
   );
 }

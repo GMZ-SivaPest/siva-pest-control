@@ -45,9 +45,9 @@ export const locations: Location[] = [
     shortIntro:
       "Serving 28 zones across Hyderabad and Secunderabad with same-day response in most areas. Field team based in Madhapur.",
     longIntro:
-      "Hyderabad is where Siva Pest Control was founded in 2009, and it remains our largest operation. Our Madhapur field office dispatches technicians across 28 zones — from HITEC City and Gachibowli to Kukatpally, Banjara Hills, and Old City. With 34 certified technicians on the ground and a guaranteed 2-hour response window in most pin codes, we're the city's most responsive premium pest control service. We know the local pest pressure: termite swarms in Banjara Hills, rodent surges in Secunderabad's older housing, mosquito spikes around Hussain Sagar. Our treatments are calibrated for Hyderabad's climate and construction patterns.",
-    phone: "+91 90000 24680",
-    phoneHref: "+919000024680",
+      "Hyderabad is where Siva Pest Control was founded in 2012, and it remains our largest operation. Our Madhapur field office dispatches technicians across 28 zones — from HITEC City and Gachibowli to Kukatpally, Banjara Hills, and Old City. With 14 certified technicians on the ground and a guaranteed 30-minute response window in most pin codes, we're the city's most responsive premium pest control service. We know the local pest pressure: termite swarms in Banjara Hills, rodent surges in Secunderabad's older housing, mosquito spikes around Hussain Sagar. Our treatments are calibrated for Hyderabad's climate and construction patterns.",
+    phone: "+91 98765 43210",
+    phoneHref: "+919876543210",
     email: "hyd@sivapestcontrol.com",
     address: {
       line1: "Plot 14, Road 2, Madhapur",
@@ -94,10 +94,10 @@ export const locations: Location[] = [
       "Hussain Sagar lake front",
     ],
     mapCoords: { x: 40, y: 58 },
-    responseTime: "95 min average",
-    technicians: 34,
+    responseTime: "30 min average",
+    technicians: 14,
     rating: 4.9,
-    reviewsCount: 2140,
+    reviewsCount: 500,
     faqs: [
       {
         q: "Which areas of Hyderabad do you cover?",
@@ -129,9 +129,9 @@ export const locations: Location[] = [
     shortIntro:
       "Serving Chennai's coastal and IT corridors with humidity-calibrated treatments. Field team based in T. Nagar.",
     longIntro:
-      "Chennai's coastal humidity, aging drainage in central areas, and rapid IT corridor expansion along OMR create a unique pest pressure profile. Our T. Nagar field office operates 24 technicians covering 22 zones — from Anna Nagar and Adyar to Sholinganallur and ECR. We specialise in the high-humidity challenges that Chennai homes face: silverfish in book collections, coastal roach strains in older properties, and mosquito surges during the northeast monsoon. Every treatment is calibrated for Chennai's salt-tinged air and high water table.",
-    phone: "+91 90000 24681",
-    phoneHref: "+919000024681",
+      "Chennai's coastal humidity, aging drainage in central areas, and rapid IT corridor expansion along OMR create a unique pest pressure profile. Our T. Nagar field office operates 6 technicians covering 22 zones — from Anna Nagar and Adyar to Sholinganallur and ECR. We specialise in the high-humidity challenges that Chennai homes face: silverfish in book collections, coastal roach strains in older properties, and mosquito surges during the northeast monsoon. Every treatment is calibrated for Chennai's salt-tinged air and high water table.",
+    phone: "+91 77024 87195",
+    phoneHref: "+917702487195",
     email: "chn@sivapestcontrol.com",
     address: {
       line1: "12, 1st Avenue, T. Nagar",
@@ -172,10 +172,10 @@ export const locations: Location[] = [
       "ECR beach resorts",
     ],
     mapCoords: { x: 60, y: 78 },
-    responseTime: "105 min average",
-    technicians: 24,
+    responseTime: "45 min average",
+    technicians: 6,
     rating: 4.8,
-    reviewsCount: 1680,
+    reviewsCount: 180,
     faqs: [
       {
         q: "Do you cover the OMR IT corridor up to Sholinganallur and beyond?",
@@ -207,9 +207,9 @@ export const locations: Location[] = [
     shortIntro:
       "Serving Bangalore's tech corridors and gated communities with calibrate-to-altitude treatments. Field team in Koramangala.",
     longIntro:
-      "Bangalore's moderate climate, dense gated communities, and high turnover tenant base create a different pest profile than other South Indian metros. Our Koramangala field office deploys 20 technicians across 24 zones — from Whitefield and Sarjapur to Indiranagar and Yelahanka. We specialise in Bangalore's signature challenges: rodent pressure in tech parks, pigeon fouling on glass facades, and bed bug surges in PG accommodations near tech corridors. Every technician is trained for the city's modern apartment layouts and shared-wall construction.",
-    phone: "+91 90000 24682",
-    phoneHref: "+919000024682",
+      "Bangalore's moderate climate, dense gated communities, and high turnover tenant base create a different pest profile than other South Indian metros. Our Koramangala field office deploys 4 technicians across 24 zones — from Whitefield and Sarjapur to Indiranagar and Yelahanka. We specialise in Bangalore's signature challenges: rodent pressure in tech parks, pigeon fouling on glass facades, and bed bug surges in PG accommodations near tech corridors. Every technician is trained for the city's modern apartment layouts and shared-wall construction.",
+    phone: "+91 98765 43210",
+    phoneHref: "+919876543210",
     email: "blr@sivapestcontrol.com",
     address: {
       line1: "80 Feet Road, Koramangala 4th Block",
@@ -252,10 +252,10 @@ export const locations: Location[] = [
       "Electronic City phase 1",
     ],
     mapCoords: { x: 50, y: 75 },
-    responseTime: "110 min average",
-    technicians: 20,
+    responseTime: "45 min average",
+    technicians: 4,
     rating: 4.9,
-    reviewsCount: 1920,
+    reviewsCount: 220,
     faqs: [
       {
         q: "Do you service the Whitefield–Sarjapur tech corridor?",

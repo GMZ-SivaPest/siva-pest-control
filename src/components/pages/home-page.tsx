@@ -12,6 +12,7 @@ import { FAQAccordion } from "@/components/site/faq-accordion";
 import { CTASection } from "@/components/site/cta-section";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
+import { BlogTeaser } from "@/components/site/blog-teaser";
 import { faqs } from "@/data/faqs";
 import { brand } from "@/data/brand";
 
@@ -26,6 +27,9 @@ export function HomePage() {
       <LocationsMap />
       <IndustriesShowcase />
       <Testimonials />
+
+      {/* Latest insights */}
+      <BlogTeaser />
 
       {/* FAQ teaser */}
       <section className="py-20 md:py-24">

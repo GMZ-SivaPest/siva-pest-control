@@ -4,13 +4,14 @@
  * (per skill constraint: user can only see `/`).
  *
  * Views: home, about, services, service:<slug>, locations, location:<slug>,
- *        process, pests, industries, faq, contact
+ *        process, pests, industries, faq, contact, blog, blog:<slug>
  *
  * View format:
  *   - "home"
  *   - "services"
  *   - "service:cockroach-gel-treatment"  (service detail)
  *   - "location:hyderabad"                (location detail)
+ *   - "blog:monsoon-pest-pressure-south-india"  (blog detail)
  */
 
 import { create } from "zustand";
@@ -34,6 +35,7 @@ const parseView = (raw: string): { view: string; params: Record<string, string> 
     const [view, paramValue] = raw.split(":");
     if (view === "service") return { view: "service-detail", params: { slug: paramValue } };
     if (view === "location") return { view: "location-detail", params: { slug: paramValue } };
+    if (view === "blog") return { view: "blog-detail", params: { slug: paramValue } };
   }
   return { view: raw, params: {} };
 };

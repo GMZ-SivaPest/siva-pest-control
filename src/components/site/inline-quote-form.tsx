@@ -44,10 +44,8 @@ interface FieldErrors {
 
 export function InlineQuoteForm({
   serviceName,
-  serviceStartsFrom,
 }: {
   serviceName: string;
-  serviceStartsFrom: number;
 }) {
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -157,11 +155,7 @@ export function InlineQuoteForm({
             Get a quote for {serviceName}
           </h3>
           <p className="mt-1 text-sm text-brown/65">
-            Starts from{" "}
-            <span className="font-semibold text-orange">
-              ₹{serviceStartsFrom.toLocaleString("en-IN")}
-            </span>
-            . Fixed-price, no upsell, certified technician.
+            Free inspection, no upsell, certified technician.
           </p>
         </div>
         <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-orange/10 text-orange">

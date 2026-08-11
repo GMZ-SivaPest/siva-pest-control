@@ -43,12 +43,6 @@ export async function generateMetadata({
       { "@type": "City", name: "Chennai" },
       { "@type": "City", name: "Bangalore" },
     ],
-    offers: {
-      "@type": "Offer",
-      price: service.startsFrom,
-      priceCurrency: "INR",
-      availability: "https://schema.org/InStock",
-    },
     warranty: service.warranty,
   };
 
@@ -78,13 +72,13 @@ export async function generateMetadata({
       : null;
 
   return {
-    title: `${service.name} — From ₹${service.startsFrom.toLocaleString("en-IN")}`,
+    title: service.name,
     description: service.short,
     alternates: {
       canonical: `${BASE}/services/${slug}`,
     },
     openGraph: {
-      title: `${service.name} — From ₹${service.startsFrom.toLocaleString("en-IN")}`,
+      title: service.name,
       description: service.short,
       url: `${BASE}/services/${slug}`,
       type: "website",
@@ -128,12 +122,6 @@ export default async function ServiceDetailRoute({
       { "@type": "City", name: "Chennai" },
       { "@type": "City", name: "Bangalore" },
     ],
-    offers: {
-      "@type": "Offer",
-      price: service.startsFrom,
-      priceCurrency: "INR",
-      availability: "https://schema.org/InStock",
-    },
     warranty: service.warranty,
   };
 

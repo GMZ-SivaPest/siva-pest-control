@@ -101,7 +101,6 @@ const jsonLd = {
   email: company.email,
   image: `${company.siteUrl}/og-image.jpg`,
   logo: `${company.siteUrl}/logo.png`,
-  priceRange: "₹₹",
   foundingDate: String(brand.foundedYear),
   knowsAbout: [
     "Termite Control",

@@ -100,9 +100,6 @@ export default function NotFound() {
                       <div className="truncate text-sm font-semibold text-brown">
                         {service.name}
                       </div>
-                      <div className="text-xs text-brown/70">
-                        From ₹{service.startsFrom.toLocaleString("en-IN")}
-                      </div>
                     </div>
                     <ArrowRight className="h-4 w-4 flex-shrink-0 text-brown/40 transition-all group-hover:translate-x-0.5 group-hover:text-orange" />
                   </Link>

@@ -118,12 +118,6 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
                   <ShieldCheck className="h-4 w-4 text-orange" />
                   {service.warranty} warranty
                 </div>
-                <div className="inline-flex items-center gap-2 text-sm text-brown/70">
-                  <span className="font-display text-base font-bold text-orange">
-                    ₹{service.startsFrom.toLocaleString("en-IN")}
-                  </span>
-                  <span className="text-xs">starts from</span>
-                </div>
               </motion.div>
 
               {/* CTA row */}
@@ -170,12 +164,6 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
                   <div className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center rounded-xl bg-white/85 text-orange backdrop-blur-md">
                     <Icon className="h-5 w-5" strokeWidth={1.6} />
                   </div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="text-[10px] font-semibold uppercase tracking-wider text-white/80">Starts from</div>
-                    <div className="font-display text-2xl font-bold text-white drop-shadow-md">
-                      ₹{service.startsFrom.toLocaleString("en-IN")}
-                    </div>
-                  </div>
                 </div>
                 <div className="p-6 sm:p-8">
                 <h3 className="font-display text-lg font-bold text-brown">
@@ -199,12 +187,6 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
                     <dt className="text-brown/60">Best for</dt>
                     <dd className="font-semibold text-brown capitalize">{service.category}</dd>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <dt className="text-brown/60">Starts from</dt>
-                    <dd className="font-display text-lg font-bold text-orange">
-                      ₹{service.startsFrom.toLocaleString("en-IN")}
-                    </dd>
-                  </div>
                 </dl>
                 </div>
 
@@ -221,10 +203,7 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
 
           {/* Inline quote form — converts visitors without forcing a page-away click */}
           <div className="mt-8">
-            <InlineQuoteForm
-              serviceName={service.name}
-              serviceStartsFrom={service.startsFrom}
-            />
+            <InlineQuoteForm serviceName={service.name} />
           </div>
         </div>
       </section>
@@ -398,9 +377,6 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
                       <p className="mt-1 text-xs leading-relaxed text-brown/65 line-clamp-2">
                         {s.short}
                       </p>
-                      <div className="mt-2 text-xs font-semibold text-orange">
-                        ₹{s.startsFrom.toLocaleString("en-IN")} →
-                      </div>
                     </div>
                   </Link>
                 );

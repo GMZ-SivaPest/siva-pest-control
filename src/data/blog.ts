@@ -193,7 +193,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "p",
-        text: "If you identify any one of signs 1–3, schedule an inspection within 2 weeks. If you identify any of signs 4–6, schedule within 7 days. If sign 7 is present, schedule within 48 hours. The cost of professional treatment (₹3,500–₹8,000 for a typical 3BHK) is roughly 1/30th the cost of structural timber replacement after a colony has compromised load-bearing elements.",
+        text: "If you identify any one of signs 1–3, schedule an inspection within 2 weeks. If you identify any of signs 4–6, schedule within 7 days. If sign 7 is present, schedule within 48 hours. The cost of professional treatment is a small fraction of structural timber replacement after a colony has compromised load-bearing elements.",
       },
       {
         type: "p",
@@ -424,7 +424,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "callout",
-        text: "Cost reality check: Treating one PG room reactively costs ₹1,500–₹2,500. Treating 5 rooms proactively costs ₹5,000–₹8,000. Over 12 months, reactive treatment cycles (averaging 4 cycles per affected PG) cost 3–4x more than a single coordinated elimination. The math always favours the structural approach.",
+        text: "Cost reality check: Treating one PG room reactively costs several times more per room than a single coordinated programme covering all rooms at once. Over 12 months, reactive treatment cycles (averaging 4 cycles per affected PG) cost 3–4x more than one coordinated elimination. The math always favours the structural approach.",
       },
       {
         type: "h2",
@@ -432,7 +432,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "p",
-        text: "Bed bug elimination requires tenant cooperation in three specific areas. First, all bedding and clothing from affected rooms must be hot-washed (60°C+) and hot-dried on the day of treatment. Bed bugs cannot survive sustained 60°C heat. Second, mattresses must be encased in bed-bug-proof encasements (available online for ₹800–₹1,500) for 12 months post-treatment — this traps any survivors and prevents reinfestation. Third, tenants must report any new bites within 48 hours so the operator can re-inspect before re-establishment.",
+        text: "Bed bug elimination requires tenant cooperation in three specific areas. First, all bedding and clothing from affected rooms must be hot-washed (60°C+) and hot-dried on the day of treatment. Bed bugs cannot survive sustained 60°C heat. Second, mattresses must be encased in bed-bug-proof encasements (available online) for 12 months post-treatment — this traps any survivors and prevents reinfestation. Third, tenants must report any new bites within 48 hours so the operator can re-inspect before re-establishment.",
       },
       {
         type: "p",
@@ -444,7 +444,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "p",
-        text: "For PG operators with chronic turnover, we recommend installing bed-bug interceptors under each bed leg in every room. These are small moat-like devices (₹120 each) that catch bed bugs as they climb bed legs to reach sleeping tenants. Weekly inspection of interceptors provides early warning 2–3 weeks before any tenant reports bites — the difference between a 1-room treatment and a 5-room treatment.",
+        text: "For PG operators with chronic turnover, we recommend installing bed-bug interceptors under each bed leg in every room. These are small moat-like devices that catch bed bugs as they climb bed legs to reach sleeping tenants. Weekly inspection of interceptors provides early warning 2–3 weeks before any tenant reports bites — the difference between a 1-room treatment and a 5-room treatment.",
       },
       {
         type: "p",
@@ -504,7 +504,7 @@ export const blogPosts: BlogPost[] = [
         items: [
           "Empty all plant saucers, buckets, and any container that can hold water. Mosquitoes breed in as little as 10ml of water.",
           "Check that balcony drain is clear. Clogged balcony drains are the most common cause of indoor mosquito surges in apartment complexes.",
-          "Inspect window mesh for tears. Even a 5mm tear allows mosquito entry — patch with mesh tape (₹50 for a 5-metre roll).",
+          "Inspect window mesh for tears. Even a 5mm tear allows mosquito entry — patch with mesh tape (sold by the roll at any hardware store).",
           "Look at exterior wall for termite mud tubes, particularly where soil meets the wall. Photograph any you find for your pest control operator.",
         ],
       },
@@ -546,7 +546,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "callout",
-        text: "Bonus: If you complete this checklist and find 3 or more issues (water stains, gaps, droppings, tears, etc.), schedule a pre-monsoon treatment in the next 7 days. The treatment cost (₹1,499 for a 3BHK gel-bait + mosquito programme) is recovered many times over in avoided monsoon reactive treatments.",
+        text: "Bonus: If you complete this checklist and find 3 or more issues (water stains, gaps, droppings, tears, etc.), schedule a pre-monsoon treatment in the next 7 days. The treatment cost is recovered many times over in avoided monsoon reactive treatments.",
       },
       {
         type: "p",

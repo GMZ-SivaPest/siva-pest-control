@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Cookie, X, Check } from "lucide-react";
-import { grantAnalyticsConsent, GA_ENABLED } from "@/lib/analytics";
+import { grantAnalyticsConsent, TRACKING_ENABLED } from "@/lib/analytics";
 
 const CONSENT_KEY = "siva-consent-v1";
 export { CONSENT_KEY };
@@ -23,7 +23,7 @@ type ConsentValue = typeof CONSENT_GRANTED | typeof CONSENT_DENIED;
  *  - Persists choice in localStorage for 12 months
  *  - Includes link to /faq or privacy policy
  *  - Respects DPDP Act 2023 (India) and GDPR (EU) consent patterns
- *  - Only renders if GA4 is configured (no banner needed if no analytics)
+ *  - Only renders if an analytics backend is configured (GA4 and/or GTM)
  */
 export function CookieConsent() {
   // `mounted` is set via the visibility scheduling below; the banner is
@@ -31,8 +31,8 @@ export function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // No banner if GA4 isn't enabled
-    if (!GA_ENABLED) return;
+    // No banner if no analytics backend is active
+    if (!TRACKING_ENABLED) return;
 
     // Read existing consent
     let shouldShow = true;
@@ -55,7 +55,7 @@ export function CookieConsent() {
     return () => window.clearTimeout(id);
   }, []);
 
-  if (!GA_ENABLED || !visible) return null;
+  if (!TRACKING_ENABLED || !visible) return null;
 
   const accept = () => {
     try {
@@ -76,7 +76,7 @@ export function CookieConsent() {
     setVisible(false);
   };
 
-  if (!GA_ENABLED || !visible) return null;
+  if (!TRACKING_ENABLED || !visible) return null;
 
   return (
     <AnimatePresence>

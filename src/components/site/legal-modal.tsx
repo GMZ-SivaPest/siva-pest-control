@@ -375,22 +375,22 @@ Scheduling:
 
 Rescheduling & Cancellation:
 • Free rescheduling up to 2 hours before the appointment
-• Cancellations made less than 2 hours before may incur a ₹200 convenience fee
-• No-shows will be charged the full inspection fee (₹500)`,
+• Cancellations made less than 2 hours before may incur a convenience fee
+• No-shows may be charged the applicable inspection fee`,
     },
     {
       title: "4. Pricing & Payment",
       icon: Scale,
       content: `Pricing:
-• All prices listed on our website are indicative and may vary based on inspection findings
+• All quotes are indicative and may vary based on inspection findings
 • Final pricing is communicated after the free inspection
-• Prices are inclusive of GST unless stated otherwise
+• All quotes are inclusive of GST unless stated otherwise
 
 Payment Terms:
 • Payment is due upon completion of service
 • We accept: Cash, UPI, Bank Transfer, Credit/Debit Cards
 • For AMC clients: Payment as per contract schedule
-• EMI options available for treatments above ₹5,000
+• EMI options available on request for eligible treatments
 
 Refund Policy:
 • If you are not satisfied with the treatment, we offer a free re-treatment within the warranty period

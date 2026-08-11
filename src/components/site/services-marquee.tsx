@@ -73,10 +73,6 @@ export function ServicesMarquee() {
             <span className="whitespace-nowrap text-xs font-semibold text-brown">
               {service.name}
             </span>
-            {/* Price */}
-            <span className="rounded-full bg-orange/10 px-1.5 py-0.5 text-[10px] font-bold text-orange">
-              ₹{service.startsFrom.toLocaleString("en-IN")}
-            </span>
             {/* Arrow */}
             <ArrowUpRight className="h-3 w-3 text-brown/40 transition-colors group-hover:text-orange" />
           </Link>

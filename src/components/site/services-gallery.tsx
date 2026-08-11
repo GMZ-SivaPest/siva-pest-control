@@ -67,9 +67,6 @@ export function ServicesGallery() {
                     <div className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center rounded-xl bg-orange/90 text-white backdrop-blur-md">
                       <Icon className="h-5 w-5" strokeWidth={1.6} />
                     </div>
-                    <div className="absolute right-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[11px] font-bold text-brown shadow-premium backdrop-blur-md">
-                      from ₹{service.startsFrom.toLocaleString("en-IN")}
-                    </div>
                     <h3 className="absolute bottom-4 left-4 right-4 font-display text-xl font-bold leading-tight text-white drop-shadow-md">
                       {service.name}
                     </h3>
@@ -148,10 +145,6 @@ export function ServicesGallery() {
                       )}
                     >
                       <Icon className="h-4 w-4" strokeWidth={1.6} />
-                    </div>
-                    {/* Price chip */}
-                    <div className="absolute right-3 top-3 rounded-full bg-white/95 px-2.5 py-0.5 text-[10px] font-bold text-brown shadow-premium backdrop-blur-md">
-                      ₹{service.startsFrom.toLocaleString("en-IN")}
                     </div>
                     {/* Title on image */}
                     <h3 className="absolute bottom-3 left-3 right-3 font-display text-base font-bold leading-tight text-white drop-shadow-md">

@@ -84,7 +84,6 @@ export default async function LocationDetailRoute({
       opens: "08:00",
       closes: "20:00",
     },
-    priceRange: "₹₹",
     url: `${BASE}/locations/${slug}`,
   };
 

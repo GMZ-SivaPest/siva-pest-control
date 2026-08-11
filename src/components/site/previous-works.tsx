@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,6 +12,10 @@ import {
   Building2,
   Home,
   ShieldCheck,
+  Maximize2,
+  X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { SectionHeading } from "./section-heading";
 import { Reveal } from "./reveal";
@@ -172,6 +176,32 @@ export function PreviousWorks() {
 
   const [featured, ...rest] = filtered;
 
+  // === Lightbox state (quick view) ===
+  const [lightboxWork, setLightboxWork] = useState<WorkItem | null>(null);
+  const lightboxIndex = lightboxWork
+    ? filtered.findIndex((w) => w.title === lightboxWork.title)
+    : -1;
+
+  const openLightbox = useCallback(
+    (work: WorkItem) => setLightboxWork(work),
+    []
+  );
+  const closeLightbox = useCallback(() => setLightboxWork(null), []);
+  const prevLightbox = useCallback(() => {
+    setLightboxWork((current) => {
+      if (!current) return current;
+      const i = filtered.findIndex((w) => w.title === current.title);
+      return i > 0 ? filtered[i - 1] : current;
+    });
+  }, [filtered]);
+  const nextLightbox = useCallback(() => {
+    setLightboxWork((current) => {
+      if (!current) return current;
+      const i = filtered.findIndex((w) => w.title === current.title);
+      return i >= 0 && i < filtered.length - 1 ? filtered[i + 1] : current;
+    });
+  }, [filtered]);
+
   return (
     <section className="relative py-20 md:py-28">
       {/* soft warm backdrop */}
@@ -240,7 +270,7 @@ export function PreviousWorks() {
             {/* === Featured story === */}
             {featured && (
               <Reveal>
-                <FeaturedCard work={featured} />
+                <FeaturedCard work={featured} onQuickView={openLightbox} />
               </Reveal>
             )}
 
@@ -249,7 +279,7 @@ export function PreviousWorks() {
               <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {rest.map((w, i) => (
                   <Reveal key={w.title} delay={Math.min(i * 0.06, 0.36)}>
-                    <WorkCard work={w} />
+                    <WorkCard work={w} onQuickView={openLightbox} />
                   </Reveal>
                 ))}
               </div>
@@ -308,12 +338,32 @@ export function PreviousWorks() {
           </div>
         </Reveal>
       </div>
+
+      {/* === Lightbox (quick view) === */}
+      <AnimatePresence>
+        {lightboxWork && (
+          <WorkLightbox
+            work={lightboxWork}
+            onClose={closeLightbox}
+            onPrev={prevLightbox}
+            onNext={nextLightbox}
+            hasPrev={lightboxIndex > 0}
+            hasNext={lightboxIndex < filtered.length - 1}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }
 
 // === FEATURED CARD — large, with key metrics called out as data points ===
-function FeaturedCard({ work }: { work: WorkItem }) {
+function FeaturedCard({
+  work,
+  onQuickView,
+}: {
+  work: WorkItem;
+  onQuickView: (work: WorkItem) => void;
+}) {
   const SegmentIcon =
     work.segment === "commercial"
       ? Building2
@@ -328,10 +378,11 @@ function FeaturedCard({ work }: { work: WorkItem }) {
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
-      <Link
-        href={work.href}
-        className="group relative block overflow-hidden rounded-3xl bg-brown shadow-premium-lg ring-1 ring-brown/10 transition-all hover:-translate-y-1 hover:shadow-lift"
-      >
+      <div className="relative">
+        <Link
+          href={work.href}
+          className="group relative block overflow-hidden rounded-3xl bg-brown shadow-premium-lg ring-1 ring-brown/10 transition-all hover:-translate-y-1 hover:shadow-lift"
+        >
         <div className="grid lg:grid-cols-[1.4fr_1fr]">
           {/* Image side */}
           <div className="relative aspect-[16/10] overflow-hidden lg:aspect-auto lg:min-h-[440px]">
@@ -421,13 +472,30 @@ function FeaturedCard({ work }: { work: WorkItem }) {
             </div>
           </div>
         </div>
-      </Link>
+        </Link>
+
+        {/* Quick view — opens the lightbox. Sibling of the Link so the
+            HTML nesting stays valid. */}
+        <button
+          onClick={() => onQuickView(work)}
+          aria-label={`Quick view: ${work.title}`}
+          className="absolute right-5 top-5 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-md ring-1 ring-white/30 transition-all hover:bg-white/30 hover:scale-105"
+        >
+          <Maximize2 className="h-4 w-4" aria-hidden="true" />
+        </button>
+      </div>
     </motion.div>
   );
 }
 
 // === WORK CARD — compact, with bold metric in corner ===
-function WorkCard({ work }: { work: WorkItem }) {
+function WorkCard({
+  work,
+  onQuickView,
+}: {
+  work: WorkItem;
+  onQuickView: (work: WorkItem) => void;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -435,10 +503,11 @@ function WorkCard({ work }: { work: WorkItem }) {
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5 }}
     >
-      <Link
-        href={work.href}
-        className="group relative block h-full overflow-hidden rounded-2xl bg-brown shadow-premium ring-1 ring-brown/10 transition-all hover:-translate-y-1 hover:shadow-lift"
-      >
+      <div className="relative h-full">
+        <Link
+          href={work.href}
+          className="group relative block h-full overflow-hidden rounded-2xl bg-brown shadow-premium ring-1 ring-brown/10 transition-all hover:-translate-y-1 hover:shadow-lift"
+        >
         <div className="relative aspect-[4/3] w-full overflow-hidden">
           <Image
             src={work.image}
@@ -456,10 +525,6 @@ function WorkCard({ work }: { work: WorkItem }) {
             }}
             aria-hidden="true"
           />
-          {/* Top-right hover affordance */}
-          <div className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white opacity-0 backdrop-blur-md ring-1 ring-white/30 transition-opacity duration-300 group-hover:opacity-100">
-            <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-          </div>
           {/* Date chip — top-left */}
           <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white backdrop-blur-md ring-1 ring-white/30">
             <Calendar className="h-3 w-3" aria-hidden="true" />
@@ -503,7 +568,216 @@ function WorkCard({ work }: { work: WorkItem }) {
             {work.duration}
           </div>
         </div>
-      </Link>
+        </Link>
+
+        {/* Quick view — opens the lightbox. Sibling of the Link so the
+            HTML nesting stays valid. */}
+        <button
+          onClick={() => onQuickView(work)}
+          aria-label={`Quick view: ${work.title}`}
+          className="absolute right-4 top-4 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-md ring-1 ring-white/30 transition-all hover:bg-white/30 hover:scale-105"
+        >
+          <Maximize2 className="h-4 w-4" aria-hidden="true" />
+        </button>
+      </div>
+    </motion.div>
+  );
+}
+
+// === LIGHTBOX — full-screen quick view of a project ===
+function WorkLightbox({
+  work,
+  onClose,
+  onPrev,
+  onNext,
+  hasPrev,
+  hasNext,
+}: {
+  work: WorkItem;
+  onClose: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+  hasPrev: boolean;
+  hasNext: boolean;
+}) {
+  const SegmentIcon =
+    work.segment === "commercial"
+      ? Building2
+      : work.segment === "wildlife"
+        ? ShieldCheck
+        : Home;
+
+  // Escape / arrow-key navigation + body scroll lock while open
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft" && hasPrev) onPrev();
+      if (e.key === "ArrowRight" && hasNext) onNext();
+    };
+    window.addEventListener("keydown", handleKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose, onPrev, onNext, hasPrev, hasNext]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={work.title}
+    >
+      <motion.div
+        initial={{ scale: 0.94, opacity: 0, y: 16 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.94, opacity: 0, y: 16 }}
+        transition={{ type: "spring", damping: 25, stiffness: 300 }}
+        className="relative w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close */}
+        <button
+          onClick={onClose}
+          className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur transition-colors hover:bg-black/65"
+          aria-label="Close"
+        >
+          <X className="h-5 w-5" />
+        </button>
+
+        {/* Prev / Next */}
+        {hasPrev && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onPrev();
+            }}
+            className="absolute left-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur transition-colors hover:bg-black/65"
+            aria-label="Previous project"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+        )}
+        {hasNext && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onNext();
+            }}
+            className="absolute right-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur transition-colors hover:bg-black/65"
+            aria-label="Next project"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        )}
+
+        {/* Image */}
+        <div className="relative h-64 w-full sm:h-80 md:h-96">
+          <Image
+            src={work.image}
+            alt={work.alt}
+            fill
+            sizes="(max-width: 768px) 100vw, 896px"
+            className="object-cover"
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
+            aria-hidden="true"
+          />
+          {/* Segment chip */}
+          <div className="absolute left-5 top-5 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white backdrop-blur-md ring-1 ring-white/30">
+            <SegmentIcon className="h-3 w-3" aria-hidden="true" />
+            {work.segment}
+          </div>
+          {/* Metric callout on image */}
+          <div className="absolute bottom-5 left-5">
+            <div className="font-display text-4xl font-bold text-white drop-shadow-lg">
+              {work.metric.value}
+            </div>
+            <div className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-white/85">
+              {work.metric.label}
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="max-h-[40vh] overflow-y-auto p-6 md:p-8">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h3 className="font-display text-2xl font-bold text-brown">
+                {work.title}
+              </h3>
+              <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-brown/70">
+                <span className="inline-flex items-center gap-1.5">
+                  <MapPin
+                    className="h-3.5 w-3.5 text-orange-ink"
+                    aria-hidden="true"
+                  />
+                  {work.location}
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Calendar
+                    className="h-3.5 w-3.5 text-orange-ink"
+                    aria-hidden="true"
+                  />
+                  {work.date}
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Clock
+                    className="h-3.5 w-3.5 text-orange-ink"
+                    aria-hidden="true"
+                  />
+                  {work.duration}
+                </span>
+              </div>
+            </div>
+            {work.warranty && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-teal/10 px-3 py-1 text-[11px] font-semibold text-teal ring-1 ring-teal/20">
+                <ShieldCheck className="h-3 w-3" aria-hidden="true" />
+                {work.warranty}
+              </span>
+            )}
+          </div>
+
+          {/* Tags */}
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {work.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full bg-orange/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-orange-ink"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <p className="mt-4 text-sm leading-relaxed text-brown/80 text-pretty">
+            {work.summary}
+          </p>
+
+          <div className="mt-6 flex flex-col items-start justify-between gap-4 border-t border-brown/10 pt-5 sm:flex-row sm:items-center">
+            <Link
+              href={work.href}
+              onClick={onClose}
+              className="group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-glow-orange transition-transform hover:scale-[1.02] gradient-orange"
+            >
+              View service detail
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
+            {(hasPrev || hasNext) && (
+              <p className="text-xs text-brown/60">
+                Use ← → arrow keys to browse
+              </p>
+            )}
+          </div>
+        </div>
+      </motion.div>
     </motion.div>
   );
 }

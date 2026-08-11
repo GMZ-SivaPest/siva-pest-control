@@ -6,6 +6,8 @@
  * plus a legacy `view` (for active-state matching via lib/nav.ts).
  */
 
+import { company } from "./company";
+
 export interface NavItem {
   label: string;
   href: string;
@@ -71,5 +73,5 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
 
 export const ctaButtons = {
   primary: { label: "Get Free Quote", href: "/contact", view: "contact" },
-  secondary: { label: "Call Now", href: "tel:+919876543210" },
+  secondary: { label: "Call Now", href: `tel:${company.phonePrimaryHref}` },
 };

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { company } from "@/data/company";
 import { SiteChrome } from "@/components/site/site-chrome";
 import { FaqPage } from "@/components/pages/faq-page";
 import { faqs } from "@/data/faqs";
 
-const BASE = "https://www.sivapestcontrol.com";
+const BASE = company.siteUrl;
 
 export const metadata: Metadata = {
   title: "FAQ — Pest Control Questions",

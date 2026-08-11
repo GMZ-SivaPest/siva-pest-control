@@ -249,6 +249,13 @@
   .marquee-track > * {
     flex: 0 0 auto;
   }
+
+  /* JS-driven marquee (src/components/site/marquee.tsx) — the track is
+     transformed imperatively via requestAnimationFrame, so the CSS
+     keyframe animation must be disabled to avoid fighting it. */
+  .marquee-track.js-marquee-track {
+    animation: none;
+  }
 }
 
 /* ---------- Premium animations ---------- */
@@ -271,6 +278,31 @@
 
 @keyframes dash-flow {
   to { stroke-dashoffset: -1000; }
+}
+
+/* Shimmer sweep used by the announcement bar's animated highlight */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Slim styled scrollbar for modal / card scroll areas (legal docs, etc.) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background: rgb(115 115 115 / 0.35);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgb(115 115 115 / 0.55);
+}
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(115 115 115 / 0.35) transparent;
 }
 
 /* Horizontal marquee for testimonials / image carousels.

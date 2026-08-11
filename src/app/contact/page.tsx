@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { company } from "@/data/company";
 import { SiteChrome } from "@/components/site/site-chrome";
 import { ContactPage } from "@/components/pages/contact-page";
 
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Talk to Siva Pest Control. Free inspection, fixed-price quote, 30-min response across Hyderabad, Chennai and Bangalore.",
   alternates: {
-    canonical: "https://www.sivapestcontrol.com/contact",
+    canonical: `${company.siteUrl}/contact`,
   },
 };
 

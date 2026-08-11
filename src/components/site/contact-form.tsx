@@ -91,6 +91,8 @@ export function ContactForm() {
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  // DPDP Act 2023 consent — required before submitting personal data
+  const [consentGiven, setConsentGiven] = useState(false);
 
   const update = (key: keyof FormState, value: string) => {
     setForm((f) => ({ ...f, [key]: value }));
@@ -132,6 +134,13 @@ export function ContactForm() {
       const firstErrorField = Object.keys(newErrors)[0];
       const el = document.getElementById(`field-${firstErrorField}`);
       el?.focus();
+      return;
+    }
+
+    // DPDP Act 2023 — explicit consent required to process personal data
+    if (!consentGiven) {
+      toast.error("Please accept the privacy consent to continue");
+      document.getElementById("field-consent")?.focus();
       return;
     }
 
@@ -331,6 +340,7 @@ export function ContactForm() {
                       setForm(EMPTY_FORM);
                       setErrors({});
                       setTouched({});
+                      setConsentGiven(false);
                     }}
                     className="mt-6 rounded-full border border-brown/15 px-5 py-2.5 text-sm font-semibold text-brown transition-colors hover:bg-brown/5"
                   >
@@ -462,6 +472,38 @@ export function ContactForm() {
                     </div>
                   )}
 
+                  {/* DPDP Act 2023 consent checkbox — opens the legal modal */}
+                  <label className="flex cursor-pointer items-start gap-2.5">
+                    <input
+                      id="field-consent"
+                      type="checkbox"
+                      checked={consentGiven}
+                      onChange={(e) => setConsentGiven(e.target.checked)}
+                      className="mt-0.5 h-4 w-4 shrink-0 rounded border-brown/25 text-orange accent-orange focus:ring-orange/40"
+                    />
+                    <span className="text-[11px] leading-snug text-brown/65">
+                      I consent to {company.name} collecting and processing my
+                      personal data as per the{" "}
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          window.dispatchEvent(
+                            new CustomEvent("open-legal-modal", {
+                              detail: "privacy-policy",
+                            })
+                          );
+                        }}
+                        className="font-medium text-orange underline decoration-orange/40 underline-offset-2 hover:text-orange/80"
+                      >
+                        Privacy Policy
+                      </a>{" "}
+                      under the Digital Personal Data Protection Act, 2023. I
+                      understand my data will be used to process my service
+                      request.
+                    </span>
+                  </label>
+
                   <button
                     type="submit"
                     disabled={submitting}
@@ -486,11 +528,6 @@ export function ContactForm() {
                       </>
                     )}
                   </button>
-
-                  <p className="text-center text-xs text-brown/70">
-                    By submitting, you agree to be contacted about your request.
-                    We never share your details. No spam, ever.
-                  </p>
                 </form>
               )}
             </div>

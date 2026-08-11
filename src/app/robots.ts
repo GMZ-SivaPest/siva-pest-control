@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { company } from "@/data/company";
 
 /**
  * robots.ts — dynamically generated robots.txt.
@@ -20,7 +21,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api", "/_next", "/_static"],
       },
     ],
-    sitemap: "https://www.sivapestcontrol.com/sitemap.xml",
-    host: "https://www.sivapestcontrol.com",
+    sitemap: `${company.siteUrl}/sitemap.xml`,
+    host: company.siteUrl,
   };
 }

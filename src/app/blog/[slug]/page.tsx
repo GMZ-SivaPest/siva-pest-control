@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { company } from "@/data/company";
 import { SiteChrome } from "@/components/site/site-chrome";
 import { BlogDetailPage } from "@/components/pages/blog-detail-page";
 import { blogPosts, blogPostBySlug } from "@/data/blog";
 import { notFound } from "next/navigation";
 
-const BASE = "https://www.sivapestcontrol.com";
+const BASE = company.siteUrl;
 
 export async function generateStaticParams() {
   return blogPosts.map((p) => ({ slug: p.slug }));
@@ -69,20 +70,20 @@ export default async function BlogDetailRoute({
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
-    image: `https://www.sivapestcontrol.com${post.image}`,
+    image: `${BASE}${post.image}`,
     datePublished: post.publishedOn,
     dateModified: post.publishedOn,
     author: {
       "@type": "Organization",
       name: post.author,
-      url: "https://www.sivapestcontrol.com/about",
+      url: `${BASE}/about`,
     },
     publisher: {
       "@type": "Organization",
       name: "Siva Pest Control",
       logo: {
         "@type": "ImageObject",
-        url: "https://www.sivapestcontrol.com/logo.png",
+        url: `${BASE}/logo.png`,
       },
     },
     mainEntityOfPage: {

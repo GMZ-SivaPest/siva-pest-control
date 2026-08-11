@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
+import { HelpCircle, ArrowRight } from "lucide-react";
 import { SectionHeading } from "./section-heading";
 import { ServiceCard } from "./service-card";
 import { servicesByCategory, serviceCategories } from "@/data/services";
@@ -64,6 +66,27 @@ export function ServicesGrid({
           {filtered.map((service, i) => (
             <ServiceCard key={service.slug} service={service} index={i} />
           ))}
+
+          {/* CTA card — "not sure what pest you have?" */}
+          <div className="flex flex-col items-center justify-center rounded-xl bg-gradient-to-br from-emerald-800 to-emerald-700 p-6 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/20 bg-white/10 text-white">
+              <HelpCircle className="h-6 w-6" />
+            </div>
+            <h3 className="mt-4 font-display text-lg font-semibold leading-tight text-white">
+              Not sure what pest you have?
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-emerald-100/70">
+              Our experts will identify the problem and recommend the right
+              treatment — at no cost.
+            </p>
+            <Link
+              href="/contact"
+              className="mt-5 inline-flex items-center gap-2 rounded-full bg-amber-500 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-amber-600"
+            >
+              Book Free Inspection
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </div>
     </section>

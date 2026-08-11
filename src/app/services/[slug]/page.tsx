@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { company } from "@/data/company";
 import { SiteChrome } from "@/components/site/site-chrome";
 import { ServiceDetailPage } from "@/components/pages/service-detail-page";
 import { services, servicesBySlug } from "@/data/services";
 import { notFound } from "next/navigation";
 
-const BASE = "https://www.sivapestcontrol.com";
+const BASE = company.siteUrl;
 
 export async function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));

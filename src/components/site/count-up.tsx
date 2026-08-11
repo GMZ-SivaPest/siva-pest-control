@@ -1,51 +1,37 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useInView } from "framer-motion";
-import { cn } from "@/lib/utils";
-
 interface CountUpProps {
   end: number;
   suffix?: string;
-  duration?: number;
   className?: string;
   prefix?: string;
+  /**
+   * Kept for API compatibility. Numbers are no longer counted up from a
+   * low start — the final value renders immediately (see below) so stats
+   * never flash "0+" before animating.
+   */
   start?: number;
+  duration?: number;
 }
 
 /**
- * CountUp — animates from 0 (or start) to end when scrolled into view.
+ * CountUp — renders the final value immediately, both on the server
+ * (SSR HTML contains the real number for SEO) and on the client, so the
+ * stats never show a misleading "0+" before animating.
+ *
+ * Entrance motion (if any) is handled by the parent card's stagger
+ * animation — the number itself is always the true value.
  */
 export function CountUp({
   end,
   suffix = "",
   prefix = "",
-  duration = 2000,
   className,
-  start = 0,
 }: CountUpProps) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-30px" });
-  const [value, setValue] = useState(start);
-
-  useEffect(() => {
-    if (!inView) return;
-    let startTime: number | null = null;
-    const step = (t: number) => {
-      if (startTime === null) startTime = t;
-      const progress = Math.min((t - startTime) / duration, 1);
-      // ease-out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setValue(Math.floor(start + (end - start) * eased));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [inView, end, start, duration]);
-
   return (
-    <span ref={ref} className={className}>
+    <span className={className}>
       {prefix}
-      {value.toLocaleString("en-IN")}
+      {end.toLocaleString("en-IN")}
       {suffix}
     </span>
   );

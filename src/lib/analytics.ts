@@ -1,12 +1,14 @@
 /**
- * analytics.ts — Google Analytics 4 (GA4) integration layer.
+ * analytics.ts — Google Analytics 4 (GA4) + Google Tag Manager (GTM) layer.
  *
  * Features:
- *  - Lazy-loaded gtag.js (no impact on initial page weight)
+ *  - GTM container loaded server-side (see components/site/gtm.tsx); all
+ *    typed helpers push into the shared `dataLayer` so GTM tags can fire.
+ *  - Lazy-loaded gtag.js for direct GA4 (no impact on initial page weight)
  *  - Consent Mode v2 (defaults to denied, grants on user action)
  *  - Automatic page-view tracking on Next.js App Router route changes
  *  - Typed custom-event helpers (cta_click, lead, phone_click, whatsapp_click, search, etc.)
- *  - No-op when NEXT_PUBLIC_GA_MEASUREMENT_ID is unset (so dev builds stay clean)
+ *  - No-op when no backend is active (dev builds stay clean)
  *  - Respects navigator.doNotTrack and window privacy flags
  *
  * Usage:
@@ -14,8 +16,10 @@
  *   trackCTAClick({ location: "hero", label: "Get Free Quote" });
  *
  * Configuration:
- *   Set NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX in your .env.local or hosting env.
- *   If unset, all tracking calls become silent no-ops (safe for previews / dev).
+ *   Set NEXT_PUBLIC_GTM_ID=GTM-XXXXXXXXXX in your .env.local or hosting env
+ *   (defaults to GTM-PCVDG8ND). Optionally also set
+ *   NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX for direct gtag.js GA4.
+ *   If both are unset, all tracking calls become silent no-ops.
  */
 
 export const GA_MEASUREMENT_ID =
@@ -24,6 +28,14 @@ export const GA_MEASUREMENT_ID =
 export const GA_ENABLED = Boolean(
   GA_MEASUREMENT_ID && GA_MEASUREMENT_ID.startsWith("G-")
 );
+
+/** Google Tag Manager container (defaults to the client's container). */
+export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID ?? "GTM-PCVDG8ND";
+
+export const GTM_ENABLED = Boolean(GTM_ID && GTM_ID.startsWith("GTM-"));
+
+/** True when ANY analytics backend is active (GA4 and/or GTM). */
+export const TRACKING_ENABLED = GA_ENABLED || GTM_ENABLED;
 
 /* ------------------------------------------------------------------ */
 /*  TypeScript declarations for gtag                                   */
@@ -133,7 +145,7 @@ export function initAnalytics(): void {
  */
 export function trackPageView(pathname: string): void {
   if (typeof window === "undefined") return;
-  if (!GA_ENABLED || !window.gtag) return;
+  if (!TRACKING_ENABLED || !window.gtag) return;
 
   window.gtag("event", "page_view", {
     page_path: pathname,
@@ -149,7 +161,7 @@ export function trackPageView(pathname: string): void {
  */
 export function grantAnalyticsConsent(): void {
   if (typeof window === "undefined") return;
-  if (!GA_ENABLED || !window.gtag) return;
+  if (!TRACKING_ENABLED || !window.gtag) return;
   if (window.__ga4ConsentGranted) return;
 
   window.gtag("consent", "update", {
@@ -172,7 +184,7 @@ export function trackEvent(
   params?: Record<string, unknown>
 ): void {
   if (typeof window === "undefined") return;
-  if (!GA_ENABLED || !window.gtag) return;
+  if (!TRACKING_ENABLED || !window.gtag) return;
   window.gtag("event", action, params);
 }
 

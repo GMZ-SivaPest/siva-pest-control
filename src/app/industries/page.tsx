@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { company } from "@/data/company";
 import { SiteChrome } from "@/components/site/site-chrome";
 import { IndustriesPage } from "@/components/pages/industries-page";
 
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Restaurants, hotels, warehouses, healthcare, manufacturing, retail, schools, offices — FSSAI-compliant Integrated Pest Management with full documentation.",
   alternates: {
-    canonical: "https://www.sivapestcontrol.com/industries",
+    canonical: `${company.siteUrl}/industries`,
   },
 };
 

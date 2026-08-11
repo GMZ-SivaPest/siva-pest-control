@@ -4,7 +4,9 @@ import { MotionConfig } from "framer-motion";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics, AnalyticsScript } from "@/components/site/analytics";
+import { GtmScript, GtmNoScript } from "@/components/site/gtm";
 import { CookieConsent } from "@/components/site/cookie-consent";
+import { LegalModal } from "@/components/site/legal-modal";
 import { company } from "@/data/company";
 import { brand } from "@/data/brand";
 import { locations } from "@/data/locations";
@@ -23,7 +25,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.sivapestcontrol.com"),
+  metadataBase: new URL(company.siteUrl),
   title: {
     default: "Siva Pest Control — Licensed Protection for Homes & Businesses",
     template: "%s · Siva Pest Control",
@@ -52,7 +54,7 @@ export const metadata: Metadata = {
     title: "Siva Pest Control — Licensed Protection for Homes & Businesses",
     description:
       "Science-led pest control across Hyderabad, Chennai and Bangalore. Fully guaranteed treatments with 30-min response and child-safe formulations.",
-    url: "https://www.sivapestcontrol.com",
+    url: company.siteUrl,
     siteName: "Siva Pest Control",
     type: "website",
     locale: "en_IN",
@@ -90,15 +92,15 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "PestControl",
-  "@id": "https://www.sivapestcontrol.com/#business",
+  "@id": `${company.siteUrl}/#business`,
   name: brand.legalName,
   alternateName: brand.name,
   description: brand.description,
-  url: "https://www.sivapestcontrol.com",
+  url: company.siteUrl,
   telephone: company.phonePrimaryHref,
   email: company.email,
-  image: "https://www.sivapestcontrol.com/og-image.jpg",
-  logo: "https://www.sivapestcontrol.com/logo.png",
+  image: `${company.siteUrl}/og-image.jpg`,
+  logo: `${company.siteUrl}/logo.png`,
   priceRange: "₹₹",
   foundingDate: String(brand.foundedYear),
   knowsAbout: [
@@ -169,10 +171,15 @@ export default function RootLayout({
       <head>
         {/* GA4 — server-rendered script for optimal load timing */}
         <AnalyticsScript />
+        {/* Google Tag Manager — dataLayer + consent bootstrap + container */}
+        <GtmScript />
       </head>
       <body
         className={`${inter.variable} ${manrope.variable} antialiased bg-background text-foreground`}
       >
+        {/* GTM <noscript> fallback for no-JS visitors */}
+        <GtmNoScript />
+
         {/* Skip-to-content link for keyboard & screen-reader users */}
         <a
           href="#main"
@@ -196,6 +203,11 @@ export default function RootLayout({
 
         {/* Privacy-first cookie consent banner */}
         <CookieConsent />
+
+        {/* Legal documents modal (Privacy / Cookie / Terms) — opened via the
+            `open-legal-modal` window event from footer links & the DPDP
+            consent checkbox on the contact form */}
+        <LegalModal />
 
         <Toaster />
       </body>

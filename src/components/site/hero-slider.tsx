@@ -231,6 +231,7 @@ export function HeroSlider() {
             alt={slide.alt}
             fill
             priority={active === 0}
+            loading={active === 0 ? "eager" : "lazy"}
             sizes="100vw"
             className="object-cover"
           />

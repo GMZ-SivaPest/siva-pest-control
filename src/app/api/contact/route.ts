@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { company } from "@/data/company";
 
 /**
  * POST /api/contact
@@ -211,7 +212,7 @@ Lead ID:        ${payload.leadId}
 Message:
 ${payload.message ?? "(no message)"}
 
-— Auto-generated from sivapestcontrol.com`;
+— Auto-generated from ${company.siteUrl}`;
 
   try {
     await fetch("https://api.resend.com/emails", {

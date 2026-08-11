@@ -7,10 +7,29 @@ import { brand } from "./brand";
 
 export const company = {
   ...brand,
+  /** Canonical site URL — used across SEO metadata, sitemap, robots, JSON-LD. */
+  siteUrl: "https://sivapestcontrol.com",
   /** Proprietor / founder — entomologist-trained, M.Sc. (Ag) Entomology */
   founder: "S. Sai Prakash",
   founderCredential: "M.Sc. (Ag) Entomology",
-  /** GSTIN — required on invoices and on quotes for commercial clients */
+  /** Short-form credential exactly as printed on the original site
+      (sivapestcontrol.com): "M.Sc., (Ag) Ent". */
+  founderCredentialShort: "M.Sc., (Ag) Ent",
+  /** Service descriptor from the original site. */
+  descriptor: "Industrial & Household Pest Management · Fumigation Service",
+  /** States / regions we operate in.
+      Original site listed: "Andhra Pradesh, Telangana, Karnataka, Chennai".
+      Live location pages exist for Hyderabad (Telangana), Chennai (Tamil
+      Nadu) and Bangalore (Karnataka). */
+  serviceAreas: ["Telangana", "Andhra Pradesh", "Karnataka", "Tamil Nadu"],
+  /** Licenses / registrations carried over from the original site's
+      "Other Details" section. "500 DDT" is legacy wording — kept as-is
+      for reference, not displayed on the live site. */
+  licenses: ["Licensed to Kill", "500 DDT"],
+  /** GSTIN — required on invoices and on quotes for commercial clients.
+      NOTE: original site (sivapestcontrol.com) listed 36BBP GPP6124G1KZ8 —
+      the value below is the current verified one. If the old number is
+      correct, change it here once and it updates everywhere. */
   gstin: "36BGPP6124G1KLZ8",
   phonePrimary: "+91 77024 87195",
   phonePrimaryHref: "+917702487195",

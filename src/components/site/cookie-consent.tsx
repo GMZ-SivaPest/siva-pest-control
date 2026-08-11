@@ -7,6 +7,7 @@ import { Cookie, X, Check } from "lucide-react";
 import { grantAnalyticsConsent, GA_ENABLED } from "@/lib/analytics";
 
 const CONSENT_KEY = "siva-consent-v1";
+export { CONSENT_KEY };
 const CONSENT_GRANTED = "granted";
 const CONSENT_DENIED = "denied";
 

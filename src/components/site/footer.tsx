@@ -1,12 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { Phone, Mail, MapPin, Clock, Instagram, Facebook, Linkedin, Youtube, ShieldCheck, ChevronRight } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Instagram, Facebook, Linkedin, Youtube, ShieldCheck, ChevronRight, Shield, Cookie, FileText } from "lucide-react";
 import { LogoMark } from "./logo-mark";
 import { company } from "@/data/company";
 import { footerNav } from "@/data/navigation";
 import { locations } from "@/data/locations";
 import { brand } from "@/data/brand";
+import { CONSENT_KEY } from "./cookie-consent";
+import type { LegalDocType } from "./legal-modal";
+
+// Opens the DPDP-compliant legal documents modal (mounted in the root layout)
+const openLegalModal = (doc: LegalDocType) => {
+  window.dispatchEvent(new CustomEvent("open-legal-modal", { detail: doc }));
+};
+
+const legalLinks: { label: string; doc: LegalDocType; icon: typeof Shield }[] = [
+  { label: "Privacy Policy", doc: "privacy-policy", icon: Shield },
+  { label: "Cookie Policy", doc: "cookie-policy", icon: Cookie },
+  { label: "Terms & Conditions", doc: "terms-conditions", icon: FileText },
+];
 
 export function Footer() {
 
@@ -161,10 +174,45 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-6 text-xs text-white/75 sm:flex-row">
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-6 text-xs text-white/75 lg:flex-row">
           <div>
             © {new Date().getFullYear()} {company.legalName}. All rights reserved.
           </div>
+
+          {/* Legal links — open the DPDP-compliant legal modal */}
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+            {legalLinks.map((link, i) => {
+              const LinkIcon = link.icon;
+              return (
+                <span key={link.label} className="flex items-center gap-1">
+                  {i > 0 && <span className="text-white/20">|</span>}
+                  <button
+                    onClick={() => openLegalModal(link.doc)}
+                    className="inline-flex items-center gap-1 transition-colors hover:text-white/70"
+                  >
+                    <LinkIcon className="h-3 w-3" />
+                    {link.label}
+                  </button>
+                </span>
+              );
+            })}
+            <span className="text-white/20">|</span>
+            <button
+              onClick={() => {
+                try {
+                  localStorage.removeItem(CONSENT_KEY);
+                } catch {
+                  /* ignore */
+                }
+                window.location.reload();
+              }}
+              className="inline-flex items-center gap-1 transition-colors hover:text-white/70"
+            >
+              <Cookie className="h-3 w-3" />
+              Cookie Settings
+            </button>
+          </div>
+
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
             {brand.certifications.map((cert) => (
               <span key={cert} className="flex items-center gap-1.5">

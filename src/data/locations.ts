@@ -3,6 +3,8 @@
  * Each city has full local SEO content: address, phone, coverage, testimonials, FAQs, map coords.
  */
 
+import { company } from "./company";
+
 export interface LocationFaq {
   q: string;
   a: string;
@@ -46,8 +48,8 @@ export const locations: Location[] = [
       "Serving 28 zones across Hyderabad and Secunderabad with same-day response in most areas. Field team based in Madhapur.",
     longIntro:
       "Hyderabad is where Siva Pest Control was founded in 2012, and it remains our largest operation. Our Madhapur field office dispatches technicians across 28 zones — from HITEC City and Gachibowli to Kukatpally, Banjara Hills, and Old City. With 14 certified technicians on the ground and a guaranteed 30-minute response window in most pin codes, we're the city's most responsive premium pest control service. We know the local pest pressure: termite swarms in Banjara Hills, rodent surges in Secunderabad's older housing, mosquito spikes around Hussain Sagar. Our treatments are calibrated for Hyderabad's climate and construction patterns.",
-    phone: "+91 98765 43210",
-    phoneHref: "+919876543210",
+    phone: company.phonePrimary,
+    phoneHref: company.phonePrimaryHref,
     email: "hyd@sivapestcontrol.com",
     address: {
       line1: "Plot 14, Road 2, Madhapur",
@@ -208,8 +210,8 @@ export const locations: Location[] = [
       "Serving Bangalore's tech corridors and gated communities with calibrate-to-altitude treatments. Field team in Koramangala.",
     longIntro:
       "Bangalore's moderate climate, dense gated communities, and high turnover tenant base create a different pest profile than other South Indian metros. Our Koramangala field office deploys 4 technicians across 24 zones — from Whitefield and Sarjapur to Indiranagar and Yelahanka. We specialise in Bangalore's signature challenges: rodent pressure in tech parks, pigeon fouling on glass facades, and bed bug surges in PG accommodations near tech corridors. Every technician is trained for the city's modern apartment layouts and shared-wall construction.",
-    phone: "+91 98765 43210",
-    phoneHref: "+919876543210",
+    phone: company.phonePrimary,
+    phoneHref: company.phonePrimaryHref,
     email: "blr@sivapestcontrol.com",
     address: {
       line1: "80 Feet Road, Koramangala 4th Block",

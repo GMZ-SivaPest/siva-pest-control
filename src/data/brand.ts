@@ -20,6 +20,10 @@ export const brand = {
       ship meaningful content changes (audit P2). */
   contentLastUpdated: "2026-08-08",
   guaranteeLabel: "180-Day Service Warranty",
+  /** Trust badges shown in the footer / homepage / about certification strips.
+      NOTE: original site (sivapestcontrol.com) listed "C T R I Certified"
+      (we show "CTI Certified") and "IPCA Membership" (we show "IPCA Member").
+      Change the wording here once if needed — it updates everywhere. */
   certifications: [
     "ISO 9001:2015 Certified",
     "ISO 14001:2015 Certified",

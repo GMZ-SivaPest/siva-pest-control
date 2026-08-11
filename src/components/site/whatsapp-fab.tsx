@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Phone, MessageCircle } from "lucide-react";
+import { Phone } from "lucide-react";
+import { WhatsAppIcon } from "./whatsapp-icon";
 import { company } from "@/data/company";
 import { trackWhatsAppClick, trackPhoneClick } from "@/lib/analytics";
 
@@ -37,8 +38,9 @@ export function WhatsAppFab() {
   // Hide on contact page — duplicate CTA not needed
   const onContact = pathname === "/contact";
 
+  // Pre-filled WhatsApp greeting — warm, specific, action-oriented.
   const message = encodeURIComponent(
-    "Hi Siva Pest Control, I'd like to book a free pest inspection. Please call me back."
+    "Hello Siva Pest Control! 👋 I'd like to book a FREE pest inspection for my property. Please call me back with the next available slot. Thank you!"
   );
 
   return (
@@ -53,10 +55,40 @@ export function WhatsAppFab() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.6, y: 20 }}
             transition={{ type: "spring", damping: 22, stiffness: 280 }}
-            className="fixed bottom-6 right-6 z-40 hidden items-center md:flex"
+            className="fixed bottom-6 right-6 z-40 hidden items-center gap-3 md:flex"
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
           >
+            {/* Call button — slides in beside the WhatsApp pill on hover,
+                mirroring the mobile Call + WhatsApp pattern */}
+            <AnimatePresence>
+              {hovered && (
+                <motion.a
+                  key="fab-call"
+                  href={`tel:${company.phonePrimaryHref}`}
+                  onClick={() =>
+                    trackPhoneClick({
+                      location: "fab-desktop",
+                      phone: company.phonePrimary,
+                    })
+                  }
+                  initial={{ opacity: 0, x: 24, scale: 0.8 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: 24, scale: 0.8 }}
+                  transition={{ type: "spring", damping: 24, stiffness: 300 }}
+                  aria-label={`Call ${company.phonePrimary}`}
+                  title={`Call ${company.phonePrimary}`}
+                  className="group relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-orange to-orange-deep text-white shadow-premium-lg transition-shadow hover:shadow-glow-orange"
+                >
+                  <Phone className="h-5 w-5" fill="currentColor" />
+                  <span
+                    aria-hidden
+                    className="absolute inset-0 -z-10 animate-ping rounded-full bg-orange opacity-20"
+                  />
+                </motion.a>
+              )}
+            </AnimatePresence>
+
             {/* Expanding "Chat with us" pill label */}
             <motion.a
               href={`${company.whatsappHref}?text=${message}`}
@@ -64,6 +96,7 @@ export function WhatsAppFab() {
               rel="noopener noreferrer"
               onClick={() => trackWhatsAppClick({ location: "fab-desktop" })}
               aria-label="Chat with us on WhatsApp"
+              title="Chat with us on WhatsApp"
               className="group relative flex h-14 items-center justify-center overflow-hidden rounded-full bg-whatsapp text-white shadow-premium-lg transition-shadow hover:shadow-glow-orange"
               animate={{ width: hovered ? 200 : 56 }}
               transition={{ type: "spring", damping: 24, stiffness: 280 }}
@@ -88,7 +121,7 @@ export function WhatsAppFab() {
                 animate={{ x: hovered ? -70 : 0 }}
                 transition={{ type: "spring", damping: 24, stiffness: 280 }}
               >
-                <MessageCircle className="h-6 w-6" fill="currentColor" />
+                <WhatsAppIcon className="h-6 w-6" />
               </motion.span>
 
               {/* Label — fades in on hover */}
@@ -154,6 +187,7 @@ export function WhatsAppFab() {
                 onClick={() => trackWhatsAppClick({ location: "mobile-fab-bar" })}
                 className="group relative flex flex-1 flex-col items-center justify-center gap-1 rounded-2xl bg-whatsapp py-2.5 shadow-premium active:scale-[0.97]"
                 aria-label="Chat on WhatsApp"
+                title="Chat on WhatsApp"
               >
                 {/* Pulse ring on WhatsApp only — signals "online, chat now" */}
                 <span
@@ -161,7 +195,7 @@ export function WhatsAppFab() {
                   className="absolute top-1.5 right-2 h-2 w-2 rounded-full border border-white bg-red-500"
                 />
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white">
-                  <MessageCircle className="h-4 w-4" fill="currentColor" />
+                  <WhatsAppIcon className="h-4 w-4" />
                 </span>
                 <span className="text-[11px] font-bold uppercase tracking-wide text-white">
                   WhatsApp

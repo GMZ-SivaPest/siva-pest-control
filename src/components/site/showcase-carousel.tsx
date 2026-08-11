@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "./reveal";
 import { SectionHeading } from "./section-heading";
+import { Marquee } from "./marquee";
 import { ArrowUpRight } from "lucide-react";
 
 /**
@@ -213,9 +214,6 @@ const slides: ShowcaseSlide[] = [
 ];
 
 export function ShowcaseCarousel() {
-  // Two copies for seamless loop
-  const loop = [...slides, ...slides];
-
   return (
     <section className="relative overflow-hidden bg-ivory py-20 md:py-24">
       <div className="absolute inset-0 -z-10 bg-dot-warm opacity-[0.05]" aria-hidden="true" />
@@ -229,28 +227,23 @@ export function ShowcaseCarousel() {
       </div>
 
       <Reveal className="mt-12" delay={0.1}>
-        <div
-          className="marquee-viewport mask-fade-edges"
-          role="region"
-          aria-label="Pest control service showcase — scrolling marquee"
+        <Marquee
+          speed={45}
+          className="mask-fade-edges"
+          trackClassName="gap-6 px-4 sm:px-6 lg:px-8"
+          ariaLabel="Pest control service showcase — scrolling marquee"
         >
-          <ul
-            className="marquee-track gap-6 px-4 sm:px-6 lg:px-8"
-            style={{ animationDuration: "100s" }}
-            // aria-hidden: infinite marquee — same content is fully reachable
-            // via the linked cards which screen readers will announce.
-            aria-hidden="true"
-          >
-            {loop.map((slide, i) => (
-              <li
-                key={`${slide.title}-${i}`}
-                className="w-[320px] sm:w-[380px] lg:w-[440px]"
-              >
-                <ShowcaseCard slide={slide} />
-              </li>
-            ))}
-          </ul>
-        </div>
+          {/* Single set of slides — the JS Marquee recycles items off-screen
+              instead of duplicating the list, so no slide appears twice. */}
+          {slides.map((slide) => (
+            <div
+              key={slide.title}
+              className="w-[320px] sm:w-[380px] lg:w-[440px]"
+            >
+              <ShowcaseCard slide={slide} />
+            </div>
+          ))}
+        </Marquee>
       </Reveal>
     </section>
   );

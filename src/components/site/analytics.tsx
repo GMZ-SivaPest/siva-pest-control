@@ -5,6 +5,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import {
   initAnalytics,
   trackPageView,
+  TRACKING_ENABLED,
   GA_ENABLED,
   GA_MEASUREMENT_ID,
 } from "@/lib/analytics";
@@ -34,7 +35,7 @@ function AnalyticsInner() {
 
   // Track page view on route change
   useEffect(() => {
-    if (!GA_ENABLED) return;
+    if (!TRACKING_ENABLED) return;
     if (!pathname) return;
 
     // Compose the path + query string
@@ -49,7 +50,7 @@ function AnalyticsInner() {
     return () => window.clearTimeout(id);
   }, [pathname, searchParams]);
 
-  if (!GA_ENABLED) return null;
+  if (!TRACKING_ENABLED) return null;
 
   return (
     <>

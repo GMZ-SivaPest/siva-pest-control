@@ -3,6 +3,7 @@ import { services } from "@/data/services";
 import { locations } from "@/data/locations";
 import { blogPosts } from "@/data/blog";
 import { brand } from "@/data/brand";
+import { company } from "@/data/company";
 
 /**
  * sitemap.ts — Multi-page App Router sitemap.
@@ -17,7 +18,7 @@ import { brand } from "@/data/brand";
  *  - Service & location routes → brand.contentLastUpdated
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://www.sivapestcontrol.com";
+  const base = company.siteUrl;
   const contentLastUpdated = new Date(brand.contentLastUpdated);
 
   const staticRoutes: MetadataRoute.Sitemap = [

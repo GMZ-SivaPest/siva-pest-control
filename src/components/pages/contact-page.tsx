@@ -5,7 +5,8 @@ import { ContactForm } from "@/components/site/contact-form";
 import { Reveal } from "@/components/site/reveal";
 import { locations } from "@/data/locations";
 import { company } from "@/data/company";
-import { Phone, MapPin, Clock, MessageCircle } from "lucide-react";
+import { Phone, MapPin, Clock } from "lucide-react";
+import { WhatsAppIcon } from "@/components/site/whatsapp-icon";
 
 export function ContactPage() {
   return (
@@ -79,7 +80,7 @@ export function ContactPage() {
                       rel="noopener noreferrer"
                       className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full border border-brown/15 bg-white px-4 py-2.5 text-xs font-semibold text-brown transition-colors hover:border-teal/40 hover:text-teal"
                     >
-                      <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" />
+                      <WhatsAppIcon className="h-3.5 w-3.5" />
                       WhatsApp {loc.city} office
                     </a>
                   </div>

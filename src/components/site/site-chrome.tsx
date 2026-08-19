@@ -51,7 +51,8 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <ScrollProgress />
-      {announcementOpen && <AnnouncementBar onClose={dismissAnnouncement} />}
+      {/* AnnouncementBar temporarily commented out */}
+      {/* {announcementOpen && <AnnouncementBar onClose={dismissAnnouncement} />} */}
       <NavBridge />
       <Navbar />
       <ServicesMarquee />

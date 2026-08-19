@@ -40,7 +40,7 @@ export function WhatsAppFab() {
 
   // Pre-filled WhatsApp greeting — warm, specific, action-oriented.
   const message = encodeURIComponent(
-    "Hello Siva Pest Control! 👋 I'd like to book a FREE pest inspection for my property. Please call me back with the next available slot. Thank you!"
+    "Hello Siva Pest Control! 👋 I'm looking for pest control service. Please call me back with the next available slot. Thank you!"
   );
 
   return (

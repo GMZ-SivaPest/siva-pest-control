@@ -75,7 +75,7 @@ export function ContactPage() {
                     </div>
 
                     <a
-                      href={`${company.whatsappHref}?text=Hi%20Siva%20Pest%20Control,%20I%27d%20like%20to%20book%20a%20service%20in%20${encodeURIComponent(loc.city)}`}
+                      href={`${company.whatsappHref}?text=Hello%20Siva%20Pest%20Control!%20%F0%9F%91%8B%20I'm%20in%20Isukapalli%2FRepalle%20area%20and%20need%20pest%20control%20service.%20Please%20call%20me%20back%20with%20the%20next%20available%20slot.%20Thank%20you!`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full border border-brown/15 bg-white px-4 py-2.5 text-xs font-semibold text-brown transition-colors hover:border-teal/40 hover:text-teal"

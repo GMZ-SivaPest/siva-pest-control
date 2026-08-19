@@ -43,7 +43,27 @@ export function GtmScript() {
           `,
         }}
       />
-      <script async src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`} />
+      <script
+        // Defer loading of the GTM container until the browser is idle
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function(){
+              function loadGTM(){
+                var s=document.createElement('script');
+                s.async=true;
+                s.src='https://www.googletagmanager.com/gtm.js?id=${GTM_ID}';
+                var n=document.getElementsByTagName('script')[0];
+                n.parentNode.insertBefore(s,n);
+              }
+              if('requestIdleCallback' in window){
+                requestIdleCallback(loadGTM,{timeout:2000});
+              } else {
+                setTimeout(loadGTM,2000);
+              }
+            })();
+          `,
+        }}
+      />
     </>
   );
 }

@@ -40,6 +40,77 @@ export interface Location {
 
 export const locations: Location[] = [
   {
+    slug: "isukapalli",
+    city: "Isukapalli",
+    state: "Andhra Pradesh",
+    tagline: "Your trusted local pest control experts in Repalle.",
+    shortIntro:
+      "Serving Isukapalli, Repalle and surrounding areas with prompt, professional pest control services. Local team based in Isukapalli.",
+    longIntro:
+      "Siva Pest Control is proud to serve Isukapalli and the greater Repalle region with comprehensive pest management solutions. Our local team understands the unique pest challenges of this coastal Andhra Pradesh area — from termite infestations in traditional homes to mosquito surges during monsoon season and rodent issues in agricultural surroundings. We provide same-day service for most pin codes in the region, with treatments calibrated for the local climate and construction patterns. Whether you're in Isukapalli, Repalle town, or nearby villages, our certified technicians deliver effective, safe, and affordable pest control.",
+    phone: company.phonePrimary,
+    phoneHref: company.phonePrimaryHref,
+    email: "repalle@sivapestcontrol.com",
+    address: {
+      line1: "6-10-98/10A MANDAVA, Kasturi Vari St",
+      line2: "Isukapalle, Repalle, Andhra Pradesh",
+      landmark: "Near Kasturi Vari Street Junction",
+      pincode: "522265",
+    },
+    hours: "Mon–Sat · 8:00 AM – 8:00 PM",
+    coverage: [
+      "Isukapalli",
+      "Repalle",
+      "Nizampatnam",
+      "Penumudi",
+      "Kavuru",
+      "Chandole",
+      "Mulapeta",
+      "Kothapeta",
+      "Peteru",
+      "Aravalli",
+      "Nagaram",
+      "Kakarlamudi",
+      "Alluru",
+      "Vipparla",
+      "Kuchipudi",
+    ],
+    landmarks: [
+      "Kasturi Vari Street Junction",
+      "Repalle Bus Stand",
+      "Repalle Railway Station",
+      "Krishna River Bank",
+      "Mandal Revenue Office, Repalle",
+    ],
+    mapCoords: { x: 65, y: 72 },
+    responseTime: "60 min average",
+    technicians: 3,
+    rating: 4.9,
+    reviewsCount: 120,
+    faqs: [
+      {
+        q: "Which areas around Isukapalli and Repalle do you cover?",
+        a: "We cover Isukapalli, Repalle town, Nizampatnam, Penumudi, Kavuru, Chandole, Mulapeta, Kothapeta, Peteru, Aravalli, Nagaram, Kakarlamudi, Alluru, Vipparla, Kuchipudi and surrounding villages. If your pin code is within 30km of Isukapalli, we can typically reach you the same day.",
+      },
+      {
+        q: "Do you handle termite issues common in traditional Andhra homes?",
+        a: "Yes — traditional homes in this region often have wood-heavy construction and are at high risk for subterranean termites. Our drill-fill-seal barrier treatment is specifically calibrated for these structures and backed by a 5-year warranty.",
+      },
+      {
+        q: "How do you handle mosquito problems during monsoon near the Krishna River?",
+        a: "Areas near the Krishna River and low-lying regions see high mosquito pressure during monsoon. We offer a 6-month mosquito contract with monthly service calls combining residual misting with Bti larvicidal treatment of standing water.",
+      },
+      {
+        q: "Are your treatments safe for homes with children and pets?",
+        a: "Absolutely. Our gel-bait method for cockroaches and ants is odourless, non-staining, and applied in hidden crevices. For other treatments, we use child-safe and pet-friendly formulations with clear re-entry guidelines.",
+      },
+      {
+        q: "Do you provide services for agricultural storage and warehouses in the region?",
+        a: "Yes. We service grain storage facilities, warehouses, and agricultural processing units with FSSAI-compliant protocols and stored-product pest management programmes.",
+      },
+    ],
+  },
+  {
     slug: "hyderabad",
     city: "Hyderabad",
     state: "Telangana",

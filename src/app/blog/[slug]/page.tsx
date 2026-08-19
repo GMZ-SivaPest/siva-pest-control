@@ -4,6 +4,7 @@ import { SiteChrome } from "@/components/site/site-chrome";
 import { BlogDetailPage } from "@/components/pages/blog-detail-page";
 import { blogPosts, blogPostBySlug } from "@/data/blog";
 import { notFound } from "next/navigation";
+import { generateBlogMetadata, generateBlogSchema, generateBreadcrumbSchema } from "@/lib/seo";
 
 const BASE = company.siteUrl;
 
@@ -24,35 +25,8 @@ export async function generateMetadata({
       robots: { index: false, follow: false },
     };
   }
-  return {
-    title: post.title,
-    description: post.excerpt,
-    alternates: {
-      canonical: `${BASE}/blog/${slug}`,
-    },
-    openGraph: {
-      title: post.title,
-      description: post.excerpt,
-      url: `${BASE}/blog/${slug}`,
-      type: "article",
-      publishedTime: post.publishedOn,
-      authors: [post.author],
-      images: [
-        {
-          url: post.image,
-          width: 1024,
-          height: 1024,
-          alt: post.title,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: post.title,
-      description: post.excerpt,
-      images: [post.image],
-    },
-  };
+
+  return generateBlogMetadata(post);
 }
 
 export default async function BlogDetailRoute({
@@ -64,60 +38,12 @@ export default async function BlogDetailRoute({
   const post = blogPostBySlug(slug);
   if (!post) notFound();
 
-  // BlogPosting schema for rich results
-  const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.excerpt,
-    image: `${BASE}${post.image}`,
-    datePublished: post.publishedOn,
-    dateModified: post.publishedOn,
-    author: {
-      "@type": "Organization",
-      name: post.author,
-      url: `${BASE}/about`,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Siva Pest Control",
-      logo: {
-        "@type": "ImageObject",
-        url: `${BASE}/logo.png`,
-      },
-    },
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `${BASE}/blog/${slug}`,
-    },
-    keywords: post.keywords?.join(", "),
-  };
-
-  // BreadcrumbList schema
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: BASE,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Insights",
-        item: `${BASE}/blog`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: post.title,
-        item: `${BASE}/blog/${slug}`,
-      },
-    ],
-  };
+  const articleSchema = generateBlogSchema(post);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Home", url: BASE },
+    { name: "Insights", url: `${BASE}/blog` },
+    { name: post.title, url: `${BASE}/blog/${slug}` },
+  ]);
 
   return (
     <SiteChrome>

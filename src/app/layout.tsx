@@ -4,12 +4,14 @@ import { MotionConfig } from "framer-motion";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics, AnalyticsScript } from "@/components/site/analytics";
+import { CookieConsentBanner } from "@/components/site/cookie-consent";
 import { GtmScript, GtmNoScript } from "@/components/site/gtm";
-import { CookieConsent } from "@/components/site/cookie-consent";
 import { LegalModal } from "@/components/site/legal-modal";
+import AnalyticsDebug from "@/components/site/analytics-debug";
 import { company } from "@/data/company";
 import { brand } from "@/data/brand";
 import { locations } from "@/data/locations";
+import { generateOrganizationSchema, generateWebSiteSchema, combineSchemas } from "@/lib/seo";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -88,77 +90,10 @@ export const metadata: Metadata = {
   },
 };
 
-// Structured data: LocalBusiness schema for SEO
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "PestControl",
-  "@id": `${company.siteUrl}/#business`,
-  name: brand.legalName,
-  alternateName: brand.name,
-  description: brand.description,
-  url: company.siteUrl,
-  telephone: company.phonePrimaryHref,
-  email: company.email,
-  image: `${company.siteUrl}/og-image.jpg`,
-  logo: `${company.siteUrl}/logo.png`,
-  foundingDate: String(brand.foundedYear),
-  knowsAbout: [
-    "Termite Control",
-    "Cockroach Gel Treatment",
-    "Bed Bugs Elimination",
-    "Rodent Control",
-    "Mosquito Control",
-    "Bird Management",
-    "Commercial IPM",
-  ],
-  areaServed: locations.map((l) => ({
-    "@type": "City",
-    name: l.city,
-    state: l.state,
-  })),
-  address: locations.map((l) => ({
-    "@type": "PostalAddress",
-    streetAddress: l.address.line1,
-    addressLocality: l.city,
-    addressRegion: l.state,
-    postalCode: l.address.pincode,
-    addressCountry: "IN",
-  })),
-  openingHoursSpecification: {
-    "@type": "OpeningHoursSpecification",
-    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-    opens: "08:00",
-    closes: "20:00",
-  },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: String(company.stats.googleRating),
-    reviewCount: String(company.stats.googleReviews),
-    bestRating: "5",
-    worstRating: "1",
-  },
-  // Let Google know which sub-organizations exist (one per city).
-  // Each location page also emits its own PestControl schema.
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Pest Control Services",
-    itemListElement: [
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Termite Control" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Cockroach Gel Treatment" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Bed Bugs Treatment" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Rodent Control" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Mosquito Control" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Bird Management" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Commercial IPM" } },
-    ],
-  },
-  sameAs: [
-    company.socials.instagram,
-    company.socials.facebook,
-    company.socials.linkedin,
-    company.socials.youtube,
-  ],
-};
+// Structured data: Combined schemas for the root layout
+const organizationSchema = generateOrganizationSchema();
+const webSiteSchema = generateWebSiteSchema();
+const combinedSchemas = combineSchemas(organizationSchema, webSiteSchema);
 
 export default function RootLayout({
   children,
@@ -172,6 +107,9 @@ export default function RootLayout({
         <AnalyticsScript />
         {/* Google Tag Manager — dataLayer + consent bootstrap + container */}
         <GtmScript />
+        {/* Preconnect to font host and preload main OG/LCP image to prioritize LCP */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" as="image" href="/og-image.jpg" />
       </head>
       <body
         className={`${inter.variable} ${manrope.variable} antialiased bg-background text-foreground`}
@@ -182,14 +120,14 @@ export default function RootLayout({
         {/* Skip-to-content link for keyboard & screen-reader users */}
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-orange focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-glow-orange"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-orange focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-glow-orange"
         >
           Skip to content
         </a>
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(combinedSchemas) }}
         />
 
         {/* Respect prefers-reduced-motion globally */}
@@ -201,7 +139,7 @@ export default function RootLayout({
         <Analytics />
 
         {/* Privacy-first cookie consent banner */}
-        <CookieConsent />
+        <CookieConsentBanner />
 
         {/* Legal documents modal (Privacy / Cookie / Terms) — opened via the
             `open-legal-modal` window event from footer links & the DPDP
@@ -209,6 +147,7 @@ export default function RootLayout({
         <LegalModal />
 
         <Toaster />
+        <AnalyticsDebug />
       </body>
     </html>
   );

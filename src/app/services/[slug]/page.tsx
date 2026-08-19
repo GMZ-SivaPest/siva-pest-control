@@ -4,6 +4,7 @@ import { SiteChrome } from "@/components/site/site-chrome";
 import { ServiceDetailPage } from "@/components/pages/service-detail-page";
 import { services, servicesBySlug } from "@/data/services";
 import { notFound } from "next/navigation";
+import { generateServiceSchema, generateFAQSchema, generateBreadcrumbSchema, combineSchemas, generateServiceMetadata } from "@/lib/seo";
 
 const BASE = company.siteUrl;
 
@@ -25,74 +26,7 @@ export async function generateMetadata({
     };
   }
 
-  // Build the JSON-LD blocks (also emitted via <script> tags in the JSX below)
-  const serviceSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: service.name,
-    description: service.long,
-    image: `${BASE}${service.image}`,
-    url: `${BASE}/services/${service.slug}`,
-    provider: {
-      "@type": "PestControl",
-      name: "Siva Pest Control",
-      url: BASE,
-    },
-    areaServed: [
-      { "@type": "City", name: "Hyderabad" },
-      { "@type": "City", name: "Chennai" },
-      { "@type": "City", name: "Bangalore" },
-    ],
-    warranty: service.warranty,
-  };
-
-  // BreadcrumbList schema — helps Google show breadcrumbs in search results
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: BASE },
-      { "@type": "ListItem", position: 2, name: "Services", item: `${BASE}/services` },
-      { "@type": "ListItem", position: 3, name: service.name, item: `${BASE}/services/${service.slug}` },
-    ],
-  };
-
-  // FAQPage schema (if the service has FAQs)
-  const faqSchema =
-    service.faqs.length > 0
-      ? {
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: service.faqs.map((f) => ({
-            "@type": "Question",
-            name: f.q,
-            acceptedAnswer: { "@type": "Answer", text: f.a },
-          })),
-        }
-      : null;
-
-  return {
-    title: service.name,
-    description: service.short,
-    alternates: {
-      canonical: `${BASE}/services/${slug}`,
-    },
-    openGraph: {
-      title: service.name,
-      description: service.short,
-      url: `${BASE}/services/${slug}`,
-      type: "website",
-      images: [
-        {
-          url: service.image,
-          width: 1024,
-          height: 1024,
-          alt: `${service.name} — treatment performed by Siva Pest Control technician`,
-        },
-      ],
-    },
-    // No `other` field — JSON-LD is emitted via <script> tags in the page body below.
-  };
+  return generateServiceMetadata(service);
 }
 
 export default async function ServiceDetailRoute({
@@ -104,50 +38,15 @@ export default async function ServiceDetailRoute({
   const service = servicesBySlug(slug);
   if (!service) notFound();
 
-  // Build the JSON-LD blocks to inject
-  const serviceSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: service.name,
-    description: service.long,
-    image: `${BASE}${service.image}`,
-    url: `${BASE}/services/${service.slug}`,
-    provider: {
-      "@type": "PestControl",
-      name: "Siva Pest Control",
-      url: BASE,
-    },
-    areaServed: [
-      { "@type": "City", name: "Hyderabad" },
-      { "@type": "City", name: "Chennai" },
-      { "@type": "City", name: "Bangalore" },
-    ],
-    warranty: service.warranty,
-  };
-
-  // BreadcrumbList schema — helps Google show breadcrumbs in search results
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: BASE },
-      { "@type": "ListItem", position: 2, name: "Services", item: `${BASE}/services` },
-      { "@type": "ListItem", position: 3, name: service.name, item: `${BASE}/services/${service.slug}` },
-    ],
-  };
-
-  const faqSchema =
-    service.faqs.length > 0
-      ? {
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: service.faqs.map((f) => ({
-            "@type": "Question",
-            name: f.q,
-            acceptedAnswer: { "@type": "Answer", text: f.a },
-          })),
-        }
-      : null;
+  // Build the JSON-LD blocks to inject using centralized SEO utilities
+  const serviceSchema = generateServiceSchema(service);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Home", url: BASE },
+    { name: "Services", url: `${BASE}/services` },
+    { name: service.name, url: `${BASE}/services/${service.slug}` },
+  ]);
+  const faqSchema = generateFAQSchema(service.faqs);
+  const combinedSchemas = combineSchemas(serviceSchema, breadcrumbSchema, faqSchema);
 
   return (
     <SiteChrome>

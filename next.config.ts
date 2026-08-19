@@ -31,7 +31,6 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: false,
   },
   reactStrictMode: true,
-  allowedDevOrigins: ["*.space-z.ai", "*.chatglm.cn"],
 
   images: {
     // Negotiate modern formats when the browser supports them.

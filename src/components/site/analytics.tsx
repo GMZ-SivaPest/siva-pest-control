@@ -93,14 +93,10 @@ export function AnalyticsScript() {
   return (
     <>
       <script
-        async
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-      />
-      <script
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+            function gtag(){dataLayer.push(arguments);} 
             window.gtag = gtag;
             gtag('js', new Date());
             // Consent Mode v2 — default denied
@@ -118,6 +114,21 @@ export function AnalyticsScript() {
               anonymize_ip: true,
               cookie_flags: 'SameSite=None;Secure'
             });
+            // Load gtag.js on idle to avoid blocking LCP
+            (function(){
+              function loadGtag(){
+                var s=document.createElement('script');
+                s.async=true;
+                s.src='https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}';
+                var n=document.getElementsByTagName('script')[0];
+                n.parentNode.insertBefore(s,n);
+              }
+              if('requestIdleCallback' in window){
+                requestIdleCallback(loadGtag,{timeout:2000});
+              } else {
+                setTimeout(loadGtag,2000);
+              }
+            })();
           `,
         }}
       />

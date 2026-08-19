@@ -7,7 +7,7 @@ import { company } from "@/data/company";
 import { footerNav } from "@/data/navigation";
 import { locations } from "@/data/locations";
 import { brand } from "@/data/brand";
-import { CONSENT_KEY } from "./cookie-consent";
+import { CONSENT_STORAGE_KEY } from "./cookie-consent";
 import type { LegalDocType } from "./legal-modal";
 
 // Opens the DPDP-compliant legal documents modal (mounted in the root layout)
@@ -200,7 +200,7 @@ export function Footer() {
             <button
               onClick={() => {
                 try {
-                  localStorage.removeItem(CONSENT_KEY);
+                  localStorage.removeItem(CONSENT_STORAGE_KEY);
                 } catch {
                   /* ignore */
                 }

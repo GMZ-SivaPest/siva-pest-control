@@ -3,6 +3,7 @@ import { company } from "@/data/company";
 import { SiteChrome } from "@/components/site/site-chrome";
 import { FaqPage } from "@/components/pages/faq-page";
 import { faqs } from "@/data/faqs";
+import { generateFAQSchema } from "@/lib/seo";
 
 const BASE = company.siteUrl;
 
@@ -15,16 +16,7 @@ export const metadata: Metadata = {
   },
 };
 
-// FAQPage schema for rich results
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((f) => ({
-    "@type": "Question",
-    name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
-  })),
-};
+const faqSchema = generateFAQSchema(faqs);
 
 export default function Faq() {
   return (

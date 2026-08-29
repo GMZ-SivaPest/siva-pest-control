@@ -28,7 +28,7 @@ import { services } from "@/data/services";
 export function ServicesMarquee() {
   return (
     <div
-      className="sticky top-16 z-30 border-b border-brown/10 bg-ivory/95 backdrop-blur-xl md:top-20"
+      className="sticky top-14 z-30 border-b border-brown/10 bg-ivory/95 backdrop-blur-xl md:top-16"
       role="region"
       aria-label="Quick access — all services"
     >
@@ -44,7 +44,7 @@ export function ServicesMarquee() {
 
       <Marquee
         speed={70}
-        trackClassName="items-center gap-2 py-2.5"
+        trackClassName="items-center gap-2 py-2"
       >
         {services.map((service) => (
           <Link

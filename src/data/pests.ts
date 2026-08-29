@@ -1293,4 +1293,5 @@ export const pestCategories = [
   { id: "reptile", label: "Reptiles" },
   { id: "bird", label: "Birds" },
   { id: "mammal", label: "Animals" },
+  { id: "other", label: "Other pests" },
 ] as const;

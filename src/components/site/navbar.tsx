@@ -4,14 +4,13 @@ import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, ChevronDown, MoreHorizontal } from "lucide-react";
 import { LogoMark } from "./logo-mark";
 import { mainNav } from "@/data/navigation";
 import { company } from "@/data/company";
 import { cn } from "@/lib/utils";
 import { isNavActive } from "@/lib/nav";
 import { services } from "@/data/services";
-import { locations } from "@/data/locations";
 import { trackCTAClick, trackPhoneClick } from "@/lib/analytics";
 
 /**
@@ -25,7 +24,7 @@ import { trackCTAClick, trackPhoneClick } from "@/lib/analytics";
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-  const [locationsOpen, setLocationsOpen] = useState(false);
+  const [companyOpen, setCompanyOpen] = useState(false);
   const pathname = usePathname();
   const mobileDrawerRef = useRef<HTMLDivElement>(null);
   const mobileToggleRef = useRef<HTMLButtonElement>(null);
@@ -65,10 +64,10 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          "sticky top-0 z-50 border-b border-brown/10 bg-ivory/85 backdrop-blur-xl shadow-premium transition-all duration-300"
+          "sticky top-0 z-50 border-b border-brown/10 bg-ivory/92 backdrop-blur-xl shadow-premium transition-all duration-300"
         )}
       >
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8 md:h-20">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8 md:h-16">
           {/* Logo
            * NOTE: aria-label is intentionally omitted — the LogoMark below
            * renders visible text "SIVA PEST CONTROL" which becomes the
@@ -78,14 +77,28 @@ export function Navbar() {
            */}
           <Link
             href="/"
-            className="flex items-center transition-opacity hover:opacity-80"
+            className="flex min-w-0 items-center transition-opacity hover:opacity-80"
           >
-            <LogoMark size={42} variant={light ? "light" : "default"} />
+            <LogoMark
+              size={38}
+              variant={light ? "light" : "default"}
+              className="hidden xl:flex"
+            />
+            <LogoMark
+              size={38}
+              withWordmark={false}
+              variant={light ? "light" : "default"}
+              className="xl:hidden"
+            />
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden items-center gap-1 lg:flex">
-            {mainNav.map((item) => {
+          <nav className="hidden items-center gap-0.5 lg:flex">
+            {mainNav
+              .filter((item) =>
+                ["Home", "Services", "Contact", "Pest Library"].includes(item.label)
+              )
+              .map((item) => {
               const isActive = isNavActive(pathname, item.view || "");
 
               if (item.label === "Services") {
@@ -100,7 +113,7 @@ export function Navbar() {
                     <Link
                       href="/services"
                       className={cn(
-                        "flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors",
+                        "flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium transition-colors xl:px-4",
                         isActive
                           ? "text-orange-ink"
                           : light
@@ -174,79 +187,23 @@ export function Navbar() {
                 );
               }
 
-              if (item.label === "Locations") {
+              if (item.label === "Contact") {
                 return (
-                  <div
+                  <Link
                     key={item.view}
-                    className="relative"
-                    onMouseEnter={() => setLocationsOpen(true)}
-                    onMouseLeave={() => setLocationsOpen(false)}
-                    onFocus={() => setLocationsOpen(true)}
+                    href="/contact"
+                    aria-current={isActive ? "page" : undefined}
+                    className={cn(
+                      "rounded-full px-3 py-2 text-sm font-medium transition-colors xl:px-4",
+                      isActive
+                        ? "text-orange-ink"
+                        : light
+                          ? "text-white/90 hover:text-white"
+                          : "text-brown/75 hover:text-brown"
+                    )}
                   >
-                    <Link
-                      href="/locations"
-                      className={cn(
-                        "flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors",
-                        isActive
-                          ? "text-orange-ink"
-                          : light
-                            ? "text-white/90 hover:text-white"
-                            : "text-brown/75 hover:text-brown"
-                      )}
-                      aria-expanded={locationsOpen}
-                      aria-haspopup="true"
-                    >
-                      Locations
-                      <ChevronDown
-                        className={cn(
-                          "h-3.5 w-3.5 transition-transform",
-                          locationsOpen && "rotate-180"
-                        )}
-                      />
-                    </Link>
-                    <AnimatePresence>
-                      {locationsOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 8 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 8 }}
-                          transition={{ duration: 0.18 }}
-                          className="absolute left-1/2 top-full -translate-x-1/2 pt-3"
-                          style={{ maxWidth: "calc(100vw - 2rem)" }}
-                        >
-                          <div className="glass-card w-[420px] max-w-[calc(100vw-2rem)] rounded-2xl p-3 shadow-premium">
-                            {locations.map((loc) => (
-                              <Link
-                                key={loc.slug}
-                                href={`/locations/${loc.slug}`}
-                                className="group flex w-full items-center justify-between rounded-xl p-3 text-left transition-colors hover:bg-orange/5"
-                              >
-                                <div>
-                                  <div className="text-sm font-semibold text-brown">
-                                    {loc.city}
-                                  </div>
-                                  <div className="text-xs text-brown/65">
-                                    {loc.technicians} technicians · {loc.responseTime}
-                                  </div>
-                                </div>
-                                <div className="text-xs font-semibold text-orange-ink opacity-0 transition-opacity group-hover:opacity-100">
-                                  View →
-                                </div>
-                              </Link>
-                            ))}
-                            <div className="mt-2 rounded-xl bg-brown/5 px-4 py-3">
-                              <Link
-                                href="/locations"
-                                className="text-xs font-semibold text-orange-ink hover:underline"
-                              >
-                                See all coverage areas →
-                              </Link>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
+                    {item.label}
+                  </Link>
                 );
               }
 
@@ -256,7 +213,7 @@ export function Navbar() {
                   href={item.href}
                   aria-current={isActive ? "page" : undefined}
                   className={cn(
-                    "rounded-full px-4 py-2 text-sm font-medium transition-colors",
+                    "rounded-full px-3 py-2 text-sm font-medium transition-colors xl:px-4",
                     isActive
                       ? "text-orange-ink"
                       : light
@@ -268,6 +225,73 @@ export function Navbar() {
                 </Link>
               );
             })}
+
+            <div
+              className="relative"
+              onMouseEnter={() => setCompanyOpen(true)}
+              onMouseLeave={() => setCompanyOpen(false)}
+              onFocus={() => setCompanyOpen(true)}
+            >
+              <button
+                type="button"
+                className={cn(
+                  "flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium transition-colors xl:px-4",
+                  ["/about", "/process", "/blog", "/industries"].some((path) =>
+                    pathname.startsWith(path)
+                  )
+                    ? "text-orange-ink"
+                    : "text-brown/75 hover:text-brown"
+                )}
+                aria-expanded={companyOpen}
+                aria-haspopup="true"
+              >
+                <MoreHorizontal className="h-4 w-4" />
+                Company
+                <ChevronDown
+                  className={cn(
+                    "h-3.5 w-3.5 transition-transform",
+                    companyOpen && "rotate-180"
+                  )}
+                />
+              </button>
+              <AnimatePresence>
+                {companyOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute left-1/2 top-full -translate-x-1/2 pt-3"
+                  >
+                    <div className="glass-card w-[260px] rounded-2xl p-2 shadow-premium">
+                      {[
+                        { label: "About", href: "/about", view: "about" },
+                        { label: "Process", href: "/process", view: "process" },
+                        { label: "Industries", href: "/industries", view: "industries" },
+                        { label: "Blog", href: "/blog", view: "blog" },
+                      ].map((item) => {
+                        const active = isNavActive(pathname, item.view);
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={cn(
+                              "flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors",
+                              active
+                                ? "bg-orange/10 text-orange-ink"
+                                : "text-brown/75 hover:bg-orange/5 hover:text-orange-ink"
+                            )}
+                          >
+                            {item.label}
+                            <span className="text-xs text-brown/35">View</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </nav>
 
           {/* CTA */}
@@ -276,21 +300,23 @@ export function Navbar() {
               href={`tel:${company.phonePrimaryHref}`}
               onClick={() => trackPhoneClick({ location: "navbar", phone: company.phonePrimary })}
               className={cn(
-                "hidden items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-colors md:flex",
+                "hidden h-10 items-center gap-2 rounded-full border px-3 text-sm font-semibold transition-colors md:flex xl:px-4",
                 light
                   ? "border-white/30 text-white hover:border-white/60 hover:bg-white/10"
                   : "border-brown/15 text-brown hover:border-orange/40 hover:text-orange"
               )}
             >
               <Phone className="h-3.5 w-3.5" aria-hidden="true" />
-              {company.phonePrimary}
+              <span className="hidden xl:inline">{company.phonePrimary}</span>
+              <span className="xl:hidden">Call</span>
             </a>
             <Link
               href="/contact"
               onClick={() => trackCTAClick({ location: "navbar", label: "Get Free Quote", href: "/contact" })}
-              className="hidden rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-glow-orange transition-all hover:brightness-110 hover:scale-[1.02] sm:inline-flex gradient-orange"
+              className="hidden h-10 items-center rounded-full px-4 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02] hover:brightness-110 sm:inline-flex xl:px-5 gradient-orange"
             >
-              Get Free Quote
+              <span className="hidden xl:inline">Get Free Quote</span>
+              <span className="xl:hidden">Quote</span>
             </Link>
 
             {/* Mobile toggle */}

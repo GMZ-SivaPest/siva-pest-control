@@ -538,7 +538,7 @@ function CityPinConnections() {
       {pins.map((pin, i) => (
         <Link
           key={pin.city}
-          href={`/locations/${pin.slug}`}
+          href="/contact"
           className="pointer-events-auto group absolute -translate-x-1/2 -translate-y-1/2"
           style={{ left: `${pin.x}%`, top: `${pin.y}%` }}
         >

@@ -117,10 +117,10 @@ export default function NotFound() {
               All services
             </Link>
             <Link
-              href="/locations"
+              href="/contact"
               className="font-medium text-brown/65 transition-colors hover:text-orange"
             >
-              Locations
+              Contact
             </Link>
             <Link
               href="/blog"
@@ -129,10 +129,10 @@ export default function NotFound() {
               Blog
             </Link>
             <Link
-              href="/faq"
+              href="/pests"
               className="font-medium text-brown/65 transition-colors hover:text-orange"
             >
-              FAQ
+              Pest Library
             </Link>
             <Link
               href="/contact"

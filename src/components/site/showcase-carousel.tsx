@@ -32,8 +32,8 @@ interface ShowcaseSlide {
 
 const slides: ShowcaseSlide[] = [
   {
-    src: "/images/carousel/cockroach-colony.jpg",
-    alt: "Severe German cockroach infestation scattering on a kitchen counter when flashlight hits them",
+    src: "/images/pests/german-cockroach.jpg",
+    alt: "German cockroaches on a kitchen counter when flashlight hits them",
     tag: "Cockroach Infestation",
     title: "When You See One, There Are Hundreds",
     description:
@@ -41,8 +41,8 @@ const slides: ShowcaseSlide[] = [
     href: "/services/cockroach-gel-treatment",
   },
   {
-    src: "/images/carousel/kitchen-treatment.jpg",
-    alt: "Siva technician applying gel-bait treatment in a modern Indian kitchen",
+    src: "/images/carousel/gel-bait-macro.jpg",
+    alt: "Macro close-up of odourless gel-bait dots applied along a kitchen cabinet hinge",
     tag: "Cockroach Gel Treatment",
     title: "Kitchen-First Cockroach Control",
     description:
@@ -50,8 +50,8 @@ const slides: ShowcaseSlide[] = [
     href: "/services/cockroach-gel-treatment",
   },
   {
-    src: "/images/carousel/termite-damage.jpg",
-    alt: "Severe subterranean termite damage in a wooden door frame with visible mud tubes",
+    src: "/images/pests/subterranean-termite.jpg",
+    alt: "Subterranean termites and mud tubes inside a damaged wooden door frame",
     tag: "Termite Damage",
     title: "Silent Destroyers in Your Walls",
     description:
@@ -68,8 +68,8 @@ const slides: ShowcaseSlide[] = [
     href: "/services/termite-control",
   },
   {
-    src: "/images/carousel/rodent-infestation.jpg",
-    alt: "Rodent droppings scattered in a residential attic with damaged wiring visible",
+    src: "/images/pests/house-rat.jpg",
+    alt: "House rat gnawing near electrical wiring in a residential ceiling",
     tag: "Rodent Infestation",
     title: "Rats Chew Wires, Start Fires",
     description:
@@ -83,15 +83,6 @@ const slides: ShowcaseSlide[] = [
     title: "Stop Them Before They Fly",
     description:
       "Every 10ml of stagnant water breeds 200+ mosquitoes. Our Bti larvicide + residual misting protocol kills larvae AND adults — breaks the breeding cycle.",
-    href: "/services/mosquito-control",
-  },
-  {
-    src: "/images/carousel/mosquito-fogging.jpg",
-    alt: "Mosquito fogging treatment at twilight in a residential garden",
-    tag: "Mosquito Control",
-    title: "Monsoon Mosquito Programme",
-    description:
-      "Residual misting plus Bti larvicidal treatment of standing water. Monthly contracts for lake-side homes.",
     href: "/services/mosquito-control",
   },
   {

@@ -20,11 +20,10 @@ export const mainNav: NavItem[] = [
   { label: "Home", href: "/", view: "home" },
   { label: "About", href: "/about", view: "about" },
   { label: "Services", href: "/services", view: "services" },
-  { label: "Locations", href: "/locations", view: "locations" },
+  { label: "Contact", href: "/contact", view: "contact" },
   { label: "Process", href: "/process", view: "process" },
   { label: "Pest Library", href: "/pests", view: "pests" },
   { label: "Blog", href: "/blog", view: "blog" },
-  { label: "FAQ", href: "/faq", view: "faq" },
 ];
 
 export const footerNav: { title: string; items: NavItem[] }[] = [
@@ -35,7 +34,6 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
       { label: "Our Process", href: "/process", view: "process" },
       { label: "Pest Library", href: "/pests", view: "pests" },
       { label: "Insights Blog", href: "/blog", view: "blog" },
-      { label: "FAQ", href: "/faq", view: "faq" },
       { label: "Contact", href: "/contact", view: "contact" },
     ],
   },
@@ -62,11 +60,12 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
     ],
   },
   {
-    title: "Locations",
+    title: "Contact",
     items: [
-      { label: "Hyderabad", href: "/locations/hyderabad", view: "location:hyderabad" },
-      { label: "Chennai", href: "/locations/chennai", view: "location:chennai" },
-      { label: "Bangalore", href: "/locations/bangalore", view: "location:bangalore" },
+      { label: "Contact Us", href: "/contact", view: "contact" },
+      { label: "Hyderabad Office", href: "/contact", view: "contact" },
+      { label: "Chennai Office", href: "/contact", view: "contact" },
+      { label: "Bangalore Office", href: "/contact", view: "contact" },
     ],
   },
 ];

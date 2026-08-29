@@ -28,7 +28,7 @@ const stats = [
     value: company.stats.avgResponseMins,
     suffix: " min",
     label: "Average response time",
-    sublabel: "Within city coverage zones",
+    sublabel: "For confirmed service areas",
     accent: "brown",
   },
   {

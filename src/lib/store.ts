@@ -22,7 +22,6 @@ interface NavState extends ViewState {
   navigate: (view: string, params?: Record<string, string>) => void;
   goHome: () => void;
   goService: (slug: string) => void;
-  goLocation: (slug: string) => void;
   goSection: (section: string) => void;
 }
 
@@ -30,7 +29,6 @@ const parseView = (raw: string): { view: string; params: Record<string, string> 
   if (raw.includes(":")) {
     const [view, paramValue] = raw.split(":");
     if (view === "service") return { view: "service-detail", params: { slug: paramValue } };
-    if (view === "location") return { view: "location-detail", params: { slug: paramValue } };
     if (view === "blog") return { view: "blog-detail", params: { slug: paramValue } };
   }
   return { view: raw, params: {} };
@@ -75,12 +73,6 @@ export const useNav = create<NavState>((set) => ({
   goService: (slug: string) => {
     set({ view: "service-detail", params: { slug }, scrollY: 0 });
     pushHref(`service:${slug}`);
-    scrollToTop();
-  },
-
-  goLocation: (slug: string) => {
-    set({ view: "location-detail", params: { slug }, scrollY: 0 });
-    pushHref(`location:${slug}`);
     scrollToTop();
   },
 

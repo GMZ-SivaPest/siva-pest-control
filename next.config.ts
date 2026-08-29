@@ -51,7 +51,9 @@ const nextConfig: NextConfig = {
       { source: "/about-us", destination: "/about", permanent: true },
       { source: "/contact-us", destination: "/contact", permanent: true },
       { source: "/pest-library", destination: "/pests", permanent: true },
-      { source: "/faqs", destination: "/faq", permanent: true },
+      // FAQ page removed — all FAQs now live on /contact
+      { source: "/faqs", destination: "/contact", permanent: true },
+      { source: "/faq", destination: "/contact", permanent: true },
       { source: "/services-list", destination: "/services", permanent: true },
     ];
   },

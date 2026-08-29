@@ -165,43 +165,6 @@ export function generateBreadcrumbSchema(items: { name: string; url: string }[])
 }
 
 /**
- * Generate LocalBusiness schema for location pages
- */
-export function generateLocationSchema(loc: typeof locations[0]) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "PestControl",
-    name: `Siva Pest Control — ${loc.city}`,
-    parentOrganization: {
-      "@type": "PestControl",
-      name: "Siva Pest Control",
-      url: BASE,
-    },
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: loc.address.line1,
-      addressLocality: loc.city,
-      addressRegion: loc.state,
-      postalCode: loc.address.pincode,
-      addressCountry: "IN",
-    },
-    telephone: loc.phone,
-    areaServed: loc.coverage.map((zone) => ({
-      "@type": "City",
-      name: `${zone} — ${loc.city}`,
-    })),
-    openingHoursSpecification: {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-      opens: "08:00",
-      closes: "20:00",
-    },
-    url: `${BASE}/locations/${loc.slug}`,
-    image: `${BASE}/images/locations/${loc.slug}.jpg`,
-  };
-}
-
-/**
  * Generate Pest schema for pest library pages
  */
 export function generatePestSchema(pest: typeof pests[0]) {
@@ -328,29 +291,6 @@ export function generateServiceMetadata(service: typeof services[0]) {
       "schema:serviceType": service.category,
       "schema:warranty": service.warranty,
     },
-  };
-}
-
-/**
- * Generate metadata for location pages
- */
-export function generateLocationMetadata(loc: typeof locations[0]) {
-  return {
-    title: `Pest Control in ${loc.city} — ${loc.technicians} Technicians`,
-    description: `${loc.city} pest control by Siva Pest Control. ${loc.coverage.length} coverage zones, ${loc.technicians} certified technicians, ${loc.responseTime} response time.`,
-    alternates: { canonical: `${BASE}/locations/${loc.slug}` },
-    openGraph: {
-      title: `Pest Control in ${loc.city} — Siva Pest Control`,
-      description: `${loc.coverage.length} coverage zones, ${loc.technicians} certified technicians, ${loc.responseTime} response time.`,
-      url: `${BASE}/locations/${loc.slug}`,
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `Pest Control in ${loc.city}`,
-      description: `${loc.coverage.length} coverage zones, ${loc.technicians} certified technicians.`,
-    },
-    robots: { index: true, follow: true },
   };
 }
 

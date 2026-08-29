@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { ChevronRight, Phone, ShieldCheck, Clock } from "lucide-react";
+import { ChevronRight, Phone, ShieldCheck, Clock, Bug } from "lucide-react";
 import { company } from "@/data/company";
 import { brand } from "@/data/brand";
 import { trackCTAClick, trackPhoneClick } from "@/lib/analytics";
@@ -21,14 +21,15 @@ import { Reveal } from "./reveal";
 export function ProtectionCTA() {
   const reduceMotion = useReducedMotion();
 
-  // Faint pest silhouettes positioned around the canvas
+  // Faint pest silhouettes positioned around the canvas (Lucide icon system
+  // instead of platform-dependent emoji glyphs)
   const silhouettes = [
-    { emoji: "🪳", top: "18%", left: "8%", size: "text-3xl", delay: 0 },
-    { emoji: "🦟", top: "28%", left: "92%", size: "text-2xl", delay: 0.5 },
-    { emoji: "🐜", top: "72%", left: "6%", size: "text-xl", delay: 1.0 },
-    { emoji: "🐀", top: "78%", left: "88%", size: "text-3xl", delay: 1.5 },
-    { emoji: "🕷️", top: "12%", left: "82%", size: "text-2xl", delay: 2.0 },
-    { emoji: "🐝", top: "82%", left: "20%", size: "text-xl", delay: 0.3 },
+    { top: "18%", left: "8%", size: "h-7 w-7", delay: 0 },
+    { top: "28%", left: "92%", size: "h-6 w-6", delay: 0.5 },
+    { top: "72%", left: "6%", size: "h-5 w-5", delay: 1.0 },
+    { top: "78%", left: "88%", size: "h-7 w-7", delay: 1.5 },
+    { top: "12%", left: "82%", size: "h-6 w-6", delay: 2.0 },
+    { top: "82%", left: "20%", size: "h-5 w-5", delay: 0.3 },
   ];
 
   return (
@@ -71,7 +72,7 @@ export function ProtectionCTA() {
               ease: "easeInOut",
             }}
           >
-            {s.emoji}
+            <Bug className={s.size} strokeWidth={1.5} />
           </motion.span>
         ))}
 

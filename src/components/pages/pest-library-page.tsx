@@ -1,166 +1,296 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { PageHero } from "@/components/site/page-hero";
 import { CTASection } from "@/components/site/cta-section";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/site/reveal";
-import { pests, pestCategories, pestBySlug } from "@/data/pests";
-import { motion, AnimatePresence } from "framer-motion";
+import { pestBySlug, pestCategories, pests, type Pest } from "@/data/pests";
+import { servicesBySlug } from "@/data/services";
 import {
   AlertTriangle,
-  CheckCircle2,
+  ArrowRight,
+  BadgeCheck,
+  Bug,
+  ChevronRight,
+  Clock,
+  Microscope,
   Search,
-  X,
-  ArrowUpRight,
-  Info,
+  ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const threatColors = {
+const threatStyles: Record<Pest["threat"], string> = {
   high: "bg-rust/10 text-rust ring-rust/20",
-  medium: "bg-orange/10 text-orange ring-orange/20",
+  medium: "bg-orange/10 text-orange-ink ring-orange/20",
   low: "bg-teal/10 text-teal ring-teal/20",
 };
+
+const threatDotStyles: Record<Pest["threat"], string> = {
+  high: "bg-rust",
+  medium: "bg-orange",
+  low: "bg-teal",
+};
+
+const categoryAccent: Record<Pest["category"], string> = {
+  insect: "from-orange/20 to-white",
+  rodent: "from-brown/15 to-white",
+  arachnid: "from-teal/20 to-white",
+  bird: "from-teal/15 to-white",
+  reptile: "from-rust/15 to-white",
+  mammal: "from-sand/35 to-white",
+  other: "from-ivory-deep to-white",
+};
+
+const heroPests = [
+  pestBySlug("subterranean-termite"),
+  pestBySlug("german-cockroach"),
+  pestBySlug("aedes-mosquito"),
+  pestBySlug("house-rat"),
+].filter(Boolean) as Pest[];
+
+const quickSignals = [
+  { icon: Microscope, label: "Field ID", value: "Visual markers" },
+  { icon: AlertTriangle, label: "Risk", value: "Health and damage" },
+  { icon: ShieldCheck, label: "Response", value: "Matched service" },
+];
 
 export function PestLibraryPage() {
   const [category, setCategory] = useState<string>("all");
   const [search, setSearch] = useState("");
-  const [selected, setSelected] = useState<string | null>(null);
-  const selectedPest = pests.find((p) => p.slug === selected) || null;
 
-  // Close pest modal on Escape + lock body scroll while open
-  useEffect(() => {
-    if (!selected) return;
-    document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setSelected(null);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [selected]);
+  const filtered = useMemo(() => {
+    const query = search.trim().toLowerCase();
 
-  const filtered = pests.filter((p) => {
-    const matchesCat = category === "all" || p.category === category;
-    const matchesSearch =
-      !search ||
-      p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.scientificName.toLowerCase().includes(search.toLowerCase()) ||
-      p.description.toLowerCase().includes(search.toLowerCase());
-    return matchesCat && matchesSearch;
-  });
+    return pests.filter((pest) => {
+      const matchesCat = category === "all" || pest.category === category;
+      const matchesSearch =
+        !query ||
+        pest.name.toLowerCase().includes(query) ||
+        pest.scientificName.toLowerCase().includes(query) ||
+        pest.description.toLowerCase().includes(query) ||
+        pest.signs.some((sign) => sign.toLowerCase().includes(query));
+
+      return matchesCat && matchesSearch;
+    });
+  }, [category, search]);
+
+  const highThreatCount = pests.filter((pest) => pest.threat === "high").length;
+  const categoryCount = new Set(pests.map((pest) => pest.category)).size;
+  const selectedCategoryLabel =
+    pestCategories.find((cat) => cat.id === category)?.label ?? "All pests";
 
   return (
     <>
-      <PageHero
-        eyebrow="Pest library"
-        title="Know your pest, choose your response"
-        subtitle="An evidence-based guide to the pests most common in South Indian homes and businesses — identification, health risks, prevention, and the right Siva service to call."
-        breadcrumb={[{ label: "Home", view: "home" }, { label: "Pest Library" }]}
-      />
+      <section className="relative overflow-hidden pt-12 pb-14 md:pt-16 md:pb-20">
+        <div className="absolute inset-0 -z-10 gradient-warm" />
+        <div className="absolute inset-0 -z-10 bg-grid-warm opacity-50" />
+        <div className="absolute inset-x-0 bottom-0 -z-10 h-28 bg-gradient-to-t from-background to-transparent" />
 
-      {/* Filter + search bar */}
-      <section className="py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex flex-wrap gap-2">
-              {pestCategories.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setCategory(cat.id)}
-                  className={cn(
-                    "rounded-full px-4 py-2 text-sm font-semibold transition-all",
-                    category === cat.id
-                      ? "bg-orange text-white shadow-glow-orange"
-                      : "border border-brown/15 bg-white/60 text-brown/70 hover:text-brown hover:border-brown/30"
-                  )}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
+          <nav className="mb-7 flex items-center gap-1.5 text-xs text-brown/70">
+            <Link href="/" className="transition-colors hover:text-orange-ink">
+              Home
+            </Link>
+            <ChevronRight className="h-3 w-3 opacity-60" />
+            <span className="text-brown/85" aria-current="page">
+              Pest Library
+            </span>
+          </nav>
 
-            <div className="relative lg:w-72">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brown/40" />
-              <input
-                type="text"
-                placeholder="Search pests..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-full border border-brown/15 bg-white py-2.5 pl-10 pr-4 text-sm text-brown placeholder:text-brown/40 focus:border-orange focus:outline-none focus:ring-2 focus:ring-orange/20"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+          <div className="grid items-center gap-10 lg:grid-cols-[1.02fr_0.98fr]">
+            <div>
+              <Reveal y={16}>
+                <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/75 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-orange-ink ring-1 ring-orange/20 backdrop-blur">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Pest intelligence library
+                </div>
+                <h1 className="max-w-3xl font-display text-4xl font-bold leading-[1.05] text-brown text-balance sm:text-5xl md:text-[3.5rem]">
+                  Identify the pest before it becomes a treatment problem.
+                </h1>
+                <p className="mt-5 max-w-2xl text-base leading-relaxed text-brown/70 text-pretty sm:text-lg">
+                  Browse the pests Siva treats most often across South Indian
+                  homes, kitchens, offices, factories, campuses, and apartment
+                  communities. Each guide shows identification cues, risk level,
+                  seasonal behavior, and the right control protocol.
+                </p>
+              </Reveal>
 
-      {/* Pest grid */}
-      <section className="pb-20 md:pb-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {filtered.length === 0 ? (
-            <div className="rounded-3xl border border-brown/10 bg-white p-12 text-center">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brown/5 text-brown/40">
-                <Search className="h-6 w-6" />
-              </div>
-              <h3 className="font-display text-lg font-bold text-brown">No pests found</h3>
-              <p className="mt-1 text-sm text-brown/70">
-                Try a different search or category filter.
-              </p>
-            </div>
-          ) : (
-            <StaggerContainer className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" stagger={0.05}>
-              {filtered.map((pest) => (
-                <StaggerItem key={pest.slug}>
-                  <button
-                    onClick={() => setSelected(pest.slug)}
-                    className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-brown/10 bg-white text-left shadow-premium transition-all hover:-translate-y-1 hover:shadow-lift"
+              <Reveal delay={0.08} y={16}>
+                <div className="mt-7 grid max-w-2xl gap-3 sm:grid-cols-3">
+                  {quickSignals.map((item) => (
+                    <div
+                      key={item.label}
+                      className="border-l border-brown/15 bg-white/55 px-4 py-3 backdrop-blur"
+                    >
+                      <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-brown/55">
+                        <item.icon className="h-3.5 w-3.5 text-orange-ink" />
+                        {item.label}
+                      </div>
+                      <div className="mt-1 font-display text-sm font-bold text-brown">
+                        {item.value}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+
+              <Reveal delay={0.16} y={16}>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <a
+                    href="#pest-index"
+                    className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-glow-orange transition-transform hover:scale-[1.02] gradient-orange"
                   >
-                    {/* Pest image */}
-                    <div className="relative h-40 w-full overflow-hidden bg-gradient-to-br from-ivory to-brown/5">
+                    Browse pest index
+                    <ArrowRight className="h-4 w-4" />
+                  </a>
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-brown/15 bg-white/70 px-6 py-3 text-sm font-semibold text-brown backdrop-blur transition-colors hover:border-orange/35 hover:text-orange-ink"
+                  >
+                    Send a photo for ID
+                    <Search className="h-4 w-4" />
+                  </Link>
+                </div>
+              </Reveal>
+            </div>
+
+            <Reveal delay={0.1} y={20}>
+              <div className="relative min-h-[460px]">
+                <div className="absolute inset-0 rounded-[2rem] border border-white/70 bg-white/40 shadow-premium backdrop-blur" />
+                <div className="absolute inset-3 rounded-[1.55rem] border border-brown/10 bg-brown/[0.03]" />
+                <div className="relative grid h-full min-h-[460px] grid-cols-2 grid-rows-5 gap-3 p-4">
+                  {heroPests.map((pest, index) => (
+                    <Link
+                      key={pest.slug}
+                      href={`/pests/${pest.slug}`}
+                      className={cn(
+                        "group relative overflow-hidden rounded-2xl bg-brown shadow-premium",
+                        index === 0 && "col-span-2 row-span-3",
+                        index > 0 && "row-span-2"
+                      )}
+                    >
                       <Image
                         src={pest.image}
                         alt={pest.name}
                         fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        priority={index === 0}
+                        sizes={
+                          index === 0
+                            ? "(max-width: 1024px) 100vw, 600px"
+                            : "(max-width: 1024px) 50vw, 280px"
+                        }
+                        className="object-cover transition duration-700 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(51,36,22,0) 50%, rgba(51,36,22,0.55) 100%)" }} />
-                      <span
-                        className={cn(
-                          "absolute right-3 top-3 rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider ring-1 backdrop-blur-md",
-                          threatColors[pest.threat]
-                        )}
-                      >
+                      <div className="absolute inset-0 bg-gradient-to-t from-brown/85 via-brown/20 to-transparent" />
+                      <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white ring-1 ring-white/20 backdrop-blur">
+                        <span
+                          className={cn(
+                            "h-1.5 w-1.5 rounded-full",
+                            threatDotStyles[pest.threat]
+                          )}
+                        />
                         {pest.threat} threat
-                      </span>
-                      <div className="absolute bottom-3 left-3 right-3">
-                        <h3 className="font-display text-base font-bold leading-tight text-white drop-shadow-md">
+                      </div>
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <h2 className="font-display text-lg font-bold leading-tight text-white">
                           {pest.name}
-                        </h3>
-                        <p className="mt-0.5 text-[11px] italic text-white/75">
+                        </h2>
+                        <p className="mt-1 text-xs italic text-white/75">
                           {pest.scientificName}
                         </p>
                       </div>
-                    </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
 
-                    <div className="flex flex-1 flex-col p-5">
-                      <p className="flex-1 text-sm leading-relaxed text-brown/65 line-clamp-3">
-                        {pest.description}
-                      </p>
+      <section className="py-10 md:py-12">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-4 sm:grid-cols-3">
+            <LibraryStat label="Pest profiles" value={`${pests.length}+`} />
+            <LibraryStat label="Threat markers" value={`${highThreatCount} high`} />
+            <LibraryStat label="Biological groups" value={`${categoryCount}`} />
+          </div>
+        </div>
+      </section>
 
-                      <div className="mt-4 flex items-center justify-between border-t border-brown/5 pt-3 text-xs">
-                        <span className="text-brown/70">{pest.seasonality}</span>
-                        <span className="inline-flex items-center gap-1 font-semibold text-orange">
-                          View details
-                          <ArrowUpRight className="h-3 w-3" />
-                        </span>
-                      </div>
-                    </div>
-                  </button>
+      <section id="pest-index" className="scroll-mt-24 py-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-5 lg:grid-cols-[1fr_340px] lg:items-end">
+            <div>
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-teal/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-teal ring-1 ring-teal/15">
+                <Bug className="h-3.5 w-3.5" />
+                {selectedCategoryLabel}
+              </div>
+              <h2 className="font-display text-3xl font-bold text-brown sm:text-4xl">
+                Pest index
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-brown/65 sm:text-base">
+                Filter by biological group or search by species, risk, signs,
+                or common activity clues.
+              </p>
+            </div>
+
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-brown/40" />
+              <input
+                type="text"
+                placeholder="Search pests, signs, risks..."
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                className="h-12 w-full rounded-full border border-brown/15 bg-white pl-11 pr-4 text-sm text-brown shadow-premium placeholder:text-brown/40 focus:border-orange focus:outline-none focus:ring-2 focus:ring-orange/20"
+              />
+            </div>
+          </div>
+
+          <div className="mt-6 flex gap-2 overflow-x-auto pb-2 thin-scroll">
+            {pestCategories.map((cat) => (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setCategory(cat.id)}
+                className={cn(
+                  "inline-flex h-10 flex-shrink-0 items-center rounded-full px-4 text-sm font-semibold transition-all",
+                  category === cat.id
+                    ? "bg-brown text-white shadow-premium"
+                    : "border border-brown/15 bg-white/70 text-brown/70 hover:border-orange/35 hover:text-orange-ink"
+                )}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="pb-20 md:pb-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {filtered.length === 0 ? (
+            <div className="border border-brown/10 bg-white px-6 py-14 text-center shadow-premium">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brown/5 text-brown/45">
+                <Search className="h-6 w-6" />
+              </div>
+              <h3 className="font-display text-lg font-bold text-brown">
+                No pests found
+              </h3>
+              <p className="mt-1 text-sm text-brown/65">
+                Try a different search term or category filter.
+              </p>
+            </div>
+          ) : (
+            <StaggerContainer
+              className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+              stagger={0.04}
+            >
+              {filtered.map((pest) => (
+                <StaggerItem key={pest.slug}>
+                  <PestIndexCard pest={pest} />
                 </StaggerItem>
               ))}
             </StaggerContainer>
@@ -168,180 +298,109 @@ export function PestLibraryPage() {
         </div>
       </section>
 
-      {/* Pest detail modal */}
-      <AnimatePresence>
-        {selectedPest && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center"
-            role="dialog"
-            aria-modal="true"
-            aria-label={`${selectedPest.name} details`}
-          >
-            <div
-              className="absolute inset-0 bg-brown/50 backdrop-blur-sm"
-              onClick={() => setSelected(null)}
-            />
-            <motion.div
-              initial={{ y: "100%", opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: "100%", opacity: 0 }}
-              transition={{ type: "spring", damping: 30, stiffness: 320 }}
-              className="relative max-h-[92vh] w-full max-w-3xl overflow-hidden rounded-t-3xl bg-ivory shadow-premium sm:rounded-3xl"
-            >
-              {/* Header */}
-              <div className="relative h-44 sm:h-52">
-                <Image
-                  src={selectedPest.image}
-                  alt={selectedPest.name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 768px"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(51,36,22,0.3) 0%, rgba(51,36,22,0.85) 100%)" }} />
-                <div className="absolute inset-0 bg-dot-warm opacity-[0.05]" />
-                <button
-                  onClick={() => setSelected(null)}
-                  className="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur transition-colors hover:bg-white/25"
-                  aria-label="Close pest details"
-                >
-                  <X className="h-5 w-5" aria-hidden="true" />
-                </button>
-
-                <div className="absolute bottom-5 left-5 right-5 flex items-end gap-4">
-                  <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl bg-orange/20 text-orange ring-1 ring-orange/40 backdrop-blur-md">
-                    <selectedPest.icon className="h-7 w-7" strokeWidth={1.6} />
-                  </div>
-                  <div>
-                    <h2 className="font-display text-2xl font-bold text-white drop-shadow-md">{selectedPest.name}</h2>
-                    <p className="mt-0.5 text-sm italic text-white/70">
-                      {selectedPest.scientificName}
-                    </p>
-                    <div className="mt-2 flex flex-wrap items-center gap-2">
-                      <span
-                        className={cn(
-                          "rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider ring-1 backdrop-blur-md",
-                          threatColors[selectedPest.threat]
-                        )}
-                      >
-                        {selectedPest.threat} threat
-                      </span>
-                      <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/80 ring-1 ring-white/20 backdrop-blur-md">
-                        {selectedPest.seasonality}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Body — scrollable */}
-              <div className="thin-scroll max-h-[60vh] overflow-y-auto p-6 sm:p-8">
-                {/* Description */}
-                <div>
-                  <h3 className="font-display text-base font-bold text-brown">Overview</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-brown/75">
-                    {selectedPest.description}
-                  </p>
-                </div>
-
-                {/* Identification + Signs */}
-                <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-2xl border border-brown/10 bg-white p-4">
-                    <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-orange/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-orange">
-                      <Info className="h-3 w-3" />
-                      Identification
-                    </div>
-                    <ul className="space-y-1.5">
-                      {selectedPest.identification.map((item) => (
-                        <li key={item} className="flex items-start gap-2 text-xs text-brown/75">
-                          <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-orange" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="rounded-2xl border border-brown/10 bg-white p-4">
-                    <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-teal/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-teal">
-                      <Search className="h-3 w-3" />
-                      Signs of activity
-                    </div>
-                    <ul className="space-y-1.5">
-                      {selectedPest.signs.map((item) => (
-                        <li key={item} className="flex items-start gap-2 text-xs text-brown/75">
-                          <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-teal" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Health risk */}
-                <div className="mt-4 rounded-2xl border border-rust/20 bg-rust/5 p-4">
-                  <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-rust/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-rust">
-                    <AlertTriangle className="h-3 w-3" />
-                    Health risk
-                  </div>
-                  <p className="text-sm leading-relaxed text-brown/75">
-                    {selectedPest.healthRisk}
-                  </p>
-                </div>
-
-                {/* Prevention */}
-                <div className="mt-4 rounded-2xl border border-brown/10 bg-white p-4">
-                  <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-orange/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-orange">
-                    <CheckCircle2 className="h-3 w-3" />
-                    Prevention tips
-                  </div>
-                  <ul className="space-y-2">
-                    {selectedPest.prevention.map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-xs text-brown/75">
-                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-teal" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Footer — service CTA */}
-              <div className="border-t border-brown/10 bg-white p-4 sm:p-6">
-                <ServiceCtaBar serviceSlug={selectedPest.serviceSlug} onClose={() => setSelected(null)} />
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       <CTASection
-        title="Not sure which pest you're dealing with?"
-        subtitle="Send us a photo on WhatsApp and our team will identify it within 30 minutes during business hours — no charge."
+        title="Not sure which pest you are dealing with?"
+        subtitle="Send us a photo on WhatsApp and our team will identify it during business hours, then recommend the right control protocol."
       />
     </>
   );
 }
 
-function ServiceCtaBar({ serviceSlug, onClose }: { serviceSlug: string; onClose: () => void }) {
+function LibraryStat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-3">
-      <div>
-        <div className="text-[10px] font-semibold uppercase tracking-wider text-brown/70">
-          Recommended service
-        </div>
-        <div className="font-display text-sm font-bold capitalize text-brown">
-          {serviceSlug.replace(/-/g, " ")}
+    <Reveal>
+      <div className="border-y border-brown/10 bg-white/60 px-5 py-4 backdrop-blur">
+        <div className="font-display text-3xl font-bold text-brown">{value}</div>
+        <div className="mt-1 text-xs font-semibold uppercase tracking-wider text-brown/55">
+          {label}
         </div>
       </div>
-      <Link
-        href={`/services/${serviceSlug}`}
-        onClick={onClose}
-        className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white shadow-glow-orange gradient-orange"
+    </Reveal>
+  );
+}
+
+function PestIndexCard({ pest }: { pest: Pest }) {
+  const Icon = pest.icon;
+  const service = servicesBySlug(pest.serviceSlug);
+  const primarySign = pest.signs[0] ?? pest.identification[0];
+
+  return (
+    <Link
+      href={`/pests/${pest.slug}`}
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-brown/10 bg-white shadow-premium transition-all hover:-translate-y-1 hover:shadow-lift"
+    >
+      <div
+        className={cn(
+          "relative h-56 overflow-hidden bg-gradient-to-br",
+          categoryAccent[pest.category]
+        )}
       >
-        View service
-        <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-      </Link>
-    </div>
+        <Image
+          src={pest.image}
+          alt={pest.name}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 420px"
+          className="object-cover transition duration-700 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-brown/80 via-brown/10 to-transparent" />
+        <div className="absolute left-4 top-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-white/85 text-orange-ink shadow-premium backdrop-blur">
+          <Icon className="h-5 w-5" strokeWidth={1.7} />
+        </div>
+        <span
+          className={cn(
+            "absolute right-4 top-4 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-wider ring-1 backdrop-blur",
+            threatStyles[pest.threat]
+          )}
+        >
+          {pest.threat} threat
+        </span>
+        <div className="absolute bottom-4 left-4 right-4">
+          <h3 className="font-display text-xl font-bold leading-tight text-white">
+            {pest.name}
+          </h3>
+          <p className="mt-1 text-xs italic text-white/75">{pest.scientificName}</p>
+        </div>
+      </div>
+
+      <div className="flex flex-1 flex-col p-5">
+        <div className="flex flex-wrap gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-brown/[0.04] px-2.5 py-1 text-[11px] font-semibold capitalize text-brown/70">
+            <BadgeCheck className="h-3 w-3 text-teal" />
+            {pest.category}
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-brown/[0.04] px-2.5 py-1 text-[11px] font-semibold text-brown/70">
+            <Clock className="h-3 w-3 text-orange-ink" />
+            {pest.seasonality}
+          </span>
+        </div>
+
+        <p className="mt-4 flex-1 text-sm leading-relaxed text-brown/65 line-clamp-3">
+          {pest.description}
+        </p>
+
+        <div className="mt-5 border-t border-brown/10 pt-4">
+          <div className="text-[10px] font-semibold uppercase tracking-wider text-brown/45">
+            Common signal
+          </div>
+          <p className="mt-1 text-xs leading-relaxed text-brown/70 line-clamp-2">
+            {primarySign}
+          </p>
+        </div>
+
+        <div className="mt-5 flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-brown/45">
+              Treatment
+            </div>
+            <div className="truncate text-xs font-semibold text-brown">
+              {service?.name ?? pest.serviceSlug.replace(/-/g, " ")}
+            </div>
+          </div>
+          <span className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-orange/10 text-orange-ink transition-colors group-hover:bg-orange group-hover:text-white">
+            <ArrowRight className="h-4 w-4" />
+          </span>
+        </div>
+      </div>
+    </Link>
   );
 }

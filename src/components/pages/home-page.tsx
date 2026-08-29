@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { HeroSlider } from "@/components/site/hero-slider";
+import { HomeTreatmentPlanner } from "@/components/site/home-treatment-planner";
 import { ShowcaseCarousel } from "@/components/site/showcase-carousel";
 import { Stats } from "@/components/site/stats";
 import { Manifesto } from "@/components/site/manifesto";
@@ -82,52 +83,55 @@ export function HomePage() {
       {/* 01 — Auto-rotating hero carousel with pest-control story slides */}
       <HeroSlider />
 
-      {/* 02 — Auto-scrolling field-work gallery */}
+      {/* 02 — Interactive diagnosis-to-treatment path */}
+      <HomeTreatmentPlanner />
+
+      {/* 03 — Auto-scrolling field-work gallery */}
       <ShowcaseCarousel />
 
-      {/* 03 — Four key trust numbers */}
+      {/* 04 — Four key trust numbers */}
       <Stats />
 
       {/* Subtle ant trail divider (10% pest accent) */}
       <PestTrailDivider variant="ant" />
 
-      {/* 04 — Big-typography brand promise with tiny pest accent */}
+      {/* 05 — Big-typography brand promise with tiny pest accent */}
       <Manifesto />
 
-      {/* 05 — Signature protection animation (pests deflected by shield) */}
+      {/* 06 — Signature protection animation (pests deflected by shield) */}
       <ProtectionShield />
 
       {/* Organic wave roll-down into services */}
       <WaveDivider bg="var(--color-ivory-deep, #F0E6D2)" />
 
-      {/* 06 — Image-first services grid (all 14 services) */}
+      {/* 07 — Image-first services grid (all 14 services) */}
       <ServicesGallery />
 
       {/* Subtle mosquito-trail divider before the result demonstration */}
       <PestTrailDivider variant="mosquito" />
 
-      {/* 07 — Draggable before/after result comparison */}
+      {/* 08 — Draggable before/after result comparison */}
       <BeforeAfterSlider />
 
-      {/* 08 — Why choose Siva (image-card reasons) */}
+      {/* 09 — Why choose Siva (image-card reasons) */}
       <WhyChooseStrip />
 
-      {/* 09 — Three-city coverage map */}
+      {/* 10 — Three-city coverage map */}
       <LocationsMap />
 
-      {/* 10 — Industries served */}
+      {/* 11 — Industries served */}
       <IndustriesShowcase />
 
-      {/* 11 — Testimonials marquee */}
+      {/* 12 — Testimonials marquee */}
       <Testimonials />
 
-      {/* 12 — Latest insights */}
+      {/* 13 — Latest insights */}
       <BlogTeaser />
 
-      {/* 13 — Dark premium final CTA with shield + pest silhouettes */}
+      {/* 14 — Dark premium final CTA with shield + pest silhouettes */}
       <ProtectionCTA />
 
-      {/* 14 — Certifications trust strip */}
+      {/* 15 — Certifications trust strip */}
       <section className="bg-brown/5 py-10">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-3 px-4 text-center sm:gap-x-10">
           {brand.certifications.map((cert) => (

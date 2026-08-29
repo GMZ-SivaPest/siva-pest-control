@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { company } from "@/data/company";
 import { SiteChrome } from "@/components/site/site-chrome";
 import { ContactPage } from "@/components/pages/contact-page";
+import { faqs } from "@/data/faqs";
+import { generateFAQSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Contact — Book Your Free Inspection",
@@ -12,9 +14,18 @@ export const metadata: Metadata = {
   },
 };
 
+// FAQPage structured data — the contact page is now the site's FAQ home
+// (standalone /faq page removed); must mirror the FAQ list rendered in
+// contact-page.tsx.
+const faqSchema = generateFAQSchema(faqs);
+
 export default function Contact() {
   return (
     <SiteChrome>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <ContactPage />
     </SiteChrome>
   );

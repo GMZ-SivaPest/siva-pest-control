@@ -1,7 +1,7 @@
 "use client";
 
 import { PageHero } from "@/components/site/page-hero";
-import { ProcessTimeline } from "@/components/site/process-timeline";
+import { ProcessTimeline, ProcessPrinciples } from "@/components/site/process-timeline";
 import { CTASection } from "@/components/site/cta-section";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
@@ -51,6 +51,8 @@ export function ProcessPage() {
       />
 
       <ProcessTimeline />
+
+      <ProcessPrinciples />
 
       {/* Standards */}
       <section className="py-20 md:py-24">

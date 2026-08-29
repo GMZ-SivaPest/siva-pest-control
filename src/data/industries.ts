@@ -87,7 +87,7 @@ export const industries: Industry[] = [
     slug: "offices",
     name: "Offices & Tech Parks",
     icon: Building2,
-    image: "/images/industries/warehouse.jpg",
+    image: "/images/showcase/work-bird-spike.jpg",
     short: "After-hours pest control for IT parks, co-working spaces, and corporate offices.",
     description:
       "Modern offices face unique pest pressure — pantry cockroaches, server-room rodents, and bird fouling on glass facades. Our office programme uses after-hours service, pantry-focused gel-bait protocols, server-room mechanical trapping, and quarterly trend reports for facility managers.",
@@ -98,7 +98,7 @@ export const industries: Industry[] = [
     slug: "education",
     name: "Schools & Institutions",
     icon: School,
-    image: "/images/industries/healthcare.jpg",
+    image: "/images/treatments/gel-bait-application.jpg",
     short: "Child-safe pest control for schools, colleges, hostels, and daycares.",
     description:
       "Educational institutions demand the strictest safety standards. Our schools programme uses non-toxic monitoring, gel-bait only (no sprays in classrooms), vacation-period deep treatments, and full documentation for parent communications. Compliant with all state education board safety norms.",
@@ -120,7 +120,7 @@ export const industries: Industry[] = [
     slug: "pre-post-construction",
     name: "Pre & Post Construction",
     icon: HardHat,
-    image: "/images/industries/manufacturing.jpg",
+    image: "/images/treatments/termite-drill-treatment.jpg",
     short:
       "Anti-termite soil treatment during foundation stage — protects new structures for 10+ years.",
     description:
@@ -132,7 +132,7 @@ export const industries: Industry[] = [
     slug: "transport-hubs",
     name: "Transport Hubs & Ports",
     icon: TrainFront,
-    image: "/images/industries/warehouse.jpg",
+    image: "/images/showcase/work-rodent-station.jpg",
     short:
       "High-traffic pest control for airports, seaports, railway stations, and metro depots.",
     description:

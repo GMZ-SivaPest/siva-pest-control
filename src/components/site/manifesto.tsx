@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Bug } from "lucide-react";
 import { trackCTAClick } from "@/lib/analytics";
 import { Reveal } from "./reveal";
 
@@ -81,7 +81,10 @@ export function Manifesto() {
                     ease: "easeInOut",
                   }}
                 >
-                  🪳
+                  <Bug
+                    className="h-4 w-4 text-orange"
+                    aria-hidden
+                  />
                 </motion.span>
               )}
             </span>

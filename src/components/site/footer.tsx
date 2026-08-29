@@ -156,18 +156,18 @@ export function Footer() {
         <div className="border-t border-white/10 py-6">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-white/75">
             <span className="font-semibold uppercase tracking-wider text-white/85">
-              Coverage:
+              Service areas:
             </span>
             {locations.map((loc) => (
               <Link
                 key={loc.slug}
-                href={`/locations/${loc.slug}`}
+                href="/contact"
                 className="inline-flex items-center gap-1.5 transition-colors hover:text-orange"
               >
                 <MapPin className="h-3 w-3" aria-hidden="true" />
                 {loc.city}
                 <span className="text-white/40" aria-hidden="true">·</span>
-                <span className="text-white/80">{loc.coverage.length} zones</span>
+                <span className="text-white/80">Priority areas</span>
               </Link>
             ))}
           </div>

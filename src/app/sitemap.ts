@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { services } from "@/data/services";
-import { locations } from "@/data/locations";
 import { blogPosts } from "@/data/blog";
+import { pests } from "@/data/pests";
 import { brand } from "@/data/brand";
 import { company } from "@/data/company";
 
@@ -25,12 +25,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/`, lastModified: contentLastUpdated, changeFrequency: "weekly", priority: 1 },
     { url: `${base}/about`, lastModified: contentLastUpdated, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/services`, lastModified: contentLastUpdated, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${base}/locations`, lastModified: contentLastUpdated, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/process`, lastModified: contentLastUpdated, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/pests`, lastModified: contentLastUpdated, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/industries`, lastModified: contentLastUpdated, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/blog`, lastModified: contentLastUpdated, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${base}/faq`, lastModified: contentLastUpdated, changeFrequency: "monthly", priority: 0.6 },
     { url: `${base}/contact`, lastModified: contentLastUpdated, changeFrequency: "monthly", priority: 0.8 },
   ];
 
@@ -41,11 +39,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  const locationRoutes: MetadataRoute.Sitemap = locations.map((l) => ({
-    url: `${base}/locations/${l.slug}`,
+  const pestRoutes: MetadataRoute.Sitemap = pests.map((p) => ({
+    url: `${base}/pests/${p.slug}`,
     lastModified: contentLastUpdated,
     changeFrequency: "monthly" as const,
-    priority: 0.7,
+    priority: 0.6,
   }));
 
   const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((b) => ({
@@ -55,5 +53,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...serviceRoutes, ...locationRoutes, ...blogRoutes];
+  return [...staticRoutes, ...serviceRoutes, ...pestRoutes, ...blogRoutes];
 }

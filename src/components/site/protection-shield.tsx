@@ -18,7 +18,7 @@ import { SectionHeading } from "./section-heading";
 export function ProtectionShield() {
   const reduceMotion = useReducedMotion();
 
-  // 8 pests approaching from different angles
+  // 8 pests approaching from different angles — distinct emojis for visual impact
   const pests = [
     { angle: 0, icon: "🪳", label: "Roach", delay: 0 },
     { angle: 45, icon: "🐜", label: "Ant", delay: 0.4 },
@@ -95,7 +95,7 @@ export function ProtectionShield() {
                 // promise below carries the actual content meaning.
                 role="img"
                 aria-label={pest.label}
-                className="absolute flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-lg shadow-premium backdrop-blur-md"
+                className="absolute flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-xl shadow-premium backdrop-blur-md"
                 style={{ left: `${startX}%`, top: `${startY}%` }}
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={

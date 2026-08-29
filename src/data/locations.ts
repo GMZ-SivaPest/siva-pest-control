@@ -1,6 +1,6 @@
 /**
  * locations.ts — Single source of truth for service locations.
- * Each city has full local SEO content: address, phone, coverage, testimonials, FAQs, map coords.
+ * Coverage lists are priority service areas, not exhaustive guarantees.
  */
 
 import { company } from "./company";
@@ -45,9 +45,9 @@ export const locations: Location[] = [
     state: "Andhra Pradesh",
     tagline: "Your trusted local pest control experts in Repalle.",
     shortIntro:
-      "Serving Isukapalli, Repalle and surrounding areas with prompt, professional pest control services. Local team based in Isukapalli.",
+      "Serving Isukapalli, Repalle and nearby pin codes by appointment. Local team based in Isukapalli.",
     longIntro:
-      "Siva Pest Control is proud to serve Isukapalli and the greater Repalle region with comprehensive pest management solutions. Our local team understands the unique pest challenges of this coastal Andhra Pradesh area — from termite infestations in traditional homes to mosquito surges during monsoon season and rodent issues in agricultural surroundings. We provide same-day service for most pin codes in the region, with treatments calibrated for the local climate and construction patterns. Whether you're in Isukapalli, Repalle town, or nearby villages, our certified technicians deliver effective, safe, and affordable pest control.",
+      "Siva Pest Control is proud to serve Isukapalli and the Repalle region with comprehensive pest management solutions. Our local team understands the unique pest challenges of this coastal Andhra Pradesh area — from termite infestations in traditional homes to mosquito surges during monsoon season and rodent issues in agricultural surroundings. We cover priority local areas first and confirm nearby pin-code availability before scheduling.",
     phone: company.phonePrimary,
     phoneHref: company.phonePrimaryHref,
     email: "repalle@sivapestcontrol.com",
@@ -61,19 +61,9 @@ export const locations: Location[] = [
     coverage: [
       "Isukapalli",
       "Repalle",
-      "Nizampatnam",
       "Penumudi",
       "Kavuru",
-      "Chandole",
-      "Mulapeta",
-      "Kothapeta",
-      "Peteru",
-      "Aravalli",
-      "Nagaram",
-      "Kakarlamudi",
-      "Alluru",
-      "Vipparla",
-      "Kuchipudi",
+      "Nizampatnam",
     ],
     landmarks: [
       "Kasturi Vari Street Junction",
@@ -90,7 +80,7 @@ export const locations: Location[] = [
     faqs: [
       {
         q: "Which areas around Isukapalli and Repalle do you cover?",
-        a: "We cover Isukapalli, Repalle town, Nizampatnam, Penumudi, Kavuru, Chandole, Mulapeta, Kothapeta, Peteru, Aravalli, Nagaram, Kakarlamudi, Alluru, Vipparla, Kuchipudi and surrounding villages. If your pin code is within 30km of Isukapalli, we can typically reach you the same day.",
+        a: "Our priority service areas are Isukapalli, Repalle, Penumudi, Kavuru and Nizampatnam. Nearby villages may be available by appointment; call us with your pin code and we will confirm before booking.",
       },
       {
         q: "Do you handle termite issues common in traditional Andhra homes?",
@@ -114,11 +104,11 @@ export const locations: Location[] = [
     slug: "hyderabad",
     city: "Hyderabad",
     state: "Telangana",
-    tagline: "Our home city. Our deepest coverage.",
+    tagline: "Our home city. Our strongest local coverage.",
     shortIntro:
-      "Serving 28 zones across Hyderabad and Secunderabad with same-day response in most areas. Field team based in Madhapur.",
+      "Serving core Hyderabad and Secunderabad areas with same-day response in most cases. Field team based in Madhapur.",
     longIntro:
-      "Hyderabad is where Siva Pest Control was founded in 2012, and it remains our largest operation. Our Madhapur field office dispatches technicians across 28 zones — from HITEC City and Gachibowli to Kukatpally, Banjara Hills, and Old City. With 14 certified technicians on the ground and a guaranteed 30-minute response window in most pin codes, we're the city's most responsive premium pest control service. We know the local pest pressure: termite swarms in Banjara Hills, rodent surges in Secunderabad's older housing, mosquito spikes around Hussain Sagar. Our treatments are calibrated for Hyderabad's climate and construction patterns.",
+      "Hyderabad is where Siva Pest Control was founded in 2012, and it remains our largest operation. Our Madhapur field office dispatches technicians across core service areas — from HITEC City and Gachibowli to Kukatpally, Banjara Hills, Jubilee Hills and Secunderabad. We know the local pest pressure: termite swarms in older independent houses, rodent surges in mature neighbourhoods, and mosquito spikes around low-lying areas. Nearby pin codes are confirmed before booking so expectations stay clear.",
     phone: company.phonePrimary,
     phoneHref: company.phonePrimaryHref,
     email: "hyd@sivapestcontrol.com",
@@ -139,25 +129,7 @@ export const locations: Location[] = [
       "Miyapur",
       "Banjara Hills",
       "Jubilee Hills",
-      "Begumpet",
-      "Ameerpet",
       "Secunderabad",
-      "Tarnaka",
-      "Habsiguda",
-      "Uppal",
-      "LB Nagar",
-      "Dilsukhnagar",
-      "Hafeezpet",
-      "Nallagandla",
-      "Tellapur",
-      "Mokila",
-      "Shamshabad",
-      "Attapur",
-      "Mehdipatnam",
-      "Manikonda",
-      "Narsingi",
-      "Kollur",
-      "Patancheru",
     ],
     landmarks: [
       "HITEC City metro station",
@@ -174,7 +146,7 @@ export const locations: Location[] = [
     faqs: [
       {
         q: "Which areas of Hyderabad do you cover?",
-        a: "We cover 28 zones across Hyderabad and Secunderabad, including HITEC City, Gachibowli, Kukatpally, Banjara Hills, Jubilee Hills, and Old City. If your pin code is within 25km of Madhapur, we can typically reach you the same day.",
+        a: "Our priority Hyderabad areas include Madhapur, HITEC City, Gachibowli, Kondapur, Kukatpally, KPHB, Miyapur, Banjara Hills, Jubilee Hills and Secunderabad. Nearby pin codes may be available by appointment; call us before booking.",
       },
       {
         q: "Do you serve the IT corridors around Gachibowli and Financial District?",
@@ -190,7 +162,7 @@ export const locations: Location[] = [
       },
       {
         q: "Do you offer monsoon mosquito contracts near Hussain Sagar and other lake-side areas?",
-        a: "Yes. Lakeside and low-lying areas see 3-4x mosquito pressure during monsoon. We offer a 6-month mosquito contract with monthly service calls specifically for these zones.",
+        a: "Yes. Lakeside and low-lying areas see higher mosquito pressure during monsoon. We confirm your pin code first, then recommend a one-time service or monthly mosquito programme.",
       },
     ],
   },
@@ -202,7 +174,7 @@ export const locations: Location[] = [
     shortIntro:
       "Serving Chennai's coastal and IT corridors with humidity-calibrated treatments. Field team based in T. Nagar.",
     longIntro:
-      "Chennai's coastal humidity, aging drainage in central areas, and rapid IT corridor expansion along OMR create a unique pest pressure profile. Our T. Nagar field office operates 6 technicians covering 22 zones — from Anna Nagar and Adyar to Sholinganallur and ECR. We specialise in the high-humidity challenges that Chennai homes face: silverfish in book collections, coastal roach strains in older properties, and mosquito surges during the northeast monsoon. Every treatment is calibrated for Chennai's salt-tinged air and high water table.",
+      "Chennai's coastal humidity, aging drainage in central areas, and rapid IT corridor expansion along OMR create a unique pest pressure profile. Our T. Nagar field office prioritises a focused set of city areas and confirms nearby pin codes before scheduling. We specialise in high-humidity challenges: silverfish in book collections, coastal roach strains in older properties, and mosquito surges during the northeast monsoon.",
     phone: "+91 77024 87195",
     phoneHref: "+917702487195",
     email: "chn@sivapestcontrol.com",
@@ -217,25 +189,8 @@ export const locations: Location[] = [
       "T. Nagar",
       "Anna Nagar",
       "Adyar",
-      "Besant Nagar",
-      "Mylapore",
       "Velachery",
-      "Guindy",
-      "Nungambakkam",
-      "Egmore",
-      "Teynampet",
-      "Royapettah",
-      "Thiruvanmiyur",
-      "Perungudi",
       "Sholinganallur",
-      "Navalur",
-      "Semmenchery",
-      "Karapakkam",
-      "Shastri Nagar",
-      "Porur",
-      "Mogappair",
-      "Ambattur",
-      "ECR stretch",
     ],
     landmarks: [
       "Panagal Park, T. Nagar",
@@ -252,7 +207,7 @@ export const locations: Location[] = [
     faqs: [
       {
         q: "Do you cover the OMR IT corridor up to Sholinganallur and beyond?",
-        a: "Yes — full coverage from Madhya Kailash to Kelambakkam on OMR, including Sholinganallur, Navalur, Semmenchery, and Siruseri. Evening slots available for IT professionals.",
+        a: "Sholinganallur is a priority area. Other OMR pin codes are handled by appointment depending on technician availability, so please call before booking.",
       },
       {
         q: "How do you handle the coastal humidity issue in Adyar and Besant Nagar?",
@@ -263,8 +218,8 @@ export const locations: Location[] = [
         a: "Yes — these areas have unique challenges: wooden rafters, aging plumbing, and proximity to temples with food offerings. We use low-evaporation sprays that won't damage heritage woodwork.",
       },
       {
-        q: "Do you provide mosquito control for ECR beach houses and resorts?",
-        a: "Absolutely. We service multiple resorts along ECR with our monsoon mosquito programme, combining residual misting with Bti larvicidal treatment of standing water features.",
+        q: "Do you provide mosquito control for beach houses and resorts?",
+        a: "Yes, by prior scheduling. We confirm the exact Chennai or nearby coastal pin code before accepting the booking, then recommend fogging, larvicide, or a monsoon programme based on the site.",
       },
       {
         q: "What about Anna Nagar's apartment complexes?",
@@ -280,7 +235,7 @@ export const locations: Location[] = [
     shortIntro:
       "Serving Bangalore's tech corridors and gated communities with calibrate-to-altitude treatments. Field team in Koramangala.",
     longIntro:
-      "Bangalore's moderate climate, dense gated communities, and high turnover tenant base create a different pest profile than other South Indian metros. Our Koramangala field office deploys 4 technicians across 24 zones — from Whitefield and Sarjapur to Indiranagar and Yelahanka. We specialise in Bangalore's signature challenges: rodent pressure in tech parks, pigeon fouling on glass facades, and bed bug surges in PG accommodations near tech corridors. Every technician is trained for the city's modern apartment layouts and shared-wall construction.",
+      "Bangalore's moderate climate, dense gated communities, and high turnover tenant base create a different pest profile than other South Indian metros. Our Koramangala field office prioritises a focused set of city areas and confirms nearby pin codes before scheduling. We specialise in Bangalore's signature challenges: rodent pressure in tech parks, pigeon fouling on glass facades, and bed bug surges in PG accommodations near tech corridors.",
     phone: company.phonePrimary,
     phoneHref: company.phonePrimaryHref,
     email: "blr@sivapestcontrol.com",
@@ -295,27 +250,8 @@ export const locations: Location[] = [
       "Koramangala",
       "Indiranagar",
       "HSR Layout",
-      "BTM Layout",
-      "Jayanagar",
-      "JP Nagar",
-      "Banashankari",
       "Whitefield",
-      "Marathahalli",
       "Sarjapur Road",
-      "Bellandur",
-      "Kadubeesanahalli",
-      "Electronic City",
-      "Bommanahalli",
-      "Hebbal",
-      "Yelahanka",
-      "Malleswaram",
-      "Rajajinagar",
-      "Vijayanagar",
-      "RR Nagar",
-      "Kengeri",
-      "Hennur",
-      "Thanisandra",
-      "Yeshwanthpur",
     ],
     landmarks: [
       "Sony World signal, Koramangala",
@@ -332,7 +268,7 @@ export const locations: Location[] = [
     faqs: [
       {
         q: "Do you service the Whitefield–Sarjapur tech corridor?",
-        a: "Yes — full coverage from Whitefield to Sarjapur Road, including Bellandur, Kadubeesanahalli, Carmeleram, and Hadosiddapura. Evening and weekend slots for IT professionals.",
+        a: "Whitefield and Sarjapur Road are priority areas. Nearby tech-corridor pin codes are handled by appointment depending on technician availability, so please call before booking.",
       },
       {
         q: "We live in a gated community on Sarjapur Road. Can you do a building-wide treatment?",
@@ -348,11 +284,8 @@ export const locations: Location[] = [
       },
       {
         q: "Do you serve PG accommodations and co-living spaces near tech parks?",
-        a: "Yes. We have specific protocols for high-turnover shared housing — particularly for bed bug elimination, which is a recurring issue in PGs near Marathahalli and Bellandur.",
+        a: "Yes. We have specific protocols for high-turnover shared housing, particularly for bed bug elimination. We confirm the exact Bangalore pin code and service slot before dispatch.",
       },
     ],
   },
 ];
-
-export const locationBySlug = (slug: string) =>
-  locations.find((l) => l.slug === slug);

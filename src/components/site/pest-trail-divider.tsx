@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { Bug } from "lucide-react";
 
 /**
  * PestTrailDivider — organic section separator with a subtle animated
@@ -51,7 +52,7 @@ export function PestTrailDivider({
           {/* Mosquito drifting along the wave */}
           {!reduceMotion && (
             <motion.span
-              className="absolute top-1/2 -translate-y-1/2 text-base"
+              className="absolute top-1/2 -translate-y-1/2"
               animate={{
                 left: ["2%", "96%", "2%"],
                 top: ["50%", "20%", "50%", "80%", "50%"],
@@ -62,7 +63,7 @@ export function PestTrailDivider({
                 ease: "easeInOut",
               }}
             >
-              🦟
+              <Bug className="h-4 w-4 text-brown/50" />
             </motion.span>
           )}
         </div>
@@ -128,7 +129,7 @@ export function PestTrailDivider({
           ))}
           {!reduceMotion && (
             <motion.span
-              className="ml-1 text-sm"
+              className="ml-1"
               animate={{ x: [0, 6, 0] }}
               transition={{
                 duration: 1.4,
@@ -136,7 +137,7 @@ export function PestTrailDivider({
                 ease: "easeInOut",
               }}
             >
-              🐜
+              <Bug className="h-3.5 w-3.5 text-brown/50" />
             </motion.span>
           )}
         </div>

@@ -8,6 +8,9 @@ export interface ProcessStep {
   description: string;
   duration: string;
   deliverable: string;
+  /** Photo shown alongside the step (image-first redesign) */
+  image: string;
+  imageAlt: string;
 }
 
 export const processSteps: ProcessStep[] = [
@@ -18,6 +21,9 @@ export const processSteps: ProcessStep[] = [
       "A certified technician visits your property, conducts a calibrated inspection of pest pressure and entry points, and provides a fixed-price quote. For most residential services, we can quote over the phone and skip straight to scheduling.",
     duration: "30–60 min",
     deliverable: "Fixed-price quote, no obligation",
+    image: "/images/carousel/termite-inspection.jpg",
+    imageAlt:
+      "Siva technician inspecting a wooden door frame with a flashlight for termite activity",
   },
   {
     step: "02",
@@ -26,6 +32,9 @@ export const processSteps: ProcessStep[] = [
       "Based on the inspection, we design a site-specific protocol — product selection, placement map, re-entry time, and prevention advisory. You receive a written treatment plan and safety data sheet before any work begins.",
     duration: "Same day",
     deliverable: "Written treatment plan + SDS",
+    image: "/images/showcase/work-restaurant-kitchen.jpg",
+    imageAlt:
+      "Siva technician documenting a site-specific treatment plan at a commercial kitchen",
   },
   {
     step: "03",
@@ -34,6 +43,9 @@ export const processSteps: ProcessStep[] = [
       "Your assigned technician arrives in uniform, in a GPS-tracked vehicle, with photo ID verified. He walks you through the treatment, applies products per protocol, documents every placement point, and briefs you on re-entry and prevention.",
     duration: "45 min – 5 hrs (service-dependent)",
     deliverable: "Digital service report with photo evidence",
+    image: "/images/treatments/gel-bait-application.jpg",
+    imageAlt:
+      "Siva technician in PPE uniform applying gel-bait treatment with precision equipment",
   },
   {
     step: "04",
@@ -42,6 +54,9 @@ export const processSteps: ProcessStep[] = [
       "Most services include a scheduled follow-up visit (day 14 for cockroach gel, day 30 for rodent, etc.). Commercial IPM contracts include bi-weekly monitoring with trend reports. We log every visit and adjust protocol if needed.",
     duration: "Per service schedule",
     deliverable: "Trend report + protocol adjustments",
+    image: "/images/treatments/commercial-ipm-monitor.jpg",
+    imageAlt:
+      "Siva technician inspecting a tamper-proof IPM monitoring station during a follow-up visit",
   },
   {
     step: "05",
@@ -50,6 +65,9 @@ export const processSteps: ProcessStep[] = [
       "Every service is backed by a written re-treatment warranty — 90 days for bed bugs and rodent, 180 days for cockroach gel, 5 years for termite, 3 years for bird netting. If pests return within warranty, we return free. No paperwork, no questions.",
     duration: "90 days – 5 years",
     deliverable: "Written warranty + priority support line",
+    image: "/images/carousel/protected-home.jpg",
+    imageAlt:
+      "A protected, pest-free South Indian home at twilight — backed by a written warranty",
   },
 ];
 

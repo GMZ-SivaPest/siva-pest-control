@@ -47,17 +47,17 @@ export function ContactPage() {
             subtitle="Click on any city marker to explore our service areas, field offices, and local expertise."
           />
 
-          <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16 items-start">
-            {/* Left — Realistic South India map */}
+          <div className="mt-12 grid gap-10 lg:gap-12 items-start">
+            {/* Full-width map hero — double height */}
             <Reveal>
-              <div className="relative overflow-hidden rounded-3xl border border-brown/10 bg-white/60 p-4 shadow-premium sm:p-6">
+              <div className="relative overflow-hidden rounded-3xl border border-brown/10 bg-white/60 p-5 shadow-premium sm:p-8">
                 <div className="absolute inset-0 bg-dot-warm opacity-20" />
                 <div className="relative">
-                  <div className="mb-3 flex items-center justify-between px-2">
-                    <h3 className="font-display text-base font-bold text-brown">
+                  <div className="mb-4 flex items-center justify-between px-2">
+                    <h3 className="font-display text-lg font-bold text-brown">
                       South India service network
                     </h3>
-                    <span className="rounded-full bg-orange/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-orange">
+                    <span className="rounded-full bg-orange/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-orange">
                       Live network
                     </span>
                   </div>
@@ -66,8 +66,8 @@ export function ContactPage() {
               </div>
             </Reveal>
 
-            {/* Right — City cards */}
-            <div className="space-y-4">
+            {/* City cards — 2-column grid */}
+            <div className="grid gap-6 sm:grid-cols-2">
               {locations.map((loc, i) => (
                 <motion.div
                   key={loc.slug}

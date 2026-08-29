@@ -2,330 +2,521 @@
 
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { geoMercator, geoPath } from "d3-geo";
-import { feature } from "topojson-client";
-import { MapPin, Phone, Star, Users, Clock, X } from "lucide-react";
+import { MapPin, Phone, Star, Clock, X, Users, Network, Radio } from "lucide-react";
+import {
+  ComposableMap,
+  Geographies,
+  Geography,
+} from "react-simple-maps";
+import { geoMercator, geoCentroid } from "d3-geo";
 import { locations } from "@/data/locations";
 import { cn } from "@/lib/utils";
-import southIndiaTopo from "@/data/south-india.topo.json";
 
 /**
- * SouthIndiaMap — real geographic map of South India rendered with d3-geo.
- * Uses actual state boundary data (TopoJSON) projected with Mercator.
- * States: Karnataka, Telangana, Andhra Pradesh, Tamil Nadu, Kerala,
- * Goa, Maharashtra, Odisha, Chhattisgarh, Puducherry.
+ * SouthIndiaMap — Premium geographic map of South India.
+ * Uses react-simple-maps with a real India GeoJSON, projected to the
+ * South Indian bounding box. Each South Indian state is colour-coded
+ * with a distinct fill, labelled in-canvas, and the operational network
+ * is rendered as a fully connected mesh radiating from HQ (Hyderabad).
  */
 
-// ─── City positions (real lat/lng) ───
-// All pins share one accent colour (brand teal) for a consistent, modern
-// data layer. The active pin is differentiated by size + glow, not hue.
-const cityPins = [
+const BRAND = "#B85C04";
+const BRAND_DEEP = "#7A3A02";
+
+// Reliable India States GeoJSON
+const GEO_URL = "https://raw.githubusercontent.com/geohacker/india/master/state/india_telengana.geojson";
+
+// Bounding box for South India (deg)
+const SOUTH_BBOX = {
+  west: 74.0,
+  south: 7.5,
+  east: 85.0,
+  north: 18.5,
+};
+
+// Increased internal canvas — the card is rendered at ~2× height
+// so labels, state names, and network mesh have plenty of breathing room.
+const MAP_W = 1000;
+const MAP_H = 1100;
+
+// Initialize projection
+const projection = geoMercator().fitExtent(
+  [
+    [30, 30],
+    [MAP_W - 30, MAP_H - 30],
+  ],
   {
-    slug: "hyderabad",
-    label: "Hyderabad",
-    state: "Telangana",
-    coords: [78.4867, 17.385],
-    color: "#719899",
+    type: "Polygon",
+    coordinates: [
+      [
+        [SOUTH_BBOX.west, SOUTH_BBOX.north],
+        [SOUTH_BBOX.east, SOUTH_BBOX.north],
+        [SOUTH_BBOX.east, SOUTH_BBOX.south],
+        [SOUTH_BBOX.west, SOUTH_BBOX.south],
+        [SOUTH_BBOX.west, SOUTH_BBOX.north],
+      ],
+    ],
+  }
+);
+
+// South Indian states — each gets its own subtle fill so a viewer can
+// instantly tell which region a city sits in.
+const STATE_STYLES: Record<
+  string,
+  { fill: string; ring: string; soft: string; label: string }
+> = {
+  Telangana: {
+    fill: "#FDE7CC",
+    ring: BRAND,
+    soft: "#F8C98A",
+    label: "TELANGANA",
   },
-  {
-    slug: "chennai",
-    label: "Chennai",
-    state: "Tamil Nadu",
-    coords: [80.2707, 13.0827],
-    color: "#719899",
+  "Andhra Pradesh": {
+    fill: "#E8F1FB",
+    ring: "#3A6FB0",
+    soft: "#B6D2EE",
+    label: "ANDHRA PRADESH",
   },
-  {
-    slug: "bangalore",
-    label: "Bangalore",
-    state: "Karnataka",
-    coords: [77.5946, 12.9716],
-    color: "#719899",
+  "Tamil Nadu": {
+    fill: "#E6F4EC",
+    ring: "#2F8C5A",
+    soft: "#A8D6BC",
+    label: "TAMIL NADU",
   },
-  {
-    slug: "isukapalli",
-    label: "Isukapalli",
-    state: "Andhra Pradesh",
-    coords: [80.85, 16.1],
-    color: "#719899",
+  Karnataka: {
+    fill: "#FBEAEA",
+    ring: "#B43A3A",
+    soft: "#E6B5B5",
+    label: "KARNATAKA",
   },
+  Kerala: {
+    fill: "#EEF7E6",
+    ring: "#5C8A2A",
+    soft: "#BFD9A1",
+    label: "KERALA",
+  },
+  Puducherry: {
+    fill: "#F1ECF8",
+    ring: "#6A4FA0",
+    soft: "#C4B6DD",
+    label: "PUDUCHERRY",
+  },
+};
+
+const SOUTH_INDIA_STATES = Object.keys(STATE_STYLES);
+
+// City Data (Exact lat/lng mapped from locations.ts)
+const CITIES = [
+  { slug: "hyderabad", label: "Hyderabad", state: "Telangana", isHQ: true, coordinates: [78.4867, 17.385] as [number, number] },
+  { slug: "isukapalli", label: "Isukapalli", state: "Andhra Pradesh", coordinates: [80.85, 16.1] as [number, number] },
+  { slug: "chennai", label: "Chennai", state: "Tamil Nadu", coordinates: [80.2707, 13.0827] as [number, number] },
+  { slug: "bangalore", label: "Bangalore", state: "Karnataka", coordinates: [77.5946, 12.9716] as [number, number] },
 ];
 
-// States we actively serve (highlighted)
-const SERVED_STATES = [
-  "KARNATAKA",
-  "TELANGANA",
-  "ANDHRA PRADESH",
-  "TAMIL NADU",
-  "KERALA",
-];
-
-interface SouthIndiaMapProps {
-  className?: string;
-  showDetail?: boolean;
-}
-
-export function SouthIndiaMap({ className, showDetail = true }: SouthIndiaMapProps) {
+export function SouthIndiaMap({ className, showDetail = true }: { className?: string; showDetail?: boolean }) {
   const [activeCity, setActiveCity] = useState<string | null>(null);
-
+  const [hoveredState, setHoveredState] = useState<string | null>(null);
   const activeLocation = locations.find((l) => l.slug === activeCity);
-  const activePin = cityPins.find((p) => p.slug === activeCity);
+  const activeState = activeLocation?.state ?? hoveredState;
 
-  // Build the projected map geometry once
-  const { paths, pinPositions } = useMemo(() => {
-    const topo = southIndiaTopo as unknown as {
-      type: string;
-      objects: { states: { type: string; geometries: unknown[] } };
-      arcs: unknown[];
-    };
-    const states = feature(
-      topo as never,
-      topo.objects.states as never
-    ) as unknown as {
-      type: "FeatureCollection";
-      features: Array<{
-        type: "Feature";
-        properties: { STNAME: string };
-        geometry: { type: string; coordinates: unknown };
-      }>;
-    };
+  // Pre-compute city projected coordinates (stable across renders)
+  const projectedCities = useMemo(
+    () =>
+      CITIES.map((c) => {
+        const [x, y] = projection(c.coordinates)!;
+        return { ...c, x, y };
+      }),
+    []
+  );
 
-    // Projection fitted to the South India region
-    const projection = geoMercator()
-      .center([78.5, 15.5])
-      .scale(2200)
-      .translate([250, 250]);
-
-    const pathGen = geoPath(projection);
-
-    const paths = states.features.map((f) => ({
-      name: f.properties.STNAME,
-      d: pathGen(f as never) || "",
-      served: SERVED_STATES.includes(f.properties.STNAME),
-    }));
-
-    const pinPositions = cityPins.map((pin) => {
-      const [x, y] = projection(pin.coords as [number, number]) || [0, 0];
-      return { ...pin, x, y };
-    });
-
-    return { paths, pinPositions };
-  }, []);
+  // Network mesh — every active city connected to HQ + inter-city ring.
+  const links = useMemo(() => {
+    const out: { from: typeof projectedCities[number]; to: typeof projectedCities[number]; key: string }[] = [];
+    const hq = projectedCities[0];
+    for (let i = 1; i < projectedCities.length; i++) {
+      out.push({ from: hq, to: projectedCities[i], key: `hq-${projectedCities[i].slug}` });
+    }
+    // Inter-city ring for visual mesh (Chennai <-> Bangalore etc.)
+    for (let i = 1; i < projectedCities.length; i++) {
+      for (let j = i + 1; j < projectedCities.length; j++) {
+        out.push({
+          from: projectedCities[i],
+          to: projectedCities[j],
+          key: `${projectedCities[i].slug}-${projectedCities[j].slug}`,
+        });
+      }
+    }
+    return out;
+  }, [projectedCities]);
 
   return (
     <div className={cn("relative", className)}>
-      <div className="relative mx-auto w-full max-w-xl">
-        <svg
-          viewBox="0 0 500 500"
-          className="h-auto w-full"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            {/* Transparent fills for clear border visibility */}
-            <linearGradient id="served-grad" x1="0" y1="0" x2="500" y2="500">
-              <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
-              <stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
-            </linearGradient>
+      <div className="relative mx-auto w-full">
+        <div className="relative min-h-[520px] overflow-hidden rounded-2xl border border-brown/10 bg-white/70 shadow-premium">
+          <div className="relative w-full" style={{ aspectRatio: `${MAP_W} / ${MAP_H}` }}>
+            <ComposableMap
+              projection={projection}
+              width={MAP_W}
+              height={MAP_H}
+              style={{ width: "100%", height: "100%" }}
+            >
+              <defs>
+                {/* Aceternity-style Dotted Pattern */}
+                <pattern id="southIndiaDots" width="10" height="10" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="1.5" fill={BRAND} fillOpacity="0.35" />
+                </pattern>
 
-            {/* Transparent fills for context states */}
-            <linearGradient id="context-grad" x1="0" y1="0" x2="500" y2="500">
-              <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
-              <stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
-            </linearGradient>
+                {/* Subtle Background Dots */}
+                <pattern id="bgDots" width="14" height="14" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="1" fill="#332416" fillOpacity="0.05" />
+                </pattern>
 
-            {/* Glow filter for active pins */}
-            <filter id="pin-glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
+                {/* Per-state soft fill pattern */}
+                {Object.entries(STATE_STYLES).map(([state, s]) => (
+                  <pattern
+                    key={`p-${state}`}
+                    id={`p-${state.replace(/\s+/g, "_")}`}
+                    width="8"
+                    height="8"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <rect width="8" height="8" fill={s.fill} />
+                    <circle cx="2" cy="2" r="1" fill={s.ring} fillOpacity="0.18" />
+                  </pattern>
+                ))}
 
-            {/* Soft shadow for states */}
-            <filter id="state-shadow" x="-5%" y="-5%" width="110%" height="110%">
-              <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodColor="#332416" floodOpacity="0.12" />
-            </filter>
-          </defs>
+                {/* Active state glow */}
+                <filter id="stateGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="6" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
 
-          {/* Background grid — barely-there blueprint texture */}
-          <pattern id="map-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#332416" strokeWidth="0.3" strokeOpacity="0.02" />
-          </pattern>
-          <rect width="500" height="500" fill="url(#map-grid)" />
+              {/* Background Grid */}
+              <rect width={MAP_W} height={MAP_H} fill="url(#bgDots)" />
 
-          {/* Ocean / water background — soft teal tint */}
-          <rect
-            x="0" y="0" width="500" height="500"
-            fill="#719899"
-            fillOpacity="0.03"
-          />
+              {/* ───── State Polygons (colour-coded, hover-aware) ───── */}
+              <Geographies geography={GEO_URL}>
+                {({ geographies }) => {
+                  const present: { name: string; geo: (typeof geographies)[number] }[] = [];
+                  geographies.forEach((geo) => {
+                    const stateName = geo.properties.STNAME || geo.properties.NAME_1 || geo.properties.name;
+                    if (SOUTH_INDIA_STATES.some((s) => s.toLowerCase() === stateName?.toLowerCase())) {
+                      present.push({ name: stateName!, geo });
+                    }
+                  });
 
-          {/* ─── State polygons (real boundaries) ─── */}
-          {paths.map((p, i) => (
-            <motion.path
-              key={p.name}
-              d={p.d}
-              fill="none"
-              stroke="#332416"
-              strokeWidth={p.served ? 1.5 : 1}
-              strokeOpacity={p.served ? 0.6 : 0.4}
-              filter="url(#state-shadow)"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: i * 0.08 }}
-            />
-          ))}
+                  return (
+                    <>
+                      {present.map(({ name, geo }) => {
+                        const style = STATE_STYLES[name];
+                        const isActive = activeState?.toLowerCase() === name.toLowerCase();
+                        return (
+                          <Geography
+                            key={geo.rsmKey}
+                            geography={geo}
+                            fill={`url(#p-${name.replace(/\s+/g, "_")})`}
+                            stroke={style.ring}
+                            strokeOpacity={isActive ? 0.95 : 0.6}
+                            strokeWidth={isActive ? 2 : 1.1}
+                            style={{
+                              default: { outline: "none", transition: "all 0.3s ease" },
+                              hover: { outline: "none", cursor: "pointer" },
+                              pressed: { outline: "none" },
+                            }}
+                            onMouseEnter={() => setHoveredState(name)}
+                            onMouseLeave={() => setHoveredState(null)}
+                            filter={isActive ? "url(#stateGlow)" : undefined}
+                          />
+                        );
+                      })}
 
-          {/* ─── State labels ─── */}
-          <g
-            fill="#332416"
-            fillOpacity="0.95"
-            fontSize="8"
-            fontWeight="700"
-            fontFamily="var(--font-display), sans-serif"
-            textAnchor="middle"
-          >
-            {paths.map((p) => {
-              // Approximate label position from the path's bounding box
-              const bbox = getPathBBox(p.d);
-              if (!bbox) return null;
+                      {/* ───── State Name Labels (centroid) ───── */}
+                      {present.map(({ name, geo }) => {
+                        const centroid = geoCentroid(geo);
+                        const [lx, ly] = projection(centroid)!;
+                        const style = STATE_STYLES[name];
+                        if (lx == null || ly == null) return null;
+                        return (
+                          <g key={`label-${geo.rsmKey}`} pointerEvents="none">
+                            <text
+                              x={lx}
+                              y={ly}
+                              textAnchor="middle"
+                              fontSize={13}
+                              fontWeight={800}
+                              fill={style.ring}
+                              fillOpacity={0.55}
+                              fontFamily="var(--font-display), sans-serif"
+                              letterSpacing="2"
+                            >
+                              {style.label}
+                            </text>
+                          </g>
+                        );
+                      })}
+                    </>
+                  );
+                }}
+              </Geographies>
+
+              {/* ───── Service Network Mesh (HQ + inter-city ring) ───── */}
+              {links.map((link) => {
+                const midX = (link.from.x + link.to.x) / 2;
+                const midY = (link.from.y + link.to.y) / 2 - 24; // gentle arc
+                const pathD = `M ${link.from.x} ${link.from.y} Q ${midX} ${midY} ${link.to.x} ${link.to.y}`;
+                const isHQLink = link.from.slug === "hyderabad" || link.to.slug === "hyderabad";
+                return (
+                  <g key={link.key}>
+                    {/* Soft glow underlay */}
+                    <motion.path
+                      d={pathD}
+                      fill="none"
+                      stroke={BRAND}
+                      strokeWidth={isHQLink ? 4 : 2.5}
+                      strokeOpacity={0.08}
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 1.6, ease: "easeInOut" }}
+                    />
+                    {/* Dashed animated line */}
+                    <motion.path
+                      d={pathD}
+                      fill="none"
+                      stroke={isHQLink ? BRAND : "#6E8AB0"}
+                      strokeWidth={isHQLink ? 1.8 : 1.2}
+                      strokeDasharray="5 5"
+                      strokeLinecap="round"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ pathLength: 1, opacity: isHQLink ? 0.85 : 0.55 }}
+                      transition={{ duration: 1.6, ease: "easeInOut", delay: 0.4 }}
+                    />
+                    {/* Travelling packet */}
+                    <circle r={isHQLink ? 3.2 : 2.4} fill={isHQLink ? BRAND : "#3A6FB0"}>
+                      <animateMotion
+                        dur={isHQLink ? "3.2s" : "5s"}
+                        repeatCount="indefinite"
+                        path={pathD}
+                        begin={`${(link.from.x + link.to.x) % 3}s`}
+                      />
+                    </circle>
+                  </g>
+                );
+              })}
+
+              {/* ───── City Markers ───── */}
+              {projectedCities.map((city) => {
+                const isActive = activeCity === city.slug;
+                const stateStyle = STATE_STYLES[city.state];
+                return (
+                  <g
+                    key={city.slug}
+                    transform={`translate(${city.x}, ${city.y})`}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setActiveCity(isActive ? null : city.slug)}
+                    onMouseEnter={() => setHoveredState(city.state)}
+                    onMouseLeave={() => setHoveredState(null)}
+                  >
+                    {/* Pulsing Outer Ring */}
+                    <motion.circle
+                      r={6}
+                      fill={city.isHQ ? BRAND : stateStyle.ring}
+                      fillOpacity={0.35}
+                      animate={{ r: [6, 16], opacity: [0.4, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+                    />
+                    {/* Mid ring (HQ) */}
+                    {city.isHQ && (
+                      <circle r={10} fill="none" stroke={BRAND} strokeWidth="1" strokeOpacity="0.5" />
+                    )}
+                    {/* Solid Pin Core */}
+                    <circle
+                      r={isActive ? 7 : city.isHQ ? 6 : 5}
+                      fill={city.isHQ ? BRAND : "#fff"}
+                      stroke={city.isHQ ? "#fff" : stateStyle.ring}
+                      strokeWidth={city.isHQ ? 3 : 2.5}
+                    />
+                    {/* HQ star */}
+                    {city.isHQ && (
+                      <text
+                        x={0}
+                        y={3}
+                        textAnchor="middle"
+                        fontSize={7}
+                        fontWeight={900}
+                        fill="#fff"
+                        pointerEvents="none"
+                      >
+                        ★
+                      </text>
+                    )}
+
+                    {/* City Label pill */}
+                    <g transform="translate(12, -10)">
+                      <rect
+                        x={-2}
+                        y={-12}
+                        rx={5}
+                        ry={5}
+                        width={Math.max(city.label.length * 7 + 8, 56)}
+                        height={28}
+                        fill="#fff"
+                        fillOpacity={0.95}
+                        stroke={stateStyle.ring}
+                        strokeOpacity={0.35}
+                        strokeWidth={0.8}
+                      />
+                      <text
+                        x={4}
+                        y={-1}
+                        fontSize={11.5}
+                        fontWeight={800}
+                        fill={BRAND_DEEP}
+                        fontFamily="var(--font-display), sans-serif"
+                        pointerEvents="none"
+                      >
+                        {city.label}
+                      </text>
+                      <text
+                        x={4}
+                        y={11}
+                        fontSize={8}
+                        fontWeight={700}
+                        fill={stateStyle.ring}
+                        fontFamily="var(--font-inter), sans-serif"
+                        letterSpacing="1"
+                        pointerEvents="none"
+                      >
+                        {city.state.toUpperCase()}
+                      </text>
+                    </g>
+                  </g>
+                );
+              })}
+
+              {/* Compass (top-right) */}
+              <g transform={`translate(${MAP_W - 70}, 50)`} pointerEvents="none">
+                <circle r={22} fill="#fff" fillOpacity="0.9" stroke={BRAND} strokeOpacity="0.4" strokeWidth="0.8" />
+                <text textAnchor="middle" y={-10} fontSize={7} fontWeight={700} fill={BRAND_DEEP}>N</text>
+                <line x1={0} y1={-6} x2={0} y2={8} stroke={BRAND} strokeWidth="1.2" />
+                <polygon points="0,-9 -3,-3 3,-3" fill={BRAND} />
+                <text textAnchor="middle" y={18} fontSize={6} fill={BRAND_DEEP} fontWeight={700} letterSpacing="1">COMPASS</text>
+              </g>
+
+              {/* Scale bar (bottom-left of canvas) */}
+              <g transform={`translate(40, ${MAP_H - 30})`} pointerEvents="none">
+                <line x1={0} y1={0} x2={80} y2={0} stroke={BRAND_DEEP} strokeWidth="1.5" />
+                <line x1={0} y1={-3} x2={0} y2={3} stroke={BRAND_DEEP} strokeWidth="1.5" />
+                <line x1={40} y1={-2} x2={40} y2={2} stroke={BRAND_DEEP} strokeWidth="1" />
+                <line x1={80} y1={-3} x2={80} y2={3} stroke={BRAND_DEEP} strokeWidth="1.5" />
+                <text x={0} y={-7} fontSize={8} fill={BRAND_DEEP} fontWeight={700}>0</text>
+                <text x={40} y={-7} fontSize={8} fill={BRAND_DEEP} fontWeight={700} textAnchor="middle">~150</text>
+                <text x={80} y={-7} fontSize={8} fill={BRAND_DEEP} fontWeight={700} textAnchor="middle">~300 km</text>
+              </g>
+            </ComposableMap>
+          </div>
+          {/* ───── Floating Header (over the map, top-left) ───── */}
+          <div className="pointer-events-none absolute left-3 top-3 flex items-center gap-2 rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-brown/80 shadow-sm ring-1 ring-brown/10 backdrop-blur sm:left-4 sm:top-4">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-orange" />
+            </span>
+            Live · 4 states · {CITIES.length} hubs
+          </div>
+
+          {/* ───── Floating HQ chip (top-right) ───── */}
+          <div className="pointer-events-none absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-brown/90 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md backdrop-blur sm:right-4 sm:top-4">
+            <Network className="h-3 w-3" />
+            HQ · Hyderabad
+          </div>
+
+          {/* ───── State Legend (bottom floating) ───── */}
+          <div className="pointer-events-none absolute bottom-3 left-3 right-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 rounded-2xl bg-white/90 px-3 py-2 text-[10px] font-semibold uppercase tracking-wider text-brown/75 shadow-md ring-1 ring-brown/10 backdrop-blur sm:bottom-4 sm:left-1/2 sm:right-auto sm:-translate-x-1/2">
+            {Object.entries(STATE_STYLES).map(([state, s]) => {
+              const isActive = activeState?.toLowerCase() === state.toLowerCase();
+              const isFaded = activeState && !isActive;
               return (
-                <text
-                  key={p.name}
-                  x={bbox.cx}
-                  y={bbox.cy}
-                  className="pointer-events-none select-none"
-                  dominant-baseline="middle"
+                <span
+                  key={state}
+                  className={cn(
+                    "inline-flex items-center gap-1.5 rounded-full px-1.5 py-0.5 transition-all",
+                    isActive && "bg-brown/10 ring-1 ring-brown/20"
+                  )}
+                  style={{ opacity: isFaded ? 0.35 : 1 }}
                 >
-                  {formatStateName(p.name)}
-                </text>
+                  <span
+                    className="h-2.5 w-2.5 rounded-full ring-1 ring-black/10"
+                    style={{ background: s.ring }}
+                  />
+                  {s.label}
+                </span>
               );
             })}
-          </g>
+          </div>
+        </div>
 
-          {/* ─── Connecting lines between cities ─── */}
-          <motion.g
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1.2 }}
-          >
-            {pinPositions.map((pin, i) =>
-              pinPositions.slice(i + 1).map((other) => (
-                <line
-                  key={`${pin.slug}-${other.slug}`}
-                  x1={pin.x}
-                  y1={pin.y}
-                  x2={other.x}
-                  y2={other.y}
-                  stroke="#719899"
-                  strokeWidth="0.6"
-                  strokeDasharray="3 2"
-                  opacity="0.35"
-                />
-              ))
-            )}
-          </motion.g>
-
-          {/* ─── City pins ─── */}
-          {pinPositions.map((pin, i) => {
-            const isActive = activeCity === pin.slug;
+        {/* ───── State / City quick-glance strip below the map ───── */}
+        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {CITIES.map((city) => {
+            const isActive = activeCity === city.slug;
+            const stateStyle = STATE_STYLES[city.state];
             return (
-              <g key={pin.slug}>
-                {/* Pulse ring */}
-                <motion.circle
-                  cx={pin.x}
-                  cy={pin.y}
-                  r="6"
-                  fill="none"
-                  stroke={pin.color}
-                  strokeWidth="1"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{
-                    opacity: [0.6, 0],
-                    scale: [1, 2.5],
+              <button
+                key={city.slug}
+                type="button"
+                onClick={() => setActiveCity(isActive ? null : city.slug)}
+                onMouseEnter={() => setHoveredState(city.state)}
+                onMouseLeave={() => setHoveredState(null)}
+                className={cn(
+                  "group relative flex items-center gap-2.5 rounded-xl border bg-white px-3 py-2.5 text-left transition-all",
+                  isActive
+                    ? "border-orange/40 shadow-lift ring-2 ring-orange/20"
+                    : "border-brown/10 hover:border-brown/25 hover:shadow-premium"
+                )}
+              >
+                <span
+                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
+                  style={{
+                    background: stateStyle.fill,
+                    border: `1.5px solid ${stateStyle.ring}`,
                   }}
-                  transition={{
-                    duration: 2.5,
-                    repeat: Infinity,
-                    delay: i * 0.6,
-                    ease: "easeOut",
-                  }}
-                />
-
-                {/* Outer glow (visible on hover/active) */}
-                <motion.circle
-                  cx={pin.x}
-                  cy={pin.y}
-                  r="8"
-                  fill={pin.color}
-                  fillOpacity={isActive ? 0.2 : 0}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: isActive ? 1 : 0 }}
-                  transition={{ duration: 0.3 }}
-                />
-
-                {/* Pin dot */}
-                <motion.circle
-                  cx={pin.x}
-                  cy={pin.y}
-                  r="3.5"
-                  fill="white"
-                  stroke={pin.color}
-                  strokeWidth="1.5"
-                  className="cursor-pointer"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.8 + i * 0.15 }}
-                  onClick={() => setActiveCity(isActive ? null : pin.slug)}
-                  style={{ filter: isActive ? "url(#pin-glow)" : undefined }}
-                />
-
-                {/* City label */}
-                <motion.text
-                  x={pin.x}
-                  y={pin.y - 8}
-                  textAnchor="middle"
-                  className="pointer-events-none select-none"
-                  fill="#332416"
-                  fontSize="8"
-                  fontWeight="700"
-                  fontFamily="var(--font-display), sans-serif"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 1 + i * 0.15 }}
                 >
-                  {pin.label}
-                </motion.text>
-              </g>
+                  <MapPin className="h-3.5 w-3.5" style={{ color: stateStyle.ring }} />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="flex items-center gap-1.5">
+                    <span className="truncate text-[12px] font-bold text-brown">
+                      {city.label}
+                    </span>
+                    {city.isHQ && (
+                      <span className="rounded-full bg-orange px-1.5 py-0.5 text-[8px] font-extrabold uppercase tracking-wider text-white">
+                        HQ
+                      </span>
+                    )}
+                  </span>
+                  <span className="block truncate text-[10px] font-medium text-brown/55">
+                    {stateStyle.label}
+                  </span>
+                </span>
+                <Radio
+                  className={cn(
+                    "h-3.5 w-3.5 shrink-0 transition-opacity",
+                    isActive ? "opacity-100 text-orange" : "opacity-30 text-brown"
+                  )}
+                />
+              </button>
             );
           })}
-
-          {/* ─── Compass rose ─── */}
-          <g transform="translate(40, 40)" opacity="0.4">
-            <circle cx="0" cy="0" r="10" fill="none" stroke="#332416" strokeWidth="0.8" />
-            <text x="0" y="-13" textAnchor="middle" fontSize="6" fill="#332416" fontWeight="700">N</text>
-            <line x1="0" y1="-8" x2="0" y2="8" stroke="#332416" strokeWidth="0.5" />
-            <line x1="-8" y1="0" x2="8" y2="0" stroke="#332416" strokeWidth="0.5" />
-          </g>
-
-          {/* ─── Legend ─── */}
-          <g transform="translate(330, 30)">
-            <text fontSize="6" fill="#332416" fontWeight="700" fontFamily="var(--font-display), sans-serif" opacity="0.5">
-              Service Area
-            </text>
-            <rect x="0" y="8" width="10" height="5" rx="1" fill="#719899" fillOpacity="0.35" stroke="#719899" strokeWidth="0.5" strokeOpacity="0.5" />
-            <text x="14" y="12" fontSize="5" fill="#332416" opacity="0.4">
-              South India Network
-            </text>
-          </g>
-        </svg>
+        </div>
       </div>
 
       {/* ─── City detail card (shown when a pin is clicked) ─── */}
       {showDetail && (
         <AnimatePresence>
-          {activeLocation && activePin && (
+          {activeLocation && (
             <motion.div
               initial={{ opacity: 0, y: 16, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -338,7 +529,7 @@ export function SouthIndiaMap({ className, showDetail = true }: SouthIndiaMapPro
                 <div
                   className="relative p-4 text-white"
                   style={{
-                    background: `linear-gradient(135deg, ${activePin.color}dd, ${activePin.color}99)`,
+                    background: `linear-gradient(135deg, ${BRAND}dd, #D7700599)`,
                   }}
                 >
                   <div className="absolute inset-0 bg-dot-warm opacity-[0.06]" />
@@ -426,40 +617,4 @@ export function SouthIndiaMap({ className, showDetail = true }: SouthIndiaMapPro
       )}
     </div>
   );
-}
-
-/** Compute the center of an SVG path string for label placement */
-function getPathBBox(d: string): { cx: number; cy: number } | null {
-  // Parse all coordinate pairs from the path
-  const nums = d.match(/-?\d+\.?\d*/g);
-  if (!nums || nums.length < 2) return null;
-  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-  for (let i = 0; i + 1 < nums.length; i += 2) {
-    const x = parseFloat(nums[i]);
-    const y = parseFloat(nums[i + 1]);
-    if (isNaN(x) || isNaN(y)) continue;
-    if (x < minX) minX = x;
-    if (x > maxX) maxX = x;
-    if (y < minY) minY = y;
-    if (y > maxY) maxY = y;
-  }
-  if (minX === Infinity) return null;
-  return { cx: (minX + maxX) / 2, cy: (minY + maxY) / 2 };
-}
-
-/** Format state names for display */
-function formatStateName(name: string): string {
-  const map: Record<string, string> = {
-    "ANDHRA PRADESH": "ANDHRA PRADESH",
-    TELANGANA: "TELANGANA",
-    KARNATAKA: "KARNATAKA",
-    "TAMIL NADU": "TAMIL NADU",
-    KERALA: "KERALA",
-    GOA: "GOA",
-    MAHARASHTRA: "MAHARASHTRA",
-    ODISHA: "ODISHA",
-    CHHATTISGARH: "CHHATTISGARH",
-    PUDUCHERRY: "PUDUCHERRY",
-  };
-  return map[name] || name;
 }

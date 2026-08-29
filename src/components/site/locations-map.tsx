@@ -25,17 +25,17 @@ export function LocationsMap() {
           subtitle="Local teams, local knowledge, local response — backed by the resources and protocols of a regional network spanning four states."
         />
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:gap-12 items-center">
-          {/* LEFT — Realistic South India map */}
+        <div className="mt-12 grid gap-10 lg:gap-12 items-start">
+          {/* FULL-WIDTH MAP HERO — doubled height for clear visibility */}
           <Reveal>
-            <div className="relative overflow-hidden rounded-3xl border border-brown/10 bg-white/60 p-4 shadow-premium sm:p-6">
+            <div className="relative overflow-hidden rounded-3xl border border-brown/10 bg-white/60 p-5 shadow-premium sm:p-8">
               <div className="absolute inset-0 bg-dot-warm opacity-20" />
               <div className="relative">
-                <div className="mb-3 flex items-center justify-between px-2">
-                  <h3 className="font-display text-base font-bold text-brown">
+                <div className="mb-4 flex items-center justify-between px-2">
+                  <h3 className="font-display text-lg font-bold text-brown">
                     South India service network
                   </h3>
-                  <span className="rounded-full bg-orange/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-orange">
+                  <span className="rounded-full bg-orange/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-orange">
                     Live network
                   </span>
                 </div>
@@ -44,8 +44,8 @@ export function LocationsMap() {
             </div>
           </Reveal>
 
-          {/* RIGHT — City cards */}
-          <div className="grid gap-4">
+          {/* CITY CARDS — 2-column grid below the map */}
+          <div className="grid gap-4 sm:grid-cols-2">
             {locations.map((loc, i) => (
               <motion.div
                 key={loc.slug}
@@ -104,8 +104,10 @@ export function LocationsMap() {
                 </div>
               </motion.div>
             ))}
+          </div>
 
-            {/* CTA link */}
+          {/* CTA link */}
+          <div className="flex justify-center">
             <Link
               href="/contact"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-orange/30 bg-orange/5 px-6 py-3 text-sm font-semibold text-orange transition-all hover:bg-orange hover:text-white"

@@ -29,17 +29,37 @@
         },
         {
           "location": {
-            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/scripts/verify-analytics.js"
-          }
-        },
-        {
-          "location": {
             "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/about/page.tsx"
           }
         },
         {
           "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/api/auth/route.ts"
+          }
+        },
+        {
+          "location": {
             "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/api/contact/route.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/api/leads/%5Bid%5D/route.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/api/leads/%5Bid%5D/whatsapp/route.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/api/leads/route.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/api/leads/stats/route.ts"
           }
         },
         {
@@ -85,6 +105,11 @@
         {
           "location": {
             "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/layout.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/leads/page.tsx"
           }
         },
         {
@@ -749,12 +774,22 @@
         },
         {
           "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/lib/admin-auth.ts"
+          }
+        },
+        {
+          "location": {
             "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/lib/analytics.ts"
           }
         },
         {
           "location": {
             "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/lib/db.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/lib/encryption.ts"
           }
         },
         {
@@ -780,6 +815,11 @@
         {
           "location": {
             "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/lib/utils.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/lib/whatsapp.ts"
           }
         }
       ],

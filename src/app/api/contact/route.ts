@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { company } from "@/data/company";
+import { leadEncrypt } from "@/lib/encryption";
+import {
+  sendCustomerWhatsApp,
+  sendTeamWhatsApp,
+  isWhatsAppConfigured,
+  type LeadWhatsAppData,
+} from "@/lib/whatsapp";
 
 /**
  * POST /api/contact
@@ -24,7 +31,8 @@ import { company } from "@/data/company";
 
 const INDIAN_PHONE_RE = /^(?:\+91[\s-]?|0)?([6-9]\d{9})$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const ALLOWED_CITIES = ["Hyderabad", "Chennai", "Bangalore", "Other"];
+// Keep in sync with src/data/locations.ts — every city the site serves.
+const ALLOWED_CITIES = ["Isukapalli", "Hyderabad", "Chennai", "Bangalore", "Other"];
 const ALLOWED_PROPERTY_TYPES = ["Residential", "Commercial", "Industrial"];
 const ALLOWED_SOURCES = ["contact-form", "service-detail", "inline-quote"];
 
@@ -171,18 +179,14 @@ function validate(payload: ContactPayload): {
 
 // ---------- Email notification (best-effort, optional) ----------
 
-async function notifyTeam(payload: {
-  name: string;
-  phone: string;
-  email: string | null;
-  city: string;
-  service: string;
-  propertyType: string;
-  message: string | null;
-  preferredDate: string | null;
-  source: string;
-  leadId: string;
-}): Promise<void> {
+async function notifyTeam(
+  leadId: string,
+  city: string,
+  service: string,
+  propertyType: string,
+  preferredDate: string | null,
+  source: string
+): Promise<void> {
   const token = process.env.RESEND_API_KEY;
   const to = process.env.LEADS_EMAIL_TO || process.env.COMPANY_EMAIL;
   const from =
@@ -191,26 +195,23 @@ async function notifyTeam(payload: {
   // If no Resend key or destination configured, log locally + exit silently.
   if (!token || !to) {
     console.log(
-      `[leads] New lead ${payload.leadId} from ${payload.source} — ${payload.name} <${payload.phone}> (${payload.city}, ${payload.service})`
+      `[leads] New lead ${leadId} from ${source} — (encrypted) — (${city}, ${service})`
     );
     return;
   }
 
-  const subject = `New lead: ${payload.service} — ${payload.city} — ${payload.name}`;
+  const subject = `New lead: ${service} — ${city} — [ID: ${leadId.slice(-6)}]`;
   const text = `New lead received.
 
-Name:           ${payload.name}
-Phone:          ${payload.phone}
-Email:          ${payload.email ?? "(not provided)"}
-City:           ${payload.city}
-Service:        ${payload.service}
-Property:       ${payload.propertyType}
-Preferred date: ${payload.preferredDate ?? "(none)"}
-Source:         ${payload.source}
-Lead ID:        ${payload.leadId}
+Lead ID:        ${leadId}
+City:           ${city}
+Service:        ${service}
+Property:       ${propertyType}
+Preferred date: ${preferredDate ?? "(none)"}
+Source:         ${source}
 
-Message:
-${payload.message ?? "(no message)"}
+NOTE: PII (name, phone, email, message) is encrypted at rest.
+View full details in the admin panel: /admin/leads
 
 — Auto-generated from ${company.siteUrl}`;
 
@@ -261,21 +262,25 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Persist the lead
+  // Persist the lead with encrypted PII fields
   let leadId: string;
+  
   try {
     const lead = await db.lead.create({
       data: {
-        name: cleaned.name,
-        phone: cleaned.phone,
-        email: cleaned.email,
+        // Encrypt sensitive PII fields before storing
+        nameEnc: leadEncrypt.name(cleaned.name),
+        phoneEnc: leadEncrypt.phone(cleaned.phone),
+        emailEnc: leadEncrypt.email(cleaned.email),
+        messageEnc: leadEncrypt.message(cleaned.message),
+        // Non-sensitive fields stored as-is
         city: cleaned.city,
         service: cleaned.service,
         propertyType: cleaned.propertyType,
-        message: cleaned.message,
         preferredDate: cleaned.preferredDate,
         source: cleaned.source,
         status: "new",
+        whatsappSent: false,
       },
     });
     leadId = lead.id;
@@ -292,9 +297,44 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Fire email notification best-effort (do not block the response).
-  // GA4 lead event is fired client-side by the form on success.
-  void notifyTeam({ ...cleaned, leadId });
+  // Fire email notification (best-effort, do not block the response)
+  void notifyTeam(leadId, cleaned.city, cleaned.service, cleaned.propertyType, cleaned.preferredDate, cleaned.source);
+
+  // Attempt WhatsApp notification (best-effort, runs async)
+  if (isWhatsAppConfigured()) {
+    const leadData: LeadWhatsAppData = {
+      id: leadId,
+      nameEnc: leadEncrypt.name(cleaned.name),
+      phoneEnc: leadEncrypt.phone(cleaned.phone),
+      emailEnc: leadEncrypt.email(cleaned.email),
+      service: cleaned.service,
+      city: cleaned.city,
+      propertyType: cleaned.propertyType,
+      preferredDate: cleaned.preferredDate,
+      source: cleaned.source,
+      messageEnc: leadEncrypt.message(cleaned.message),
+      createdAt: new Date(),
+    };
+    
+    // Send to customer
+    void sendCustomerWhatsApp(leadData).then(async (result) => {
+      if (result.success && result.sid) {
+        await db.lead.update({
+          where: { id: leadId },
+          data: { whatsappSent: true, whatsappSid: result.sid },
+        }).catch(err => console.error("[leads] Failed to update WhatsApp status:", err));
+      }
+    });
+    
+    // Send to team if configured
+    const teamNumber = process.env.WHATSAPP_TEAM_NUMBER;
+    if (teamNumber) {
+      void sendTeamWhatsApp(leadData, teamNumber);
+    }
+  } else {
+    // DRY RUN: Log what would have been sent
+    console.log(`[whatsapp] DRY RUN: Would have sent WhatsApp for lead ${leadId}`);
+  }
 
   return NextResponse.json({
     ok: true,

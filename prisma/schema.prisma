@@ -13,42 +13,39 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Post {
-  id        String   @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  authorId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
 
 /// Inbound lead captured from the contact form / service-detail inline form.
 /// One row per submission. status tracks the lifecycle of the lead.
+/// Sensitive fields (name, phone, email, message) are AES-256-GCM encrypted.
 model Lead {
   id            String   @id @default(cuid())
-  name          String
-  phone         String
-  email         String?
+  
+  // Encrypted PII fields (stored as base64-encoded ciphertext)
+  nameEnc       String   // Encrypted full name
+  phoneEnc      String   // Encrypted phone number
+  emailEnc      String?  // Encrypted email address (optional)
+  messageEnc    String?  // Encrypted customer message (optional)
+  
+  // Non-sensitive fields (searchable, filterable)
   city          String
   service       String
   propertyType  String   @default("Residential")
-  message       String?
   preferredDate String?
   source        String   @default("contact-form") // contact-form | service-detail | inline-quote
-  status        String   @default("new") // new | contacted | quoted | won | lost
+  status        String   @default("new") // new | contacted | quoted | won | lost | whatsapp_sent
+  
+  // WhatsApp integration fields (for future use)
+  whatsappSent  Boolean  @default(false)     // Whether WhatsApp notification was sent
+  whatsappSid   String?  // WhatsApp message SID after sending
+  
+  // Metadata
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  lastContactedAt DateTime?
+  notes         String?  // Internal notes for the sales team
 
   @@index([status, createdAt])
   @@index([city])
   @@index([service])
+  @@index([source])
 }

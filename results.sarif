@@ -1,0 +1,959 @@
+{
+  "version": "2.1.0",
+  "$schema": "http://json.schemastore.org/sarif-2.1.0-rtm.5",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "ESLint",
+          "informationUri": "https://eslint.org",
+          "rules": [
+            {
+              "id": "@typescript-eslint/no-require-imports",
+              "helpUri": "https://typescript-eslint.io/rules/no-require-imports",
+              "properties": {},
+              "shortDescription": {
+                "text": "Disallow invocation of `require()`"
+              }
+            },
+            {
+              "id": "@next/next/next-script-for-ga",
+              "helpUri": "https://nextjs.org/docs/messages/next-script-for-ga",
+              "properties": {},
+              "shortDescription": {
+                "text": "Prefer `@next/third-parties/google` when using the inline script for Google Analytics and Tag Manager."
+              }
+            },
+            {
+              "id": "react-hooks/set-state-in-effect",
+              "helpUri": "https://react.dev/reference/eslint-plugin-react-hooks/lints/set-state-in-effect",
+              "properties": {},
+              "shortDescription": {
+                "text": "Validates against calling setState synchronously in an effect. This can indicate non-local derived data, a derived event pattern, or improper external data synchronization."
+              }
+            }
+          ],
+          "version": "9.39.5"
+        }
+      },
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/eslint.config.mjs"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/next.config.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/postcss.config.mjs"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/scripts/verify-analytics.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/about/page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/api/contact/route.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/api/route.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/blog/%5Bslug%5D/error.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/blog/%5Bslug%5D/loading.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/blog/%5Bslug%5D/page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/blog/page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/contact/page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/error.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/industries/page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/layout.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/loading.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/not-found.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/pests/%5Bslug%5D/page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/pests/page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/process/page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/robots.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/services/%5Bslug%5D/error.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/services/%5Bslug%5D/loading.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/services/%5Bslug%5D/page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/services/page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/app/sitemap.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/pages/about-page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/pages/blog-detail-page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/pages/blog-page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/pages/contact-page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/pages/home-page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/pages/industries-page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/pages/pest-detail-view.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/pages/pest-library-page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/pages/process-page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/pages/service-detail-page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/pages/services-page.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/analytics-debug.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/analytics.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/announcement-bar.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/before-after-slider.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/blog-teaser.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/contact-form.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/cookie-consent.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/count-up.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/cta-section.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/faq-accordion.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/footer.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/gtm.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/hero-slider.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/hero.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/home-treatment-planner.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/industries-showcase.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/inline-quote-form.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/legal-modal.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/locations-map.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/logo-mark.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/manifesto.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/marquee.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/nav-bridge.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/navbar.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/page-hero.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/pest-trail-divider.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/previous-works.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/process-timeline.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/protection-cta.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/protection-shield.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/reveal.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/scroll-progress.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/section-heading.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/service-card.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/services-gallery.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/services-grid.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/services-marquee.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/services-teaser.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/showcase-carousel.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/site-chrome.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/south-india-map.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/stats.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/testimonials.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/wave-divider.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/whatsapp-fab.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/whatsapp-icon.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/why-choose-strip.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/why-choose-us.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/accordion.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/alert-dialog.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/alert.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/aspect-ratio.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/avatar.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/badge.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/breadcrumb.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/button.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/calendar.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/card.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/carousel.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/chart.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/checkbox.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/collapsible.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/command.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/context-menu.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/dialog.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/drawer.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/dropdown-menu.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/form.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/hover-card.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/input-otp.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/input.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/label.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/menubar.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/navigation-menu.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/pagination.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/popover.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/progress.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/radio-group.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/resizable.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/scroll-area.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/select.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/separator.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/sheet.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/sidebar.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/skeleton.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/slider.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/sonner.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/switch.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/table.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/tabs.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/textarea.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/toast.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/toaster.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/toggle-group.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/toggle.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/tooltip.tsx"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/data/blog.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/data/brand.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/data/company.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/data/faqs.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/data/industries.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/data/locations.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/data/navigation.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/data/pests.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/data/process.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/data/services.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/data/testimonials.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/hooks/use-mobile.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/hooks/use-toast.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/lib/analytics.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/lib/db.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/lib/nav-bridge.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/lib/nav.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/lib/seo.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/lib/store.ts"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/lib/utils.ts"
+          }
+        }
+      ],
+      "results": [
+        {
+          "level": "error",
+          "message": {
+            "text": "A `require()` style import is forbidden."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/scripts/verify-analytics.js",
+                  "index": 3
+                },
+                "region": {
+                  "startLine": 4,
+                  "startColumn": 15,
+                  "endLine": 4,
+                  "endColumn": 31
+                }
+              }
+            }
+          ],
+          "ruleId": "@typescript-eslint/no-require-imports",
+          "ruleIndex": 0
+        },
+        {
+          "level": "error",
+          "message": {
+            "text": "A `require()` style import is forbidden."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/scripts/verify-analytics.js",
+                  "index": 3
+                },
+                "region": {
+                  "startLine": 5,
+                  "startColumn": 14,
+                  "endLine": 5,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "ruleId": "@typescript-eslint/no-require-imports",
+          "ruleIndex": 0
+        },
+        {
+          "level": "warning",
+          "message": {
+            "text": "Prefer `GoogleTagManager` component from `@next/third-parties/google` when using the inline script for Google Tag Manager. See: https://nextjs.org/docs/messages/next-script-for-ga"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/gtm.tsx",
+                  "index": 49
+                },
+                "region": {
+                  "startLine": 46,
+                  "startColumn": 7,
+                  "endLine": 66,
+                  "endColumn": 9
+                }
+              }
+            }
+          ],
+          "ruleId": "@next/next/next-script-for-ga",
+          "ruleIndex": 1
+        },
+        {
+          "level": "error",
+          "message": {
+            "text": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\nC:\\Users\\ADMIN\\Local Drive\\YCS applications\\siva-pest-control\\src\\components\\site\\marquee.tsx:51:5\n  49 |   useEffect(() => {\n  50 |     const mq = window.matchMedia(\"(prefers-reduced-motion: reduce)\");\n> 51 |     setReducedMotion(mq.matches);\n     |     ^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  52 |     const onChange = () => setReducedMotion(mq.matches);\n  53 |     mq.addEventListener(\"change\", onChange);\n  54 |     return () => mq.removeEventListener(\"change\", onChange);"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/site/marquee.tsx",
+                  "index": 59
+                },
+                "region": {
+                  "startLine": 51,
+                  "startColumn": 5,
+                  "endLine": 51,
+                  "endColumn": 21
+                }
+              }
+            }
+          ],
+          "ruleId": "react-hooks/set-state-in-effect",
+          "ruleIndex": 2
+        },
+        {
+          "level": "error",
+          "message": {
+            "text": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\nC:\\Users\\ADMIN\\Local Drive\\YCS applications\\siva-pest-control\\src\\components\\ui\\carousel.tsx:98:5\n   96 |   React.useEffect(() => {\n   97 |     if (!api) return\n>  98 |     onSelect(api)\n      |     ^^^^^^^^ Avoid calling setState() directly within an effect\n   99 |     api.on(\"reInit\", onSelect)\n  100 |     api.on(\"select\", onSelect)\n  101 |"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/components/ui/carousel.tsx",
+                  "index": 96
+                },
+                "region": {
+                  "startLine": 98,
+                  "startColumn": 5,
+                  "endLine": 98,
+                  "endColumn": 13
+                }
+              }
+            }
+          ],
+          "ruleId": "react-hooks/set-state-in-effect",
+          "ruleIndex": 2
+        },
+        {
+          "level": "error",
+          "message": {
+            "text": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\nC:\\Users\\ADMIN\\Local Drive\\YCS applications\\siva-pest-control\\src\\hooks\\use-mobile.ts:14:5\n  12 |     }\n  13 |     mql.addEventListener(\"change\", onChange)\n> 14 |     setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)\n     |     ^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  15 |     return () => mql.removeEventListener(\"change\", onChange)\n  16 |   }, [])\n  17 |"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/ADMIN/Local%20Drive/YCS%20applications/siva-pest-control/src/hooks/use-mobile.ts",
+                  "index": 145
+                },
+                "region": {
+                  "startLine": 14,
+                  "startColumn": 5,
+                  "endLine": 14,
+                  "endColumn": 16
+                }
+              }
+            }
+          ],
+          "ruleId": "react-hooks/set-state-in-effect",
+          "ruleIndex": 2
+        }
+      ]
+    }
+  ]
+}

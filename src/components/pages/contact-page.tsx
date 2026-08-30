@@ -36,7 +36,7 @@ export function ContactPage() {
       <ContactForm />
 
       {/* ───────── Where We Serve — South India Map ───────── */}
-      <section className="relative overflow-hidden py-16 md:py-20">
+      <section className="relative overflow-hidden py-12 md:py-16">
         <div className="absolute inset-0 -z-10 gradient-warm" />
         <div className="absolute inset-0 -z-10 bg-grid-warm opacity-30" />
 
@@ -47,8 +47,8 @@ export function ContactPage() {
             subtitle="Click on any city marker to explore our service areas, field offices, and local expertise."
           />
 
-          <div className="mt-12 grid gap-10 lg:gap-12 items-start">
-            {/* Full-width map hero — double height */}
+          <div className="mt-8 grid gap-8 lg:gap-10 items-start">
+            {/* Full-width map hero — compact landscape, fits viewport */}
             <Reveal>
               <div className="relative overflow-hidden rounded-3xl border border-brown/10 bg-white/60 p-5 shadow-premium sm:p-8">
                 <div className="absolute inset-0 bg-dot-warm opacity-20" />

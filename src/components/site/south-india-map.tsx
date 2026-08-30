@@ -34,10 +34,10 @@ const SOUTH_BBOX = {
   north: 18.5,
 };
 
-// Increased internal canvas — the card is rendered at ~2× height
-// so labels, state names, and network mesh have plenty of breathing room.
+// Internal SVG canvas. Landscape aspect (16:9) so the card fits within
+// a typical device viewport without requiring the user to scroll.
 const MAP_W = 1000;
-const MAP_H = 1100;
+const MAP_H = 560;
 
 // Initialize projection
 const projection = geoMercator().fitExtent(
@@ -152,7 +152,8 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
   return (
     <div className={cn("relative", className)}>
       <div className="relative mx-auto w-full">
-        <div className="relative min-h-[520px] overflow-hidden rounded-2xl border border-brown/10 bg-white/70 shadow-premium">
+        {/* Height cap — fits any device viewport without scrolling */}
+        <div className="relative max-h-[70vh] overflow-hidden rounded-2xl border border-brown/10 bg-white/70 shadow-premium">
           <div className="relative w-full" style={{ aspectRatio: `${MAP_W} / ${MAP_H}` }}>
             <ComposableMap
               projection={projection}

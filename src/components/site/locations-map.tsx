@@ -14,7 +14,7 @@ import { MapPin, Phone, ArrowUpRight, Star, Users } from "lucide-react";
  */
 export function LocationsMap() {
   return (
-    <section className="relative overflow-hidden py-20 md:py-24">
+    <section className="relative overflow-hidden py-12 md:py-16">
       <div className="absolute inset-0 -z-10 gradient-warm" />
       <div className="absolute inset-0 -z-10 bg-grid-warm opacity-30" />
 
@@ -25,8 +25,8 @@ export function LocationsMap() {
           subtitle="Local teams, local knowledge, local response — backed by the resources and protocols of a regional network spanning four states."
         />
 
-        <div className="mt-12 grid gap-10 lg:gap-12 items-start">
-          {/* FULL-WIDTH MAP HERO — doubled height for clear visibility */}
+        <div className="mt-8 grid gap-8 lg:gap-10 items-start">
+          {/* FULL-WIDTH MAP HERO — compact landscape, fits any device viewport */}
           <Reveal>
             <div className="relative overflow-hidden rounded-3xl border border-brown/10 bg-white/60 p-5 shadow-premium sm:p-8">
               <div className="absolute inset-0 bg-dot-warm opacity-20" />

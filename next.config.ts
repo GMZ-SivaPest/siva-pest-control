@@ -23,7 +23,7 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  // output: "standalone",
   // Production safety — TypeScript errors fail the build, React strict mode
   // surfaces more bugs in development. Both were disabled earlier; the
   // audit flagged them as P1 risks.

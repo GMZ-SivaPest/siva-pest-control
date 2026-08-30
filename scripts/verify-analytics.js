@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Simple script to fetch a URL and check for GA/GTM script presence.
 
-const https = require('https');
-const http = require('http');
+import https from 'https';
+import http from 'http';
 const url = process.argv[2] || 'http://localhost:3000';
 
 function fetch(u) {

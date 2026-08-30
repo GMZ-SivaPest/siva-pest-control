@@ -28,7 +28,7 @@ import { services } from "@/data/services";
 export function ServicesMarquee() {
   return (
     <div
-      className="sticky top-14 z-30 border-b border-brown/10 bg-ivory/95 backdrop-blur-xl md:top-16"
+      className="sticky top-14 z-40 border-b border-brown/10 bg-ivory/95 backdrop-blur-xl md:top-16"
       role="region"
       aria-label="Quick access — all services"
     >

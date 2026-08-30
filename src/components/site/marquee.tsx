@@ -48,8 +48,8 @@ export function Marquee({
   // Respect prefers-reduced-motion: disable the animation entirely.
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mq.matches);
     const onChange = () => setReducedMotion(mq.matches);
+    onChange();
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
   }, []);

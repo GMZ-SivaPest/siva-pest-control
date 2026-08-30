@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Phone, Star, Clock, X, Users, Network, Radio } from "lucide-react";
 import {
@@ -114,6 +114,7 @@ const CITIES = [
 ];
 
 export function SouthIndiaMap({ className, showDetail = true }: { className?: string; showDetail?: boolean }) {
+  const [mounted, setMounted] = useState(false);
   const [activeCity, setActiveCity] = useState<string | null>(null);
   const [hoveredState, setHoveredState] = useState<string | null>(null);
   const activeLocation = locations.find((l) => l.slug === activeCity);
@@ -148,6 +149,25 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
     }
     return out;
   }, [projectedCities]);
+
+      useEffect(() => {
+    // Defer state update to avoid cascading renders from setState in effect body
+    const timeout = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  // Prevent hydration mismatch by not rendering dynamic SVG on the server
+  if (!mounted) {
+    return (
+      <div className={cn("relative", className)}>
+        <div className="relative mx-auto w-full">
+          <div className="relative max-h-[70vh] overflow-hidden rounded-2xl border border-brown/10 bg-white/70 shadow-premium">
+            <div className="relative w-full" style={{ aspectRatio: `${MAP_W} / ${MAP_H}` }} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={cn("relative", className)}>

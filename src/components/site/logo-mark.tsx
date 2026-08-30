@@ -46,6 +46,7 @@ export function LogoMark({
           sizes={`${size}px`}
           priority
           className="object-cover"
+          unoptimized
         />
       </div>
 

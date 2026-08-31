@@ -121,7 +121,7 @@ export default function AdminLeadsPage() {
     setLoginError(null);
     setIsLoading(true);
     try {
-      const res = await fetch("/api/admin/auth", {
+      const res = await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -138,7 +138,7 @@ export default function AdminLeadsPage() {
   };
 
   const handleLogout = async () => {
-    await fetch("/api/admin/auth", { method: "DELETE" });
+    await fetch("/api/auth", { method: "DELETE" });
     setIsAuthenticated(false);
     setLeads([]);
     setStats(null);

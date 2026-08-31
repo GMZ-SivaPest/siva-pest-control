@@ -35,6 +35,9 @@ interface FormState {
   name: string;
   phone: string;
   city: string;
+  /** honeypot — must stay empty. Obscure name so browser autofill never
+   *  fills it (unlike "company", which Chrome maps to profile fields). */
+  botVerification: string;
 }
 
 interface FieldErrors {
@@ -55,6 +58,7 @@ export function InlineQuoteForm({
     name: "",
     phone: "",
     city: locations[0]?.city ?? "Hyderabad",
+    botVerification: "",
   });
   const [errors, setErrors] = useState<FieldErrors>({});
 
@@ -99,6 +103,7 @@ export function InlineQuoteForm({
           service: serviceName,
           propertyType: "Residential",
           source: "service-detail",
+          botVerification: form.botVerification, // honeypot
         }),
       });
 
@@ -183,6 +188,35 @@ export function InlineQuoteForm({
               className="space-y-4 border-t border-brown/10 p-5 sm:p-6"
               noValidate
             >
+              {/* Honeypot — hidden from humans, filled by bots */}
+              <div
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  left: "-9999px",
+                  width: 1,
+                  height: 1,
+                  overflow: "hidden",
+                }}
+              >
+                <label>
+                  Bot verification (leave blank)
+                  <input
+                    type="text"
+                    name="botVerification"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    // 1Password / LastPass / Bitwarden ignore these fields too
+                    data-1p-ignore
+                    data-lpignore="true"
+                    data-bwignore
+                    data-form-type="other"
+                    value={form.botVerification}
+                    onChange={(e) => update("botVerification", e.target.value)}
+                  />
+                </label>
+              </div>
+
               <div className="grid gap-4 sm:grid-cols-2">
                 {/* Name */}
                 <div>
@@ -195,6 +229,7 @@ export function InlineQuoteForm({
                   <input
                     id={`iq-name-${serviceName.replace(/\s/g, "-")}`}
                     type="text"
+                    autoComplete="name"
                     value={form.name}
                     onChange={(e) => update("name", e.target.value)}
                     placeholder="e.g. Ananya Reddy"
@@ -354,7 +389,7 @@ export function InlineQuoteForm({
             onClick={() => {
               setSubmitted(false);
               setOpen(false);
-              setForm({ name: "", phone: "", city: locations[0].city });
+              setForm({ name: "", phone: "", city: locations[0].city, botVerification: "" });
             }}
             className="mt-2 rounded-full border border-brown/15 px-5 py-2.5 text-sm font-semibold text-brown transition-colors hover:bg-brown/5"
           >

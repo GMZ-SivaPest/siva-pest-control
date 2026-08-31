@@ -211,7 +211,7 @@ Preferred date: ${preferredDate ?? "(none)"}
 Source:         ${source}
 
 NOTE: PII (name, phone, email, message) is encrypted at rest.
-View full details in the admin panel: /admin/leads
+View full details in the admin panel: /leads
 
 — Auto-generated from ${company.siteUrl}`;
 
@@ -248,9 +248,14 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Honeypot — if `company` is filled, silently accept and discard.
-  // The field is hidden in the form and only bots will fill it.
-  if (typeof (body as Record<string, unknown>).company === "string" && (body as Record<string, unknown>).company !== "") {
+  // Honeypot — if a hidden bot-trap field is filled, silently accept and
+  // discard. Real humans never see or fill these fields; spam bots fill
+  // every input they find. `company` is kept for backward compatibility.
+  const honeypotBody = body as Record<string, unknown>;
+  const honeypotTripped =
+    (typeof honeypotBody.botVerification === "string" && honeypotBody.botVerification !== "") ||
+    (typeof honeypotBody.company === "string" && honeypotBody.company !== "");
+  if (honeypotTripped) {
     return NextResponse.json({ ok: true, leadId: "spam-discarded" });
   }
 

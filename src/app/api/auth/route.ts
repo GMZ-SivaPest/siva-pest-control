@@ -9,7 +9,7 @@ import {
 export const dynamic = 'force-dynamic';
 
 /**
- * POST /api/admin/auth — Login
+ * POST /api/auth — Login
  * Body: { username, password }
  * Sets a secure httpOnly cookie on success.
  */
@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
 }
 
 /**
- * DELETE /api/admin/auth — Logout
+ * DELETE /api/auth — Logout
  */
 export async function DELETE() {
   const cookieStore = await cookies();

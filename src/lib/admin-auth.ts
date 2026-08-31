@@ -32,44 +32,66 @@ function signToken(payload: string): string {
 }
 
 /**
+ * Constant-time string comparison that is safe for inputs of unequal length.
+ * (Node's timingSafeEqual throws when buffer lengths differ, so we compare
+ * hashes instead — this keeps the comparison constant-time AND length-safe.)
+ */
+function safeEqual(a: string, b: string): boolean {
+  const hashA = createHmac('sha256', 'cmp').update(a).digest();
+  const hashB = createHmac('sha256', 'cmp').update(b).digest();
+  return timingSafeEqual(hashA, hashB);
+}
+
+/**
  * Verify admin credentials and return a signed token.
  */
 export function verifyAdminCredentials(username: string, password: string): { ok: boolean; token?: string } {
   const creds = getAdminCredentials();
-  
+
   if (!creds.password) {
     console.error('[admin] ADMIN_PASSWORD not set. Admin panel is disabled.');
     return { ok: false };
   }
-  
-  const usernameMatch = timingSafeEqual(Buffer.from(username), Buffer.from(creds.username));
-  const passwordMatch = timingSafeEqual(Buffer.from(password), Buffer.from(creds.password));
-  
+
+  const usernameMatch = safeEqual(username, creds.username);
+  const passwordMatch = safeEqual(password, creds.password);
+
   if (usernameMatch && passwordMatch) {
-    const token = signToken(`${username}:${Date.now()}`);
+    const token = createSessionToken();
     return { ok: true, token };
   }
-  
+
   return { ok: false };
 }
 
+// Sessions expire after 24 hours, matching the cookie maxAge set in /api/auth.
+const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
+
 /**
- * Verify a session token from cookies.
+ * Verify a session token from cookies. Also enforces the 24h expiry —
+ * the cookie expiring client-side alone is not sufficient.
  */
 export function verifyAdminToken(token: string | undefined): boolean {
   if (!token) return false;
-  
+
   const parts = token.split(':');
   if (parts.length !== 2) return false;
-  
+
   const [signature, timestamp] = parts;
   const expectedSignature = signToken(timestamp);
-  
+
   try {
-    return timingSafeEqual(
+    const signatureValid = timingSafeEqual(
       Buffer.from(signature),
       Buffer.from(expectedSignature)
     );
+    if (!signatureValid) return false;
+
+    const issuedAt = parseInt(timestamp, 10);
+    if (!Number.isFinite(issuedAt)) return false;
+    if (Date.now() - issuedAt > SESSION_TTL_MS) return false;
+
+    return true;
   } catch {
     return false;
   }

@@ -60,6 +60,53 @@ export async function GET(req: NextRequest) {
   if (service) where.service = service;
   
   try {
+    // When no search term is provided we can paginate + count entirely in SQL.
+    // When searching, the searchable fields are encrypted at rest so we must
+    // decrypt, filter, and paginate in memory — the DB cannot match ciphertext.
+    if (search) {
+      const allLeads = await db.lead.findMany({
+        where,
+        orderBy: { [sort]: order },
+      });
+
+      const searchLower = search.toLowerCase();
+      const filtered = allLeads
+        .map((lead) => ({
+          id: lead.id,
+          name: leadDecrypt.name(lead.nameEnc),
+          phone: leadDecrypt.phone(lead.phoneEnc),
+          email: leadDecrypt.email(lead.emailEnc),
+          message: leadDecrypt.message(lead.messageEnc),
+          city: lead.city,
+          service: lead.service,
+          propertyType: lead.propertyType,
+          preferredDate: lead.preferredDate,
+          source: lead.source,
+          status: lead.status,
+          whatsappSent: lead.whatsappSent,
+          whatsappSid: lead.whatsappSid,
+          createdAt: lead.createdAt.toISOString(),
+          updatedAt: lead.updatedAt.toISOString(),
+          lastContactedAt: lead.lastContactedAt?.toISOString() || null,
+          notes: lead.notes,
+        }))
+        .filter((lead) =>
+          lead.name.toLowerCase().includes(searchLower) ||
+          lead.phone.includes(search) ||
+          (lead.email?.toLowerCase().includes(searchLower) ?? false)
+        );
+
+      return NextResponse.json({
+        leads: filtered.slice((page - 1) * limit, page * limit),
+        pagination: {
+          page,
+          limit,
+          total: filtered.length,
+          totalPages: Math.ceil(filtered.length / limit),
+        },
+      });
+    }
+
     // Get total count
     const total = await db.lead.count({ where });
     
@@ -92,19 +139,8 @@ export async function GET(req: NextRequest) {
       notes: lead.notes,
     }));
     
-    // If search is provided, filter by decrypted fields
-    let filteredLeads = decryptedLeads;
-    if (search) {
-      const searchLower = search.toLowerCase();
-      filteredLeads = decryptedLeads.filter((lead) =>
-        lead.name.toLowerCase().includes(searchLower) ||
-        lead.phone.includes(search) ||
-        (lead.email?.toLowerCase().includes(searchLower) ?? false)
-      );
-    }
-    
     return NextResponse.json({
-      leads: filteredLeads,
+      leads: decryptedLeads,
       pagination: {
         page,
         limit,

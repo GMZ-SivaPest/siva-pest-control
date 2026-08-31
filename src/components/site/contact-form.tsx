@@ -32,8 +32,10 @@ interface FormState {
   propertyType: string;
   message: string;
   preferredDate: string;
-  /** honeypot — must stay empty */
-  company: string;
+  /** honeypot — must stay empty. Named obscurely so browser autofill NEVER
+   *  fills it (Chrome/Edge map names like "company" to saved profile fields
+   *  and ignore autoComplete="off", which caused real leads to be discarded). */
+  botVerification: string;
 }
 
 const EMPTY_FORM: FormState = {
@@ -45,7 +47,7 @@ const EMPTY_FORM: FormState = {
   propertyType: "Residential",
   message: "",
   preferredDate: "",
-  company: "",
+  botVerification: "",
 };
 
 /**
@@ -161,7 +163,7 @@ export function ContactForm() {
           message: form.message || undefined,
           preferredDate: form.preferredDate || undefined,
           source: "contact-form",
-          company: form.company, // honeypot
+          botVerification: form.botVerification, // honeypot
         }),
       });
 
@@ -349,7 +351,9 @@ export function ContactForm() {
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-                  {/* Honeypot — visually hidden, but accessible to bots */}
+                  {/* Honeypot — visually hidden, invisible to humans. Bots fill
+                      every input they find; browser autofill never maps the
+                      obscure field name to a saved profile value. */}
                   <div
                     aria-hidden="true"
                     style={{
@@ -361,13 +365,19 @@ export function ContactForm() {
                     }}
                   >
                     <label>
-                      Company (leave blank)
+                      Bot verification (leave blank)
                       <input
                         type="text"
+                        name="botVerification"
                         tabIndex={-1}
                         autoComplete="off"
-                        value={form.company}
-                        onChange={(e) => update("company", e.target.value)}
+                        // 1Password / LastPass / Bitwarden ignore these fields too
+                        data-1p-ignore
+                        data-lpignore="true"
+                        data-bwignore
+                        data-form-type="other"
+                        value={form.botVerification}
+                        onChange={(e) => update("botVerification", e.target.value)}
                       />
                     </label>
                   </div>
@@ -377,6 +387,7 @@ export function ContactForm() {
                       id="field-name"
                       label="Full name"
                       required
+                      autoComplete="name"
                       value={form.name}
                       onChange={(v) => update("name", v)}
                       onBlur={() => handleBlur("name")}

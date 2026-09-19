@@ -19,7 +19,7 @@ import {
   Scale,
 } from "lucide-react";
 import { company } from "@/data/company";
-import { locations } from "@/data/locations";
+import { headOffice, activeLocations, upcomingLocations, networkSummary } from "@/data/locations";
 
 /* ────────────────────────────── Types ────────────────────────────── */
 
@@ -36,11 +36,11 @@ interface LegalModalProps {
 
 const SITE_URL = company.siteUrl;
 
-// HQ registered address (Madhapur) — single source of truth in locations.ts
-const hq = locations.find((l) => l.slug === "hyderabad");
-const HQ_ADDRESS = hq
-  ? `${hq.address.line1}, ${hq.address.line2} (${hq.address.landmark}) — ${hq.address.pincode}`
-  : "Plot 14, Road 2, Madhapur, Hyderabad, Telangana 500081";
+// Registered head office address (Repalle / Isukapalli, Andhra Pradesh) —
+// single source of truth in locations.ts
+const HQ_ADDRESS = headOffice.address
+  ? `${headOffice.address.line1}, ${headOffice.address.line2} (${headOffice.address.landmark}) — ${headOffice.address.pincode}`
+  : `${headOffice.label}, ${headOffice.state}`;
 
 /* ────────────────────────────── Legal Content ────────────────────────────── */
 
@@ -356,7 +356,14 @@ These terms constitute a legally binding agreement between you ("Customer") and 
 • Bird Control (Spikes, netting, and deterrent systems)
 • Commercial Pest Management (Annual Maintenance Contracts)
 
-Service Areas: Hyderabad, Secunderabad, and surrounding areas within 50 km radius.
+Service Areas: We operate ${networkSummary.openOffices} staffed offices — ${headOffice.label} (${headOffice.state}, registered head office), ${activeLocations
+      .filter((l) => l.slug !== headOffice.slug)
+      .map((l) => `${l.label} (${l.state})`)
+      .join(", ")}. Each office serves its listed priority areas only; we do not claim statewide coverage, and pin codes are confirmed before booking.${
+      upcomingLocations.length > 0
+        ? ` Branches opening soon: ${upcomingLocations.map((l) => `${l.label} (${l.state})`).join(", ")}.`
+        : ""
+    }
 
 All services are performed by trained, certified technicians using government-approved chemicals.`,
     },
@@ -463,12 +470,12 @@ You may not:
     {
       title: "9. Dispute Resolution",
       icon: Scale,
-      content: `Governing Law: These terms are governed by the laws of India, specifically the laws of the State of Telangana.
+      content: `Governing Law: These terms are governed by the laws of India, specifically the laws of the State of ${headOffice.state}, where our registered head office (${headOffice.label}) is located.
 
 Dispute Resolution Process:
 1. First, contact us at ${company.emailGrievance} to attempt amicable resolution
 2. If unresolved within 30 days, either party may initiate mediation through a mutually agreed mediator
-3. If mediation fails, disputes shall be subject to the exclusive jurisdiction of the courts in Hyderabad, Telangana
+3. If mediation fails, disputes shall be subject to the exclusive jurisdiction of the courts in ${headOffice.label}, ${headOffice.state}
 
 Consumer Protection: Customers retain all rights under the Consumer Protection Act, 2019 and may approach the appropriate Consumer Disputes Redressal Commission.`,
     },

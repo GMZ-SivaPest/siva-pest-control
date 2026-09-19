@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { company } from "@/data/company";
+import { bookableCities } from "@/data/locations";
 import { leadEncrypt } from "@/lib/encryption";
 import {
   sendCustomerWhatsApp,
@@ -31,8 +32,10 @@ import {
 
 const INDIAN_PHONE_RE = /^(?:\+91[\s-]?|0)?([6-9]\d{9})$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-// Keep in sync with src/data/locations.ts — every city the site serves.
-const ALLOWED_CITIES = ["Isukapalli", "Hyderabad", "Chennai", "Bangalore", "Other"];
+// Derived from src/data/locations.ts — never hand-maintained. Only staffed
+// offices are bookable, so an `opening-soon` branch (Chennai, Kochi) is not
+// selectable here and cannot be submitted as a service city.
+const ALLOWED_CITIES = [...bookableCities, "Other"];
 const ALLOWED_PROPERTY_TYPES = ["Residential", "Commercial", "Industrial"];
 const ALLOWED_SOURCES = ["contact-form", "service-detail", "inline-quote"];
 

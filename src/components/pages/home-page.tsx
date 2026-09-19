@@ -36,7 +36,7 @@ import { brand } from "@/data/brand";
  *   6.  ServicesGallery (image grid of ALL 14 services)
  *   7.  BeforeAfterSlider (draggable result comparison)
  *   8.  WhyChooseStrip (4 image-card reasons)
- *   9.  LocationsMap (3 cities served)
+ *   9.  CoverageStrip (open offices + opening-soon, no map)
  *  10.  IndustriesShowcase (image grid of industries)
  *  11.  Testimonials (horizontal continuous scroll)
  *  12.  BlogTeaser (latest 3 articles)
@@ -56,9 +56,9 @@ const WhyChooseStrip = dynamic(
   () => import("@/components/site/why-choose-strip").then((m) => m.WhyChooseStrip),
   { ssr: true, loading: () => <div className="h-[400px] bg-brown/5" aria-hidden /> }
 );
-const LocationsMap = dynamic(
-  () => import("@/components/site/locations-map").then((m) => m.LocationsMap),
-  { ssr: true, loading: () => <div className="h-[500px] bg-brown/5" aria-hidden /> }
+const CoverageStrip = dynamic(
+  () => import("@/components/site/coverage-strip").then((m) => m.CoverageStrip),
+  { ssr: true, loading: () => <div className="h-[260px] bg-brown/5" aria-hidden /> }
 );
 const IndustriesShowcase = dynamic(
   () => import("@/components/site/industries-showcase").then((m) => m.IndustriesShowcase),
@@ -116,8 +116,8 @@ export function HomePage() {
       {/* 09 — Why choose Siva (image-card reasons) */}
       <WhyChooseStrip />
 
-      {/* 10 — Three-city coverage map */}
-      <LocationsMap />
+      {/* 10 — Simple, clean coverage strip (open offices + opening soon) */}
+      <CoverageStrip />
 
       {/* 11 — Industries served */}
       <IndustriesShowcase />

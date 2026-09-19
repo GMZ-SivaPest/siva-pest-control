@@ -5,7 +5,7 @@ import { Phone, Mail, MapPin, Clock, Instagram, Facebook, Linkedin, Youtube, Shi
 import { LogoMark } from "./logo-mark";
 import { company } from "@/data/company";
 import { footerNav } from "@/data/navigation";
-import { locations } from "@/data/locations";
+import { activeLocations, upcomingLocations } from "@/data/locations";
 import { brand } from "@/data/brand";
 import { CONSENT_STORAGE_KEY } from "./cookie-consent";
 import type { LegalDocType } from "./legal-modal";
@@ -45,7 +45,7 @@ export function Footer() {
               Ready to protect your space?
             </h3>
             <p className="mt-2 max-w-xl text-sm text-white/75">
-              Free inspection, fixed-price quote, certified technicians. Same-day service available across Hyderabad, Chennai and Bangalore.
+              Free inspection, fixed-price quote, certified technicians. Same-day service available from our offices in {activeLocations.map((l) => l.label).join(", ")}.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
@@ -156,19 +156,29 @@ export function Footer() {
         <div className="border-t border-white/10 py-6">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-white/75">
             <span className="font-semibold uppercase tracking-wider text-white/85">
-              Service areas:
+              Our offices:
             </span>
-            {locations.map((loc) => (
+            {activeLocations.map((loc) => (
               <Link
                 key={loc.slug}
                 href="/contact"
                 className="inline-flex items-center gap-1.5 transition-colors hover:text-orange"
               >
                 <MapPin className="h-3 w-3" aria-hidden="true" />
-                {loc.city}
-                <span className="text-white/40" aria-hidden="true">·</span>
-                <span className="text-white/80">Priority areas</span>
+                {loc.label}
               </Link>
+            ))}
+            <span className="font-semibold uppercase tracking-wider text-white/85">
+              Opening soon:
+            </span>
+            {upcomingLocations.map((loc) => (
+              <span
+                key={loc.slug}
+                className="inline-flex items-center gap-1.5 text-white/60"
+              >
+                <MapPin className="h-3 w-3" aria-hidden="true" />
+                {loc.label}
+              </span>
             ))}
           </div>
         </div>

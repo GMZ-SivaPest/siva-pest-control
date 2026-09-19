@@ -13,7 +13,7 @@ import {
   ShieldCheck,
   Clock,
 } from "lucide-react";
-import { locations } from "@/data/locations";
+import { bookableCities } from "@/data/locations";
 import { company } from "@/data/company";
 import { toast } from "sonner";
 import { trackLead } from "@/lib/analytics";
@@ -57,7 +57,7 @@ export function InlineQuoteForm({
   const [form, setForm] = useState<FormState>({
     name: "",
     phone: "",
-    city: locations[0]?.city ?? "Hyderabad",
+    city: bookableCities[0] ?? "Hyderabad",
     botVerification: "",
   });
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -308,9 +308,11 @@ export function InlineQuoteForm({
                   onChange={(e) => update("city", e.target.value)}
                   className="w-full rounded-xl border border-brown/15 bg-ivory/50 px-3 py-2.5 text-sm text-brown focus:border-orange focus:outline-none focus:ring-2 focus:ring-orange/20"
                 >
-                  {locations.map((l) => (
-                    <option key={l.slug} value={l.city}>
-                      {l.city}
+                  {/* Only staffed offices are bookable — an `opening-soon`
+                      branch must never be selectable here. */}
+                  {[...bookableCities, "Other"].map((city) => (
+                    <option key={city} value={city}>
+                      {city}
                     </option>
                   ))}
                 </select>
@@ -389,7 +391,7 @@ export function InlineQuoteForm({
             onClick={() => {
               setSubmitted(false);
               setOpen(false);
-              setForm({ name: "", phone: "", city: locations[0].city, botVerification: "" });
+              setForm({ name: "", phone: "", city: bookableCities[0] ?? "Hyderabad", botVerification: "" });
             }}
             className="mt-2 rounded-full border border-brown/15 px-5 py-2.5 text-sm font-semibold text-brown transition-colors hover:bg-brown/5"
           >

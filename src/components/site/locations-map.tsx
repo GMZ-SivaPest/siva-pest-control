@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Reveal } from "./reveal";
 import { SectionHeading } from "./section-heading";
 import { SouthIndiaMap } from "./south-india-map";
-import { locations } from "@/data/locations";
+import { activeLocations, upcomingLocations } from "@/data/locations";
 import { motion } from "framer-motion";
 import { MapPin, Phone, ArrowUpRight, Star, Users } from "lucide-react";
 
@@ -22,7 +22,7 @@ export function LocationsMap() {
         <SectionHeading
           eyebrow="Where we serve"
           title="Protecting homes across South India"
-          subtitle="Local teams, local knowledge, local response — backed by the resources and protocols of a regional network spanning four states."
+          subtitle="Local teams, local knowledge, local response — backed by the resources and protocols of a regional network with three open offices across Andhra Pradesh, Telangana and Karnataka. Chennai and Kochi branches are opening soon."
         />
 
         <div className="mt-8 grid gap-8 lg:gap-10 items-start">
@@ -44,9 +44,12 @@ export function LocationsMap() {
             </div>
           </Reveal>
 
-          {/* CITY CARDS — 2-column grid below the map */}
+          {/* CITY CARDS — staffed offices. `opening-soon` branches are shown
+              in the separate "opening soon" strip below, never here, because
+              this card prints technician counts and ratings that only exist
+              once an office is actually staffed. */}
           <div className="grid gap-4 sm:grid-cols-2">
-            {locations.map((loc, i) => (
+            {activeLocations.map((loc, i) => (
               <motion.div
                 key={loc.slug}
                 initial={{ opacity: 0, y: 24 }}
@@ -73,14 +76,21 @@ export function LocationsMap() {
                     </p>
 
                     <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-brown/65">
-                      <span className="inline-flex items-center gap-1.5">
-                        <Users className="h-3.5 w-3.5 text-teal" />
-                        {loc.technicians} technicians
-                      </span>
-                      <span className="inline-flex items-center gap-1.5">
-                        <Star className="h-3.5 w-3.5 fill-orange text-orange" />
-                        {loc.rating} ({loc.reviewsCount.toLocaleString("en-IN")} reviews)
-                      </span>
+                      {loc.technicians != null && (
+                        <span className="inline-flex items-center gap-1.5">
+                          <Users className="h-3.5 w-3.5 text-teal" />
+                          {loc.technicians} technicians
+                        </span>
+                      )}
+                      {loc.rating != null && (
+                        <span className="inline-flex items-center gap-1.5">
+                          <Star className="h-3.5 w-3.5 fill-orange text-orange" />
+                          {loc.rating}
+                          {loc.reviewsCount != null && (
+                            <> ({loc.reviewsCount.toLocaleString("en-IN")} reviews)</>
+                          )}
+                        </span>
+                      )}
                       <span className="inline-flex items-center gap-1.5">
                         <Phone className="h-3.5 w-3.5 text-orange" />
                         {loc.phone}

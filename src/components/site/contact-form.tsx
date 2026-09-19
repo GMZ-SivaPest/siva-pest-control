@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { Reveal } from "./reveal";
 import { company } from "@/data/company";
-import { locations } from "@/data/locations";
+import { activeLocations, upcomingLocations, bookableCities } from "@/data/locations";
 import { services } from "@/data/services";
 import { toast } from "sonner";
 import { trackLead, trackPhoneClick, trackCTAClick } from "@/lib/analytics";
@@ -292,19 +292,22 @@ export function ContactForm() {
                 </div>
               </div>
 
-              {/* City offices */}
+              {/* City offices — staffed offices only. `opening-soon` branches
+                  are announced in a separate note below, never as live offices. */}
               <div className="mt-6 grid gap-3 sm:grid-cols-3">
-                {locations.map((loc) => (
+                {activeLocations.map((loc) => (
                   <div
                     key={loc.slug}
                     className="rounded-2xl border border-brown/10 bg-white/60 p-3 backdrop-blur"
                   >
                     <div className="flex items-center gap-1.5 text-xs font-semibold text-brown">
                       <MapPin className="h-3 w-3 text-orange" />
-                      {loc.city}
+                      {loc.label}
                     </div>
                     <div className="mt-1 text-[11px] leading-relaxed text-brown/65">
-                      {loc.address.line1}
+                      {loc.address
+                        ? `${loc.address.line1}, ${loc.address.line2} — ${loc.address.pincode}`
+                        : loc.branchLabel}
                     </div>
                     <div className="mt-1 text-[11px] font-medium text-orange">
                       {loc.phone}
@@ -312,6 +315,14 @@ export function ContactForm() {
                   </div>
                 ))}
               </div>
+
+              {upcomingLocations.length > 0 && (
+                <p className="mt-3 text-[11px] leading-relaxed text-brown/60">
+                  Opening soon:{" "}
+                  {upcomingLocations.map((l) => `${l.label} (${l.state})`).join(", ")}. Bookings
+                  open once the local field team is staffed.
+                </p>
+              )}
             </div>
           </Reveal>
 
@@ -426,7 +437,7 @@ export function ContactForm() {
                       label="City"
                       value={form.city}
                       onChange={(v) => update("city", v)}
-                      options={locations.map((l) => l.city)}
+                      options={[...bookableCities, "Other"]}
                     />
                     <SelectField
                       label="Property"

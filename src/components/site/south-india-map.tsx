@@ -9,7 +9,7 @@ import {
   Geography,
 } from "react-simple-maps";
 import { geoMercator, geoCentroid } from "d3-geo";
-import { locations } from "@/data/locations";
+import { locations, headOffice, networkSummary } from "@/data/locations";
 import { cn } from "@/lib/utils";
 
 /**
@@ -17,7 +17,10 @@ import { cn } from "@/lib/utils";
  * Uses react-simple-maps with a real India GeoJSON, projected to the
  * South Indian bounding box. Each South Indian state is colour-coded
  * with a distinct fill, labelled in-canvas, and the operational network
- * is rendered as a fully connected mesh radiating from HQ (Hyderabad).
+ * is rendered as a mesh radiating from the head office (Repalle / Isukapalli).
+ * Staffed offices are joined into the mesh; `opening-soon` branches are drawn
+ * as hollow rings and deliberately left unconnected — we cannot dispatch there
+ * yet, so drawing them into the network would overstate our coverage.
  */
 
 const BRAND = "#B85C04";
@@ -72,46 +75,56 @@ const STATE_STYLES: Record<
     label: "TELANGANA",
   },
   "Andhra Pradesh": {
-    fill: "#E8F1FB",
-    ring: "#3A6FB0",
-    soft: "#B6D2EE",
+    fill: "#F6EBD9",
+    ring: "#A8763E",
+    soft: "#E3C79B",
     label: "ANDHRA PRADESH",
   },
   "Tamil Nadu": {
-    fill: "#E6F4EC",
-    ring: "#2F8C5A",
-    soft: "#A8D6BC",
+    fill: "#EDF3E4",
+    ring: "#6B8F5E",
+    soft: "#C4D9B0",
     label: "TAMIL NADU",
   },
   Karnataka: {
-    fill: "#FBEAEA",
-    ring: "#B43A3A",
-    soft: "#E6B5B5",
+    fill: "#F8E9E4",
+    ring: "#B4634A",
+    soft: "#E8C2B4",
     label: "KARNATAKA",
   },
   Kerala: {
-    fill: "#EEF7E6",
-    ring: "#5C8A2A",
-    soft: "#BFD9A1",
+    fill: "#F1F4E2",
+    ring: "#7F8F45",
+    soft: "#CFDCA6",
     label: "KERALA",
   },
   Puducherry: {
-    fill: "#F1ECF8",
-    ring: "#6A4FA0",
-    soft: "#C4B6DD",
+    fill: "#F3EDF5",
+    ring: "#8A6A8F",
+    soft: "#D5C4DC",
     label: "PUDUCHERRY",
   },
 };
 
 const SOUTH_INDIA_STATES = Object.keys(STATE_STYLES);
 
-// City Data (Exact lat/lng mapped from locations.ts)
-const CITIES = [
-  { slug: "hyderabad", label: "Hyderabad", state: "Telangana", isHQ: true, coordinates: [78.4867, 17.385] as [number, number] },
-  { slug: "isukapalli", label: "Isukapalli", state: "Andhra Pradesh", coordinates: [80.85, 16.1] as [number, number] },
-  { slug: "chennai", label: "Chennai", state: "Tamil Nadu", coordinates: [80.2707, 13.0827] as [number, number] },
-  { slug: "bangalore", label: "Bangalore", state: "Karnataka", coordinates: [77.5946, 12.9716] as [number, number] },
-];
+// City data is derived from the single source of truth (locations.ts) so the
+// map can never drift from the office list. `status` drives the marker style:
+// staffed offices render solid, `opening-soon` renders as a hollow ring.
+const HQ_SLUG = headOffice.slug;
+
+const CITIES = locations.map((l) => ({
+  slug: l.slug,
+  label: l.city,
+  state: l.state,
+  isHQ: l.status === "head-office",
+  isOpen: l.status !== "opening-soon",
+  branchLabel: l.branchLabel,
+  coordinates: [l.geo.lng, l.geo.lat] as [number, number],
+}));
+
+/** Only staffed offices count as live hubs — opening-soon branches do not. */
+const LIVE_HUB_COUNT = CITIES.filter((c) => c.isOpen).length;
 
 export function SouthIndiaMap({ className, showDetail = true }: { className?: string; showDetail?: boolean }) {
   const [mounted, setMounted] = useState(false);
@@ -119,6 +132,12 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
   const [hoveredState, setHoveredState] = useState<string | null>(null);
   const activeLocation = locations.find((l) => l.slug === activeCity);
   const activeState = activeLocation?.state ?? hoveredState;
+  /**
+   * `opening-soon` offices have no field team, no address and no metrics yet.
+   * Everything below gates on this so an announced branch is never dressed up
+   * as a live office.
+   */
+  const activeIsOpen = activeLocation ? activeLocation.status !== "opening-soon" : false;
 
   // Pre-compute city projected coordinates (stable across renders)
   const projectedCities = useMemo(
@@ -130,20 +149,24 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
     []
   );
 
-  // Network mesh — every active city connected to HQ + inter-city ring.
+  // Network mesh — only staffed offices are joined, and everything radiates
+  // from the head office (Isukapalli), never from index 0.
   const links = useMemo(() => {
     const out: { from: typeof projectedCities[number]; to: typeof projectedCities[number]; key: string }[] = [];
-    const hq = projectedCities[0];
-    for (let i = 1; i < projectedCities.length; i++) {
-      out.push({ from: hq, to: projectedCities[i], key: `hq-${projectedCities[i].slug}` });
+    const hq = projectedCities.find((c) => c.isHQ) ?? projectedCities[0];
+    const open = projectedCities.filter((c) => c.isOpen);
+    for (const city of open) {
+      if (city.slug === hq.slug) continue;
+      out.push({ from: hq, to: city, key: `hq-${city.slug}` });
     }
-    // Inter-city ring for visual mesh (Chennai <-> Bangalore etc.)
-    for (let i = 1; i < projectedCities.length; i++) {
-      for (let j = i + 1; j < projectedCities.length; j++) {
+    // Inter-city ring between the staffed branches (e.g. Hyderabad <-> Bangalore)
+    for (let i = 0; i < open.length; i++) {
+      for (let j = i + 1; j < open.length; j++) {
+        if (open[i].slug === hq.slug || open[j].slug === hq.slug) continue;
         out.push({
-          from: projectedCities[i],
-          to: projectedCities[j],
-          key: `${projectedCities[i].slug}-${projectedCities[j].slug}`,
+          from: open[i],
+          to: open[j],
+          key: `${open[i].slug}-${open[j].slug}`,
         });
       }
     }
@@ -289,7 +312,7 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
                 const midX = (link.from.x + link.to.x) / 2;
                 const midY = (link.from.y + link.to.y) / 2 - 24; // gentle arc
                 const pathD = `M ${link.from.x} ${link.from.y} Q ${midX} ${midY} ${link.to.x} ${link.to.y}`;
-                const isHQLink = link.from.slug === "hyderabad" || link.to.slug === "hyderabad";
+                const isHQLink = link.from.slug === HQ_SLUG || link.to.slug === HQ_SLUG;
                 return (
                   <g key={link.key}>
                     {/* Soft glow underlay */}
@@ -307,7 +330,7 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
                     <motion.path
                       d={pathD}
                       fill="none"
-                      stroke={isHQLink ? BRAND : "#6E8AB0"}
+                      stroke={isHQLink ? BRAND : "#C9A06A"}
                       strokeWidth={isHQLink ? 1.8 : 1.2}
                       strokeDasharray="5 5"
                       strokeLinecap="round"
@@ -316,7 +339,7 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
                       transition={{ duration: 1.6, ease: "easeInOut", delay: 0.4 }}
                     />
                     {/* Travelling packet */}
-                    <circle r={isHQLink ? 3.2 : 2.4} fill={isHQLink ? BRAND : "#3A6FB0"}>
+                    <circle r={isHQLink ? 3.2 : 2.4} fill={isHQLink ? BRAND : "#B98A4E"}>
                       <animateMotion
                         dur={isHQLink ? "3.2s" : "5s"}
                         repeatCount="indefinite"
@@ -341,24 +364,28 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
                     onMouseEnter={() => setHoveredState(city.state)}
                     onMouseLeave={() => setHoveredState(null)}
                   >
-                    {/* Pulsing Outer Ring */}
-                    <motion.circle
-                      r={6}
-                      fill={city.isHQ ? BRAND : stateStyle.ring}
-                      fillOpacity={0.35}
-                      animate={{ r: [6, 16], opacity: [0.4, 0] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
-                    />
+                    {/* Pulsing live ring — only for offices we can dispatch from today.
+                        An opening-soon branch must not read as "live". */}
+                    {city.isOpen && (
+                      <motion.circle
+                        r={6}
+                        fill={city.isHQ ? BRAND : stateStyle.ring}
+                        fillOpacity={0.35}
+                        animate={{ r: [6, 16], opacity: [0.4, 0] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+                      />
+                    )}
                     {/* Mid ring (HQ) */}
                     {city.isHQ && (
                       <circle r={10} fill="none" stroke={BRAND} strokeWidth="1" strokeOpacity="0.5" />
                     )}
-                    {/* Solid Pin Core */}
+                    {/* Pin Core — solid when staffed, hollow + dashed while opening */}
                     <circle
                       r={isActive ? 7 : city.isHQ ? 6 : 5}
-                      fill={city.isHQ ? BRAND : "#fff"}
+                      fill={!city.isOpen ? "#fff" : city.isHQ ? BRAND : "#fff"}
                       stroke={city.isHQ ? "#fff" : stateStyle.ring}
                       strokeWidth={city.isHQ ? 3 : 2.5}
+                      strokeDasharray={city.isOpen ? undefined : "2.5 2"}
                     />
                     {/* HQ star */}
                     {city.isHQ && (
@@ -406,38 +433,19 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
                         y={11}
                         fontSize={8}
                         fontWeight={700}
-                        fill={stateStyle.ring}
+                        fill={city.isOpen ? stateStyle.ring : BRAND_DEEP}
                         fontFamily="var(--font-inter), sans-serif"
                         letterSpacing="1"
                         pointerEvents="none"
                       >
-                        {city.state.toUpperCase()}
+                        {city.isOpen ? city.state.toUpperCase() : "OPENING SOON"}
                       </text>
                     </g>
                   </g>
                 );
               })}
 
-              {/* Compass (top-right) */}
-              <g transform={`translate(${MAP_W - 70}, 50)`} pointerEvents="none">
-                <circle r={22} fill="#fff" fillOpacity="0.9" stroke={BRAND} strokeOpacity="0.4" strokeWidth="0.8" />
-                <text textAnchor="middle" y={-10} fontSize={7} fontWeight={700} fill={BRAND_DEEP}>N</text>
-                <line x1={0} y1={-6} x2={0} y2={8} stroke={BRAND} strokeWidth="1.2" />
-                <polygon points="0,-9 -3,-3 3,-3" fill={BRAND} />
-                <text textAnchor="middle" y={18} fontSize={6} fill={BRAND_DEEP} fontWeight={700} letterSpacing="1">COMPASS</text>
-              </g>
-
-              {/* Scale bar (bottom-left of canvas) */}
-              <g transform={`translate(40, ${MAP_H - 30})`} pointerEvents="none">
-                <line x1={0} y1={0} x2={80} y2={0} stroke={BRAND_DEEP} strokeWidth="1.5" />
-                <line x1={0} y1={-3} x2={0} y2={3} stroke={BRAND_DEEP} strokeWidth="1.5" />
-                <line x1={40} y1={-2} x2={40} y2={2} stroke={BRAND_DEEP} strokeWidth="1" />
-                <line x1={80} y1={-3} x2={80} y2={3} stroke={BRAND_DEEP} strokeWidth="1.5" />
-                <text x={0} y={-7} fontSize={8} fill={BRAND_DEEP} fontWeight={700}>0</text>
-                <text x={40} y={-7} fontSize={8} fill={BRAND_DEEP} fontWeight={700} textAnchor="middle">~150</text>
-                <text x={80} y={-7} fontSize={8} fill={BRAND_DEEP} fontWeight={700} textAnchor="middle">~300 km</text>
-              </g>
-            </ComposableMap>
+              </ComposableMap>
           </div>
           {/* ───── Floating Header (over the map, top-left) ───── */}
           <div className="pointer-events-none absolute left-3 top-3 flex items-center gap-2 rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-brown/80 shadow-sm ring-1 ring-brown/10 backdrop-blur sm:left-4 sm:top-4">
@@ -445,13 +453,13 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-orange" />
             </span>
-            Live · 4 states · {CITIES.length} hubs
+            Live · {networkSummary.states.length} states · {LIVE_HUB_COUNT} hubs
           </div>
 
           {/* ───── Floating HQ chip (top-right) ───── */}
           <div className="pointer-events-none absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-brown/90 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md backdrop-blur sm:right-4 sm:top-4">
             <Network className="h-3 w-3" />
-            HQ · Hyderabad
+            HQ · {headOffice.city}
           </div>
 
           {/* ───── State Legend (bottom floating) ───── */}
@@ -480,7 +488,7 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
         </div>
 
         {/* ───── State / City quick-glance strip below the map ───── */}
-        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
           {CITIES.map((city) => {
             const isActive = activeCity === city.slug;
             const stateStyle = STATE_STYLES[city.state];
@@ -501,8 +509,9 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
                 <span
                   className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
                   style={{
-                    background: stateStyle.fill,
-                    border: `1.5px solid ${stateStyle.ring}`,
+                    background: city.isOpen ? stateStyle.fill : "#F4EFE8",
+                    // Dashed frame marks a branch that is not staffed yet.
+                    border: `1.5px ${city.isOpen ? "solid" : "dashed"} ${stateStyle.ring}`,
                   }}
                 >
                   <MapPin className="h-3.5 w-3.5" style={{ color: stateStyle.ring }} />
@@ -519,15 +528,19 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
                     )}
                   </span>
                   <span className="block truncate text-[10px] font-medium text-brown/55">
-                    {stateStyle.label}
+                    {city.isOpen ? city.state : `${city.state} · opening soon`}
                   </span>
                 </span>
-                <Radio
-                  className={cn(
-                    "h-3.5 w-3.5 shrink-0 transition-opacity",
-                    isActive ? "opacity-100 text-orange" : "opacity-30 text-brown"
-                  )}
-                />
+                {city.isOpen ? (
+                  <Radio
+                    className={cn(
+                      "h-3.5 w-3.5 shrink-0 transition-opacity",
+                      isActive ? "opacity-100 text-orange" : "opacity-30 text-brown"
+                    )}
+                  />
+                ) : (
+                  <Clock className="h-3.5 w-3.5 shrink-0 text-brown/40" />
+                )}
               </button>
             );
           })}
@@ -559,8 +572,13 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
                       <div className="flex items-center gap-1.5">
                         <MapPin className="h-3.5 w-3.5" />
                         <h3 className="font-display text-lg font-bold">
-                          {activeLocation.city}
+                          {activeLocation.label}
                         </h3>
+                        {!activeIsOpen && (
+                          <span className="rounded-full bg-white/25 px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase">
+                            Opening soon
+                          </span>
+                        )}
                       </div>
                       <p className="mt-0.5 text-xs text-white/70">
                         {activeLocation.state}
@@ -574,21 +592,29 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
                     </button>
                   </div>
 
-                  {/* Stats row */}
-                  <div className="mt-3 flex items-center gap-3 text-[11px] text-white/80">
-                    <span className="inline-flex items-center gap-1">
-                      <Users className="h-3 w-3" />
-                      {activeLocation.technicians} techs
-                    </span>
-                    <span className="inline-flex items-center gap-1">
-                      <Star className="h-3 w-3 fill-current" />
-                      {activeLocation.rating}
-                    </span>
-                    <span className="inline-flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      {activeLocation.responseTime}
-                    </span>
-                  </div>
+                  {/* Stats row — only meaningful for a staffed office */}
+                  {activeIsOpen && (
+                    <div className="mt-3 flex flex-wrap items-center gap-3 text-[11px] text-white/80">
+                      {activeLocation.technicians != null && (
+                        <span className="inline-flex items-center gap-1">
+                          <Users className="h-3 w-3" />
+                          {activeLocation.technicians} techs
+                        </span>
+                      )}
+                      {activeLocation.rating != null && (
+                        <span className="inline-flex items-center gap-1">
+                          <Star className="h-3 w-3 fill-current" />
+                          {activeLocation.rating}
+                        </span>
+                      )}
+                      {activeLocation.responseTime && (
+                        <span className="inline-flex items-center gap-1">
+                          <Clock className="h-3 w-3" />
+                          {activeLocation.responseTime}
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {/* Card body */}
@@ -615,13 +641,20 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
 
                   <div className="mt-3 rounded-lg bg-brown/3 p-2.5">
                     <div className="text-[10px] font-semibold uppercase tracking-wider text-brown/50">
-                      Field office
+                      {activeIsOpen ? "Field office" : "Status"}
                     </div>
-                    <div className="mt-1 text-[11px] leading-snug text-brown/70">
-                      {activeLocation.address.line1}
-                      <br />
-                      {activeLocation.address.landmark}
-                    </div>
+                    {activeLocation.address ? (
+                      <div className="mt-1 text-[11px] leading-snug text-brown/70">
+                        {activeLocation.address.line1}
+                        <br />
+                        {activeLocation.address.landmark}
+                      </div>
+                    ) : (
+                      <p className="mt-1 text-[11px] leading-snug text-brown/70">
+                        {activeLocation.openingNote ??
+                          "Opening soon — enquire now and we will confirm a start date."}
+                      </p>
+                    )}
                     <a
                       href={`tel:${activeLocation.phoneHref}`}
                       className="mt-1.5 inline-flex items-center gap-1 text-[11px] font-semibold text-orange hover:underline"

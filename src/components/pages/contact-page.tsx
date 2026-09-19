@@ -84,28 +84,46 @@ export function ContactPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <h3 className="font-display text-lg font-bold text-brown">
-                          {loc.city}
+                          {loc.label}
                         </h3>
                         <span className="rounded-full bg-brown/5 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-brown/55">
                           {loc.state}
+                        </span>
+                        <span
+                          className={
+                            loc.status === "opening-soon"
+                              ? "rounded-full bg-teal/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-teal"
+                              : "rounded-full bg-orange/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-orange"
+                          }
+                        >
+                          {loc.branchLabel}
                         </span>
                       </div>
                       <p className="mt-0.5 text-xs text-brown/60 truncate">
                         {loc.tagline}
                       </p>
-                      <div className="mt-2 flex items-center gap-3 text-[11px] text-brown/55">
-                        <span className="inline-flex items-center gap-1">
-                          <Users className="h-3 w-3 text-teal" />
-                          {loc.technicians} techs
-                        </span>
-                        <span className="inline-flex items-center gap-1">
-                          <Star className="h-3 w-3 fill-orange text-orange" />
-                          {loc.rating} ({loc.reviewsCount})
-                        </span>
-                        <span className="inline-flex items-center gap-1">
-                          <Clock className="h-3 w-3 text-orange" />
-                          {loc.responseTime}
-                        </span>
+                      {/* Metrics are only printed for staffed offices —
+                          an `opening-soon` branch has no team or rating yet. */}
+                      <div className="mt-2 flex flex-wrap items-center gap-3 text-[11px] text-brown/55">
+                        {loc.technicians != null && (
+                          <span className="inline-flex items-center gap-1">
+                            <Users className="h-3 w-3 text-teal" />
+                            {loc.technicians} techs
+                          </span>
+                        )}
+                        {loc.rating != null && (
+                          <span className="inline-flex items-center gap-1">
+                            <Star className="h-3 w-3 fill-orange text-orange" />
+                            {loc.rating}
+                            {loc.reviewsCount != null && <> ({loc.reviewsCount})</>}
+                          </span>
+                        )}
+                        {loc.responseTime != null && (
+                          <span className="inline-flex items-center gap-1">
+                            <Clock className="h-3 w-3 text-orange" />
+                            {loc.responseTime}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -135,18 +153,25 @@ export function ContactPage() {
                       </div>
                     </div>
 
-                    {/* Office info */}
+                    {/* Office info — the address only exists once an office is
+                        staffed, so `opening-soon` branches show their note instead. */}
                     <div className="mt-4 grid gap-3 sm:grid-cols-2">
                       <div className="rounded-xl bg-brown/3 p-3">
                         <div className="text-[10px] font-semibold uppercase tracking-wider text-brown/50">
                           Field office
                         </div>
                         <div className="mt-1 text-xs text-brown/70 leading-snug">
-                          {loc.address.line1}
-                          <br />
-                          {loc.address.landmark}
-                          <br />
-                          {loc.address.line2} - {loc.address.pincode}
+                          {loc.address ? (
+                            <>
+                              {loc.address.line1}
+                              <br />
+                              {loc.address.landmark}
+                              <br />
+                              {loc.address.line2} - {loc.address.pincode}
+                            </>
+                          ) : (
+                            loc.openingNote ?? "Address to be announced."
+                          )}
                         </div>
                       </div>
                       <div className="rounded-xl bg-brown/3 p-3">

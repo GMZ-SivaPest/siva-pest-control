@@ -1,6 +1,22 @@
 /**
  * locations.ts — Single source of truth for service locations.
- * Coverage lists are priority service areas, not exhaustive guarantees.
+ *
+ * Network shape (one office per state — we do NOT claim statewide coverage):
+ *   1. Repalle (Isukapalli), Andhra Pradesh — REGISTERED HEAD OFFICE  (open)
+ *   2. Hyderabad, Telangana                 — 2nd branch             (open)
+ *   3. Bangalore, Karnataka                 — 3rd branch             (open)
+ *   4. Chennai, Tamil Nadu                  — opening soon
+ *   5. Kochi, Kerala                        — opening soon
+ *
+ * Two rules this file enforces for every consumer:
+ *   - Only `head-office` and `branch` offices are staffed. `opening-soon`
+ *     entries have no address, no team and no metrics, so they must never be
+ *     rendered as a live office, listed in a "book a city" picker, or emitted
+ *     as a served city in JSON-LD. Use `activeLocations` for anything that
+ *     implies we can dispatch today.
+ *   - Each office only guarantees its `coverage` list. Coverage is a set of
+ *     priority localities, not an exhaustive guarantee — pin codes are always
+ *     confirmed before booking.
  */
 
 import { company } from "./company";
@@ -10,40 +26,72 @@ export interface LocationFaq {
   a: string;
 }
 
+export interface LocationAddress {
+  line1: string;
+  line2: string;
+  landmark: string;
+  pincode: string;
+}
+
+/**
+ * Where a branch stands today.
+ *   - `head-office`  — the registered head location (Repalli / Isukapalli, AP)
+ *   - `branch`       — a staffed, operating branch office
+ *   - `opening-soon` — announced and being set up. We do NOT run a team here
+ *                      yet, so it must never be presented as a live office.
+ */
+export type LocationStatus = "head-office" | "branch" | "opening-soon";
+
 export interface Location {
   slug: string;
+  /** Short geo name — used for map labels, slugs and compact UI. */
   city: string;
+  /**
+   * Human-facing name shown in forms, cards and menus. Kept separate from
+   * `city` because the head office trades under two names — the town
+   * (Repalli) and the locality (Isukapalli).
+   */
+  label: string;
   state: string;
+  status: LocationStatus;
+  /** 1 = head office, 2 = 2nd branch, 3 = 3rd branch … Drives display order. */
+  branchOrder: number;
+  /** Short chip text: "Head office" · "2nd branch" · "Opening soon". */
+  branchLabel: string;
   tagline: string;
   shortIntro: string;
-  longIntro: string;
+  /** Long-form intro — only staffed offices have one worth reading. */
+  longIntro?: string;
   phone: string;
   phoneHref: string;
   email: string;
-  address: {
-    line1: string;
-    line2: string;
-    landmark: string;
-    pincode: string;
-  };
+  /** Absent until the branch is actually staffed and open. */
+  address?: LocationAddress;
   hours: string;
+  /** Priority areas for active offices; planned areas for upcoming ones. */
   coverage: string[];
   landmarks: string[];
-  // Approximate normalised map coords for our SVG (0–100 range, India context)
-  mapCoords: { x: number; y: number };
+  /** Real lat/lng for the South India network map. */
+  geo: { lat: number; lng: number };
   faqs: LocationFaq[];
-  responseTime: string;
-  technicians: number;
-  rating: number;
-  reviewsCount: number;
+  responseTime?: string;
+  technicians?: number;
+  rating?: number;
+  reviewsCount?: number;
+  /** Shown in place of office metrics while a branch is still coming up. */
+  openingNote?: string;
 }
 
 export const locations: Location[] = [
   {
     slug: "isukapalli",
     city: "Isukapalli",
+    label: "Repalle (Isukapalli)",
     state: "Andhra Pradesh",
-    tagline: "Your trusted local pest control experts in Repalle.",
+    status: "head-office",
+    branchOrder: 1,
+    branchLabel: "Head office",
+    tagline: "Our registered head office. Local team, local knowledge.",
     shortIntro:
       "Serving Isukapalli, Repalle and nearby pin codes by appointment. Local team based in Isukapalli.",
     longIntro:
@@ -72,7 +120,7 @@ export const locations: Location[] = [
       "Krishna River Bank",
       "Mandal Revenue Office, Repalle",
     ],
-    mapCoords: { x: 65, y: 72 },
+    geo: { lat: 16.0191, lng: 80.8323 },
     responseTime: "60 min average",
     technicians: 3,
     rating: 4.9,
@@ -103,8 +151,12 @@ export const locations: Location[] = [
   {
     slug: "hyderabad",
     city: "Hyderabad",
+    label: "Hyderabad",
     state: "Telangana",
-    tagline: "Our home city. Our strongest local coverage.",
+    status: "branch",
+    branchOrder: 2,
+    branchLabel: "2nd branch",
+    tagline: "Our largest branch. Strongest metro coverage.",
     shortIntro:
       "Serving core Hyderabad and Secunderabad areas with same-day response in most cases. Field team based in Madhapur.",
     longIntro:
@@ -138,7 +190,7 @@ export const locations: Location[] = [
       "KBR Park, Jubilee Hills",
       "Hussain Sagar lake front",
     ],
-    mapCoords: { x: 40, y: 58 },
+    geo: { lat: 17.4483, lng: 78.3915 },
     responseTime: "30 min average",
     technicians: 14,
     rating: 4.9,
@@ -169,22 +221,22 @@ export const locations: Location[] = [
   {
     slug: "chennai",
     city: "Chennai",
+    label: "Chennai",
     state: "Tamil Nadu",
-    tagline: "Coastal-climate expertise. OMR to Anna Nagar.",
+    status: "opening-soon",
+    branchOrder: 4,
+    branchLabel: "Opening soon",
+    tagline: "Branch opening soon in T. Nagar — coastal-climate expertise on the way.",
     shortIntro:
-      "Serving Chennai's coastal and IT corridors with humidity-calibrated treatments. Field team based in T. Nagar.",
+      "Our Chennai branch is being set up. T. Nagar will be the first service hub, with bookings opening once the field team is in place.",
     longIntro:
-      "Chennai's coastal humidity, aging drainage in central areas, and rapid IT corridor expansion along OMR create a unique pest pressure profile. Our T. Nagar field office prioritises a focused set of city areas and confirms nearby pin codes before scheduling. We specialise in high-humidity challenges: silverfish in book collections, coastal roach strains in older properties, and mosquito surges during the northeast monsoon.",
-    phone: "+91 77024 87195",
-    phoneHref: "+917702487195",
+      "Chennai's coastal humidity, aging drainage in central areas, and rapid IT corridor expansion along OMR create a unique pest pressure profile. We are setting up our Tamil Nadu branch in T. Nagar to serve it — prioritising a focused set of city areas once we open, and confirming nearby pin codes before scheduling. The team will specialise in high-humidity challenges: silverfish in book collections, coastal roach strains in older properties, and mosquito surges during the northeast monsoon.",
+    phone: company.phonePrimary,
+    phoneHref: company.phonePrimaryHref,
     email: "chn@sivapestcontrol.com",
-    address: {
-      line1: "12, 1st Avenue, T. Nagar",
-      line2: "Chennai, Tamil Nadu",
-      landmark: "Near Panagal Park, opposite Saravana Stores",
-      pincode: "600017",
-    },
     hours: "Mon–Sat · 8:00 AM – 8:00 PM",
+    openingNote:
+      "Opening soon. The T. Nagar office and field team are being set up — enquire now and we will confirm a start date.",
     coverage: [
       "T. Nagar",
       "Anna Nagar",
@@ -199,11 +251,10 @@ export const locations: Location[] = [
       "Phoenix MarketCity, Velachery",
       "ECR beach resorts",
     ],
-    mapCoords: { x: 60, y: 78 },
-    responseTime: "45 min average",
-    technicians: 6,
-    rating: 4.8,
-    reviewsCount: 180,
+    geo: { lat: 13.0827, lng: 80.2707 },
+    // Deliberately no responseTime / technicians / rating / reviewsCount —
+    // the branch is not staffed yet, so publishing office metrics or a
+    // rating here would be a fabricated claim.
     faqs: [
       {
         q: "Do you cover the OMR IT corridor up to Sholinganallur and beyond?",
@@ -230,7 +281,11 @@ export const locations: Location[] = [
   {
     slug: "bangalore",
     city: "Bangalore",
+    label: "Bangalore",
     state: "Karnataka",
+    status: "branch",
+    branchOrder: 3,
+    branchLabel: "3rd branch",
     tagline: "Tech-city precision. Whitefield to Indiranagar.",
     shortIntro:
       "Serving Bangalore's tech corridors and gated communities with calibrate-to-altitude treatments. Field team in Koramangala.",
@@ -260,7 +315,7 @@ export const locations: Location[] = [
       "Manyata Tech Park, Hebbal",
       "Electronic City phase 1",
     ],
-    mapCoords: { x: 50, y: 75 },
+    geo: { lat: 12.9352, lng: 77.6245 },
     responseTime: "45 min average",
     technicians: 4,
     rating: 4.9,
@@ -288,4 +343,110 @@ export const locations: Location[] = [
       },
     ],
   },
+  {
+    slug: "kochi",
+    city: "Kochi",
+    label: "Kochi",
+    state: "Kerala",
+    status: "opening-soon",
+    branchOrder: 5,
+    branchLabel: "Opening soon",
+    tagline: "Branch opening soon in Kochi — backwater-grade humidity expertise on the way.",
+    shortIntro:
+      "Our Kerala branch is being set up. Kochi will be the first service hub, with bookings opening once the field team is in place.",
+    longIntro:
+      "Kerala's year-round humidity, dense coastal vegetation and heavy monsoon cycles produce one of the most persistent pest profiles in South India — year-round mosquito breeding, damp-wood termite pressure, and ant and silverfish activity that never fully stops. We are setting up our Kerala branch in Kochi to serve it, prioritising a focused set of city areas once we open and confirming nearby pin codes before scheduling.",
+    phone: company.phonePrimary,
+    phoneHref: company.phonePrimaryHref,
+    email: "kerala@sivapestcontrol.com",
+    hours: "Mon–Sat · 8:00 AM – 8:00 PM",
+    openingNote:
+      "Opening soon. The Kochi office and field team are being set up — enquire now and we will confirm a start date.",
+    coverage: [
+      "Kakkanad",
+      "Edappally",
+      "Vyttila",
+      "Fort Kochi",
+      "Aluva",
+    ],
+    landmarks: [
+      "Infopark, Kakkanad",
+      "Lulu Mall, Edappally",
+      "Vyttila Mobility Hub",
+      "Marine Drive, Kochi",
+      "Fort Kochi beach",
+    ],
+    geo: { lat: 9.9312, lng: 76.2673 },
+    // Deliberately no responseTime / technicians / rating / reviewsCount —
+    // the branch is not staffed yet, so office metrics would be invented.
+    faqs: [
+      {
+        q: "When will the Kochi branch open?",
+        a: "We are setting up the Kochi office and field team. Share your requirement now and we will confirm a start date — you will be contacted first once the team is in place.",
+      },
+      {
+        q: "Can you service Kerala homes before the branch opens?",
+        a: "Not on a routine basis yet. Kerala bookings start once the Kochi team is staffed, because every job needs a technician who can return for the free day-7 re-inspection.",
+      },
+      {
+        q: "Which areas will the Kochi branch cover first?",
+        a: "Kakkanad, Edappally, Vyttila, Fort Kochi and Aluva are planned as priority areas. Nearby pin codes will be confirmed before booking once the team is operational.",
+      },
+      {
+        q: "How do you handle Kerala's year-round humidity?",
+        a: "Our formulations and schedules are built for high-humidity environments — humidity-stable gels, damp-wood termite protocols and larvicide cycles that do not depend on a dry season.",
+      },
+    ],
+  },
 ];
+
+/* ───────────────────────────── Derived helpers ───────────────────────────── */
+/*
+ * IMPORTANT: prefer these over inventing ad-hoc filters at call sites.
+ * The distinction between "we have an office here" and "we will soon have an
+ * office here" is the whole point of the `status` field — a consumer that
+ * ignores it will advertise coverage we cannot actually dispatch.
+ */
+
+/** Offices that are staffed and bookable today (head office + open branches). */
+export const activeLocations: Location[] = locations.filter(
+  (l) => l.status === "head-office" || l.status === "branch"
+);
+
+/** Announced but not yet staffed — never render these as live offices. */
+export const upcomingLocations: Location[] = locations.filter(
+  (l) => l.status === "opening-soon"
+);
+
+/** The registered head office (Repalle / Isukapalli, Andhra Pradesh). */
+export const headOffice: Location =
+  locations.find((l) => l.status === "head-office") ?? locations[0];
+
+/** States where we can dispatch today — one office per state, not statewide. */
+export const servedStates: string[] = Array.from(
+  new Set(activeLocations.map((l) => l.state))
+);
+
+/**
+ * Short city names used as the *value* of every "which city are you in?"
+ * picker (contact form, inline quote form). Derived from `activeLocations`, so
+ * an unopened branch can never become selectable — and because the contact
+ * API validates against this same list, the picker and the server can never
+ * drift apart again. Append "Other" at the call site when the form offers it.
+ *
+ * NOTE: this is the short `city`, not the `label` — "Isukapalli" books, while
+ * "Repalle (Isukapalli)" is only ever shown as display text.
+ */
+export const bookableCities: string[] = activeLocations.map((l) => l.city);
+
+/** Compact network summary for headings and badges. */
+export const networkSummary = {
+  totalOffices: locations.length,
+  openOffices: activeLocations.length,
+  openingSoonOffices: upcomingLocations.length,
+  states: servedStates,
+  /** "3 offices" — for badges where the count alone reads oddly. */
+  openOfficesLabel: `${activeLocations.length} offices`,
+  /** "Chennai & Kochi" — for "opening soon" notes. */
+  upcomingLocationsLabel: upcomingLocations.map((l) => l.label).join(" & "),
+};

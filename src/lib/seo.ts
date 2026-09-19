@@ -5,7 +5,7 @@
 
 import { company } from "@/data/company";
 import { brand } from "@/data/brand";
-import { locations } from "@/data/locations";
+import { locations, activeLocations } from "@/data/locations";
 import { services } from "@/data/services";
 import { pests } from "@/data/pests";
 import { blogPosts } from "@/data/blog";
@@ -29,6 +29,24 @@ export function generateOrganizationSchema() {
     image: `${BASE}/og-image.jpg`,
     logo: `${BASE}/logo.png`,
     foundingDate: String(brand.foundedYear),
+    // Only staffed offices may be advertised as served cities. An
+    // `opening-soon` branch has no team, so claiming it in JSON-LD would
+    // promise coverage we cannot dispatch.
+    areaServed: activeLocations.map((l) => ({
+      "@type": "City",
+      name: l.label,
+      addressRegion: l.state,
+    })),
+    address: locations
+      .filter((l) => l.address)
+      .map((l) => ({
+        "@type": "PostalAddress",
+        streetAddress: l.address!.line1,
+        addressLocality: l.city,
+        addressRegion: l.state,
+        postalCode: l.address!.pincode,
+        addressCountry: "IN",
+      })),
     knowsAbout: [
       "Termite Control",
       "Cockroach Gel Treatment",
@@ -42,19 +60,6 @@ export function generateOrganizationSchema() {
       "Pre-Construction Termite Treatment",
       "Post-Construction Termite Treatment",
     ],
-    areaServed: locations.map((l) => ({
-      "@type": "City",
-      name: l.city,
-      state: l.state,
-    })),
-    address: locations.map((l) => ({
-      "@type": "PostalAddress",
-      streetAddress: l.address.line1,
-      addressLocality: l.city,
-      addressRegion: l.state,
-      postalCode: l.address.pincode,
-      addressCountry: "IN",
-    })),
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -117,9 +122,10 @@ export function generateServiceSchema(service: typeof services[0]) {
       name: "Siva Pest Control",
       url: BASE,
     },
-    areaServed: locations.map((l) => ({
+    areaServed: activeLocations.map((l) => ({
       "@type": "City",
-      name: l.city,
+      name: l.label,
+      addressRegion: l.state,
     })),
     warranty: service.warranty,
     serviceType: service.category,

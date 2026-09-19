@@ -1,168 +1,190 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import {
-  ChevronRight,
-  Phone,
-  Star,
-  ShieldCheck,
-  Clock,
-  CheckCircle2,
-} from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, Clock, Phone, ShieldCheck, Star } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { company } from "@/data/company";
+import { locations } from "@/data/locations";
 import { trackCTAClick, trackPhoneClick } from "@/lib/analytics";
+import { Marquee } from "./marquee";
 
 /**
- * HeroSlider — auto-rotating 6-slide hero carousel.
+ * HeroSlider — compact, light-theme hero.
  *
- * Each slide tells a piece of the pest-control story:
- *   1. The problem (infestation imagery)
- *   2. The threat (what's at stake)
- *   3. The approach (science-led)
- *   4. The treatment (in-action imagery)
- *   5. The result (clean protected space)
- *   6. The promise (warranty + trust)
+ * Design brief: "light colours, shorter height, auto-scrolling images with a
+ * little bit of title, description and CTA".
  *
- * UX:
- *   - Auto-advances every 6s
- *   - Pauses on hover, resumes on leave
- *   - Swipeable on touch (pointer events)
- *   - Clickable dots + arrow keys for keyboard users
- *   - Progress bar shows time-to-next-slide
- *   - Respects prefers-reduced-motion (no auto-advance, just static first slide)
+ * Layout
+ *   - Light ivory canvas (brand `gradient-warm` + faint warm grid) with two
+ *     soft glows, so the top of the page matches the rest of the site
+ *     instead of the previous full-bleed dark wash.
+ *   - Left column: eyebrow pill, short two-line headline, a single-sentence
+ *     blurb, one primary CTA + a phone CTA, then a static trust line.
+ *   - Right column: a bordered white frame holding the auto-advancing photo
+ *     (crossfade + slow zoom) with the chapter chip, the slide stat and the
+ *     chapter dots over it. Desktop height is 320px — the whole hero lands
+ *     around 470px tall instead of a full viewport.
+ *   - Below: an auto-scrolling thumbnail ribbon (the shared <Marquee />)
+ *     showing every chapter as a clickable frame.
  *
- * Each slide is a real <Link> to the relevant service page.
+ * Behaviour
+ *   - Auto-advances every SLIDE_DURATION ms; pauses on hover/focus and while
+ *     the tab is hidden. Swipeable, arrow-key navigable, dots are buttons
+ *     with aria-current. prefers-reduced-motion disables zoom + autoplay.
+ *
+ * Height is intentionally fixed (`h-[200px] sm:h-[260px] lg:h-[320px]`) and
+ * the copy block reserves a min-height so advancing slides never shift the
+ * layout — the page below the hero stays perfectly still.
  */
 
 interface Slide {
   id: string;
+  /** Short label used by the dot/thumbnail accessible names. */
+  chapter: string;
   image: string;
   alt: string;
+  /** Small chip over the photo. */
   eyebrow: string;
   title: string;
   highlight: string;
-  description: string;
+  /** One-sentence summary shown in the left column. */
+  blurb: string;
   href: string;
   cta: string;
-  accent: "orange" | "teal" | "rust";
-  stat?: { value: string; label: string };
+  stat: { value: string; label: string };
 }
 
 const SLIDES: Slide[] = [
   {
     id: "infestation",
+    chapter: "Kitchen",
     image: "/images/carousel/cockroach-colony.jpg",
-    alt: "Severe German cockroach infestation scattering on a kitchen counter",
-    eyebrow: "The problem",
+    alt: "German cockroaches scattering across a kitchen counter",
+    eyebrow: "Kitchen infestation",
     title: "When you see one,",
     highlight: "there are hundreds.",
-    description:
-      "German cockroaches hide in cabinet hinges by day and raid your kitchen by night. They spread salmonella, trigger asthma, and double their population every 2 weeks.",
+    blurb:
+      "German cockroaches hide by day and raid your kitchen by night. Gel-bait treatment collapses the colony in 7 days.",
     href: "/services/cockroach-gel-treatment",
     cta: "Get cockroach treatment",
-    accent: "rust",
     stat: { value: "1 → 30,000", label: "in 90 days" },
   },
   {
     id: "termite-threat",
+    chapter: "Termites",
     image: "/images/carousel/termite-damage.jpg",
-    alt: "Severe subterranean termite damage on a wooden door frame with mud tubes",
-    eyebrow: "The silent threat",
+    alt: "Subterranean termite damage on a wooden door frame with mud tubes",
+    eyebrow: "Structural damage",
     title: "They eat 24/7 —",
     highlight: "you'll never hear them.",
-    description:
-      "Subterranean termites hollow out wooden door frames, furniture, and even concrete reinforcement. By the time you spot mud tubes, the structural damage is already done.",
+    blurb:
+      "Termites hollow out frames, furniture and even RCC. A warranty-backed barrier stops them before the damage spreads.",
     href: "/services/termite-control",
-    cta: "Get termite barrier",
-    accent: "orange",
+    cta: "Get a termite barrier",
     stat: { value: "5-year", label: "warranty barrier" },
   },
   {
     id: "rodent-fire",
+    chapter: "Rodents",
     image: "/images/carousel/rodent-infestation.jpg",
-    alt: "Rodent droppings and chewed electrical wiring in a residential attic",
-    eyebrow: "Hidden danger",
+    alt: "Rodent droppings and chewed electrical wiring in an attic",
+    eyebrow: "Fire risk",
     title: "Rats chew wires —",
     highlight: "and start fires.",
-    description:
-      "Rodents cause 25% of urban house fires by chewing electrical wiring. They also spread leptospirosis, hantavirus, and contaminate 10× more food than they eat.",
+    blurb:
+      "Rodents cause 25% of urban house fires by chewing wiring. Sealed entry points plus bait stations end the cycle.",
     href: "/services/rodent-control",
     cta: "Get rodent control",
-    accent: "rust",
     stat: { value: "25%", label: "of urban house fires" },
   },
   {
     id: "treatment",
+    chapter: "Method",
     image: "/images/carousel/kitchen-treatment.jpg",
-    alt: "Siva technician applying targeted gel-bait treatment in a kitchen",
-    eyebrow: "Our approach",
+    alt: "Siva technician applying targeted gel-bait inside a kitchen cabinet",
+    eyebrow: "Science-led protocol",
     title: "Targeted gel-bait,",
     highlight: "not blanket spray.",
-    description:
-      "Certified technicians apply gel-bait behind hinges and crevices where roaches actually live. No spraying, no smell, no evacuation — colony collapses in 7 days.",
+    blurb:
+      "Odourless micro-dots placed exactly where pests live. No spraying, no smell, no need to leave the house.",
     href: "/services/cockroach-gel-treatment",
     cta: "See how it works",
-    accent: "teal",
-    stat: { value: "7 days", label: "colony collapse" },
+    stat: { value: "7 days", label: "to colony collapse" },
   },
   {
     id: "mosquito-fogging",
+    chapter: "Outdoors",
     image: "/images/carousel/mosquito-fogging.jpg",
     alt: "Outdoor mosquito fogging treatment in a residential compound",
-    eyebrow: "Outdoor control",
+    eyebrow: "Garden & terrace",
     title: "Reclaim your",
     highlight: "garden & terrace.",
-    description:
-      "Thermal fogging + larvicide treatment knocks down adult mosquitoes and breaks the breeding cycle in stagnant water. Protects against dengue, malaria, and chikungunya.",
+    blurb:
+      "Thermal fogging plus larvicide breaks the breeding cycle — real protection from dengue, malaria and chikungunya.",
     href: "/services/mosquito-control",
     cta: "Get mosquito control",
-    accent: "teal",
-    stat: { value: "30-min", label: "response time" },
+    stat: { value: "30 min", label: "average response" },
   },
   {
     id: "protected",
+    chapter: "Guarantee",
     image: "/images/carousel/protected-home.jpg",
-    alt: "Modern South Indian home protected and pest-free at twilight",
-    eyebrow: "The promise",
+    alt: "Modern South Indian home, clean and pest-free, at twilight",
+    eyebrow: "Guaranteed outcome",
     title: "Your space,",
     highlight: "protected for 180 days.",
-    description:
-      "Every treatment ends with a written 180-day warranty, free re-inspection at day 7, and child-safe documentation. 12,000+ South Indian families already trust Siva.",
+    blurb:
+      "A written 180-day warranty, a free day-7 re-inspection and child-safe documentation with every single job.",
     href: "/contact",
-    cta: "Book free inspection",
-    accent: "orange",
+    cta: "Book a free inspection",
     stat: { value: "12,000+", label: "homes protected" },
   },
 ];
 
-const SLIDE_DURATION = 6000; // ms per slide
+/** Per-slide time on screen (ms) — drives auto-advance and the progress bar. */
+const SLIDE_DURATION = 6000;
+
+/** Static trust signals under the CTAs — identical on every slide. */
+const TRUST_SIGNALS = [
+  { icon: ShieldCheck, label: `${company.stats.warrantyDays}-day written warranty` },
+  { icon: Clock, label: `${company.stats.avgResponseMins}-minute response` },
+  {
+    icon: Star,
+    label: `${company.stats.googleRating}/5 · ${company.stats.googleReviews}+ Google reviews`,
+  },
+];
 
 export function HeroSlider() {
+  const reduceMotion = useReducedMotion();
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
-  const reduceMotion = useReducedMotion();
+  const [tabHidden, setTabHidden] = useState(false);
   const pointerStartX = useRef(0);
 
-  const next = useCallback(
-    () => setActive((i) => (i + 1) % SLIDES.length),
-    []
-  );
-  const prev = useCallback(
-    () => setActive((i) => (i - 1 + SLIDES.length) % SLIDES.length),
-    []
-  );
+  /* ---------- Navigation ---------- */
+  const next = useCallback(() => setActive((i) => (i + 1) % SLIDES.length), []);
+  const prev = useCallback(() => setActive((i) => (i - 1 + SLIDES.length) % SLIDES.length), []);
+  const goTo = useCallback((index: number) => setActive(index), []);
 
-  // Auto-advance
+  /* ---------- Stop the clock while the tab is backgrounded ---------- */
   useEffect(() => {
-    if (paused || reduceMotion) return;
-    const t = setInterval(next, SLIDE_DURATION);
-    return () => clearInterval(t);
-  }, [paused, reduceMotion, next]);
+    const onVisibility = () => setTabHidden(document.hidden);
+    document.addEventListener("visibilitychange", onVisibility);
+    onVisibility();
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
 
-  // Keyboard nav
+  /* ---------- Auto-advance ---------- */
+  useEffect(() => {
+    if (paused || tabHidden || reduceMotion) return;
+    const timer = window.setInterval(next, SLIDE_DURATION);
+    return () => window.clearInterval(timer);
+  }, [paused, tabHidden, reduceMotion, next]);
+
+  /* ---------- Keyboard ---------- */
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowRight") {
       e.preventDefault();
@@ -173,7 +195,7 @@ export function HeroSlider() {
     }
   };
 
-  // Swipe (pointer events)
+  /* ---------- Touch / pointer swipe ---------- */
   const onPointerDown = (e: React.PointerEvent) => {
     pointerStartX.current = e.clientX;
   };
@@ -186,230 +208,256 @@ export function HeroSlider() {
   };
 
   const slide = SLIDES[active];
-
-  const accentColor =
-    slide.accent === "teal" ? "#719899" : slide.accent === "rust" ? "#99341F" : "#D77005";
+  const isPaused = paused || tabHidden || Boolean(reduceMotion);
 
   return (
     <section
-      className="relative h-[88vh] min-h-[640px] w-full overflow-hidden bg-brown"
+      className="relative isolate overflow-hidden bg-ivory"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={() => setPaused(false)}
       onKeyDown={onKeyDown}
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
       tabIndex={0}
       role="region"
       aria-roledescription="carousel"
-      aria-label="Pest control stories — what we treat, how we treat, what we deliver"
-      aria-live="polite"
+      aria-label="Siva Pest Control — treatments, method and guarantee"
     >
-      {/* === Background image crossfade === */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={slide.id}
-          initial={active === 0 ? false : { opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute inset-0"
-        >
-          <Image
-            src={slide.image}
-            alt={slide.alt}
-            fill
-            priority={active === 0}
-            loading={active === 0 ? "eager" : "lazy"}
-            sizes="100vw"
-            className="object-cover"
-          />
-          {/* Cinematic gradient for legibility */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(28,18,10,0.80) 0%, rgba(40,28,16,0.40) 35%, rgba(51,36,22,0.55) 75%, rgba(28,18,10,0.92) 100%)",
-            }}
-          />
-          {/* Left-side gradient so text is readable on the left */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(90deg, rgba(28,18,10,0.85) 0%, rgba(28,18,10,0.55) 35%, rgba(28,18,10,0.2) 60%, rgba(28,18,10,0.3) 100%)",
-            }}
-          />
-          {/* Accent glow */}
-          <div
-            className="absolute inset-0 opacity-60"
-            style={{
-              background: `radial-gradient(circle at 12% 92%, ${accentColor}55 0%, transparent 50%)`,
-            }}
-          />
-        </motion.div>
-      </AnimatePresence>
+      {/* ---------- Light canvas: warm wash, glow blobs, faint grid ---------- */}
+      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
+        <div className="absolute inset-0 gradient-warm" />
+        <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-orange/20 blur-[110px]" />
+        <div className="absolute top-1/3 -right-24 h-80 w-80 rounded-full bg-teal/20 blur-[120px]" />
+        <div
+          className="absolute inset-0 bg-grid-warm opacity-70"
+          style={{
+            maskImage: "radial-gradient(110% 80% at 12% 0%, #000 0%, transparent 70%)",
+            WebkitMaskImage: "radial-gradient(110% 80% at 12% 0%, #000 0%, transparent 70%)",
+          }}
+        />
+      </div>
 
-      {/* === Foreground content === */}
-      <div className="relative z-10 flex h-full items-center">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={slide.id}
-                initial={active === 0 ? false : { opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      <div className="relative mx-auto w-full max-w-7xl px-4 py-7 sm:px-6 lg:px-8 lg:py-9">
+        <div className="grid items-center gap-7 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-12">
+          {/* ================= LEFT — compact copy ================= */}
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-orange/10 px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.16em] text-orange-ink uppercase ring-1 ring-orange/20">
+              <span className="relative flex h-1.5 w-1.5" aria-hidden>
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange opacity-70 motion-reduce:animate-none" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-orange" />
+              </span>
+              Licensed IPM · {locations.length} cities · {company.stats.homesProtected.toLocaleString("en-IN")}
+              + homes protected
+            </div>
+
+            {/* Reserved height lives OUTSIDE AnimatePresence so the layout
+                never collapses during the exit→enter gap. */}
+            <div className="min-h-[8.5rem] lg:min-h-[9.75rem]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={slide.id}
+                  initial={active === 0 ? false : { opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                >
+                <h1 className="mt-4 font-display text-[1.75rem] leading-[1.14] font-extrabold tracking-tight text-balance text-brown sm:text-4xl lg:text-[2.5rem]">
+                    {slide.title}{" "}
+                    {/* orange-deep → orange-ink keeps the accent above the
+                        3:1 large-text minimum on the ivory canvas. */}
+                    <span className="bg-gradient-to-r from-orange-deep to-orange-ink bg-clip-text text-transparent">
+                      {slide.highlight}
+                    </span>
+                  </h1>
+                  <p className="mt-3 max-w-md text-sm leading-relaxed text-pretty text-brown/70 sm:text-base">
+                    {slide.blurb}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* CTAs */}
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Link
+                href={slide.href}
+                onClick={() =>
+                  trackCTAClick({ location: "hero", label: slide.cta, href: slide.href })
+                }
+                className="group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-white shadow-glow-orange gradient-orange transition-transform hover:scale-[1.02]"
               >
-                {/* Eyebrow with accent dot */}
-                <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white backdrop-blur-md">
-                  <span
-                    className="h-2 w-2 rounded-full"
-                    style={{ backgroundColor: accentColor }}
+                {slide.cta}
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+              <a
+                href={`tel:${company.phonePrimaryHref}`}
+                onClick={() => trackPhoneClick({ location: "hero", phone: company.phonePrimary })}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-brown/15 bg-white px-6 py-3 text-sm font-semibold text-brown shadow-lift transition-colors hover:border-orange/40 hover:text-orange-ink"
+              >
+                <Phone className="h-4 w-4" />
+                {company.phonePrimary}
+              </a>
+            </div>
+
+            {/* Static trust line */}
+            <ul className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] font-medium text-brown/65 sm:text-xs">
+              {TRUST_SIGNALS.map((signal) => (
+                <li key={signal.label} className="flex items-center gap-1.5">
+                  <signal.icon
+                    className="h-3.5 w-3.5 shrink-0 text-orange-ink"
+                    strokeWidth={2}
+                    aria-hidden
                   />
+                  {signal.label}
+                </li>
+              ))}
+            </ul>
+
+            {/* Chapter counter */}
+            <p className="mt-4 text-[10px] font-bold tracking-[0.2em] text-brown/40 uppercase">
+              Chapter {String(active + 1).padStart(2, "0")} of {String(SLIDES.length).padStart(2, "0")} ·{" "}
+              {slide.chapter}
+            </p>
+          </div>
+
+          {/* ================= RIGHT — auto-advancing photo panel ================= */}
+          <div className="relative">
+            <div
+              className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-orange/15 blur-2xl"
+              aria-hidden
+            />
+            <div className="relative overflow-hidden rounded-[1.75rem] border border-brown/10 bg-white p-2 shadow-premium-lg">
+              <div className="relative h-[200px] overflow-hidden rounded-[1.25rem] bg-ivory-deep sm:h-[260px] lg:h-[320px]">
+                {/* All frames stay mounted and crossfade via opacity. Mounting
+                    on demand would flash an empty frame whenever the photo is
+                    not yet decoded (dot-jumps, slow networks), so the payload
+                    is paid up-front instead — only frame 1 is `priority`, so
+                    the LCP image still wins the bandwidth race. */}
+                {SLIDES.map((s, i) => (
+                  <motion.div
+                    key={s.id}
+                    className="absolute inset-0"
+                    initial={i === active ? { opacity: 1, scale: 1 } : false}
+                    animate={{ opacity: i === active ? 1 : 0, scale: i === active ? 1.12 : 1 }}
+                    transition={{
+                      opacity: { duration: 0.8, ease: "easeOut" },
+                      scale: { duration: reduceMotion ? 0 : 9, ease: "linear" },
+                    }}
+                  >
+                    <Image
+                      src={s.image}
+                      alt={i === active ? s.alt : ""}
+                      fill
+                      sizes="(max-width: 1024px) 92vw, 52vw"
+                      className="object-cover"
+                      priority={i === 0}
+                    />
+                  </motion.div>
+                ))}
+
+                {/* Bottom scrim — keeps the overlaid text readable on any photo */}
+                <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-brown/75 to-transparent" />
+
+                {/* Chapter chip */}
+                <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-bold tracking-[0.14em] text-brown uppercase shadow-lift backdrop-blur-md">
+                  <span className="h-1.5 w-1.5 rounded-full bg-orange" aria-hidden />
                   {slide.eyebrow}
                 </div>
 
-                {/* Title */}
-                <h1
-                  className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-white text-balance sm:text-5xl lg:text-6xl"
-                  style={{
-                    textShadow: "0 2px 24px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.65)",
-                  }}
-                >
-                  {slide.title}{" "}
-                  <span
-                    className="bg-clip-text text-transparent"
-                    style={{
-                      backgroundImage: `linear-gradient(135deg, ${accentColor} 0%, #F4B266 100%)`,
-                    }}
-                  >
-                    {slide.highlight}
-                  </span>
-                </h1>
+                {/* Stat + chapter dots */}
+                <div className="absolute right-3 bottom-3 left-3 flex items-end justify-between gap-4">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={slide.stat.value}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.35 }}
+                    >
+                      <div className="font-display text-xl leading-none font-extrabold text-white sm:text-2xl">
+                        {slide.stat.value}
+                      </div>
+                      <div className="mt-1 text-[10px] font-semibold tracking-[0.14em] text-white/80 uppercase">
+                        {slide.stat.label}
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
 
-                {/* Description */}
-                <p
-                  className="mt-5 max-w-xl text-base leading-relaxed text-white/90 text-pretty sm:text-lg"
-                  style={{ textShadow: "0 1px 12px rgba(0,0,0,0.5)" }}
-                >
-                  {slide.description}
-                </p>
-
-                {/* Stat callout */}
-                {slide.stat && (
-                  <div className="mt-6 inline-flex items-baseline gap-2 rounded-2xl border border-white/15 bg-white/5 px-5 py-3 backdrop-blur-md">
-                    <span className="font-display text-2xl font-bold text-white sm:text-3xl">
-                      {slide.stat.value}
-                    </span>
-                    <span className="text-xs font-medium uppercase tracking-wider text-white/70">
-                      {slide.stat.label}
-                    </span>
+                  <div className="flex shrink-0 items-center gap-1.5">
+                    {SLIDES.map((s, i) => (
+                      <button
+                        key={s.id}
+                        type="button"
+                        onClick={() => goTo(i)}
+                        aria-label={`Show the ${s.chapter} slide`}
+                        aria-current={i === active ? "true" : undefined}
+                        className={cn(
+                          "block rounded-full transition-all duration-500",
+                          i === active
+                            ? "h-2 w-7 bg-white"
+                            : "h-2 w-2 bg-white/50 hover:bg-white/80"
+                        )}
+                      />
+                    ))}
                   </div>
-                )}
-
-                {/* CTAs */}
-                <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
-                  <Link
-                    href={slide.href}
-                    onClick={() =>
-                      trackCTAClick({
-                        location: "hero-slider",
-                        label: slide.cta,
-                        href: slide.href,
-                      })
-                    }
-                    className="group inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-white shadow-glow-orange transition-transform hover:scale-[1.02] gradient-orange"
-                  >
-                    {slide.cta}
-                    <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                  </Link>
-                  <a
-                    href={`tel:${company.phonePrimaryHref}`}
-                    onClick={() =>
-                      trackPhoneClick({
-                        location: "hero-slider",
-                        phone: company.phonePrimary,
-                      })
-                    }
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-all hover:bg-white/20"
-                  >
-                    <Phone className="h-4 w-4" />
-                    {company.phonePrimary}
-                  </a>
                 </div>
-              </motion.div>
-            </AnimatePresence>
 
-            {/* === Trust row (always visible) === */}
-            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-white/85">
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-3.5 w-3.5 fill-orange text-orange" />
-                ))}
-                <span className="ml-1.5 font-semibold">4.9/5</span>
-                <span className="text-white/60">· {company.stats.googleReviews}+ reviews</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="h-3.5 w-3.5 text-orange" />
-                Child-safe
-              </div>
-              <div className="flex items-center gap-1.5">
-                <ShieldCheck className="h-3.5 w-3.5 text-orange" />
-                180-day warranty
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Clock className="h-3.5 w-3.5 text-orange" />
-                {company.stats.avgResponseMins}-min response
+                {/* Auto-advance progress */}
+                <div className="absolute inset-x-0 bottom-0 h-[3px] bg-white/25" aria-hidden>
+                  <motion.div
+                    key={`${slide.id}-${isPaused}`}
+                    className="h-full bg-orange"
+                    initial={{ width: "0%" }}
+                    animate={{ width: isPaused ? "0%" : "100%" }}
+                    transition={{ duration: isPaused ? 0 : SLIDE_DURATION / 1000, ease: "linear" }}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* === Bottom: slide indicators + progress bar === */}
-      <div className="absolute inset-x-0 bottom-0 z-20">
-        {/* Progress bar */}
-        {!reduceMotion && !paused && (
-          <div className="h-0.5 w-full bg-white/15">
-            <motion.div
-              key={active + (paused ? "p" : "r")}
-              className="h-full origin-left"
-              style={{ backgroundColor: accentColor }}
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: SLIDE_DURATION / 1000, ease: "linear" }}
-            />
-          </div>
-        )}
-
-        {/* Dots */}
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2">
+        {/* ---------- Auto-scrolling chapter ribbon (click any frame to jump) ---------- */}
+        <div className="mask-fade-edges relative mt-6 lg:mt-8">
+          <Marquee
+            speed={40}
+            trackClassName="items-center gap-3 py-1"
+            ariaLabel="Browse the hero chapters"
+          >
             {SLIDES.map((s, i) => (
               <button
                 key={s.id}
-                onClick={() => setActive(i)}
-                aria-label={`Go to slide ${i + 1}: ${s.eyebrow}`}
-                aria-current={i === active}
-                className="group relative h-2 overflow-hidden rounded-full bg-white/25 transition-all"
-                style={{ width: i === active ? 40 : 16 }}
-              >
-                {i === active && (
-                  <span
-                    className="absolute inset-0"
-                    style={{ backgroundColor: accentColor }}
-                  />
+                type="button"
+                onClick={() => goTo(i)}
+                aria-label={`Show the ${s.chapter} slide`}
+                aria-current={i === active ? "true" : undefined}
+                className={cn(
+                  "group relative h-10 w-20 flex-shrink-0 overflow-hidden rounded-xl border transition-all sm:h-11 sm:w-28",
+                  i === active
+                    ? "border-orange/60 ring-2 ring-orange/25"
+                    : "border-brown/10 hover:border-orange/35"
                 )}
+              >
+                <Image
+                  src={s.image}
+                  alt=""
+                  fill
+                  sizes="112px"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <span
+                  className={cn(
+                    "absolute inset-0 transition-colors",
+                    i === active ? "bg-brown/10" : "bg-brown/35 group-hover:bg-brown/20"
+                  )}
+                />
+                <span className="absolute bottom-1 left-1.5 text-[9px] font-bold tracking-[0.12em] text-white uppercase drop-shadow">
+                  {s.chapter}
+                </span>
               </button>
             ))}
-          </div>
-
-          {/* Slide counter */}
-          <div className="hidden font-display text-sm font-bold text-white/80 sm:block">
-            <span className="text-white">{String(active + 1).padStart(2, "0")}</span>
-            <span className="text-white/40"> / {String(SLIDES.length).padStart(2, "0")}</span>
-          </div>
+          </Marquee>
         </div>
       </div>
     </section>

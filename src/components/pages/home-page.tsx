@@ -48,10 +48,10 @@ import { brand } from "@/data/brand";
  */
 
 // Lazy-loaded below-the-fold sections (separate JS chunks, SSR preserved for SEO)
-const BeforeAfterSlider = dynamic(
-  () => import("@/components/site/before-after-slider").then((m) => m.BeforeAfterSlider),
-  { ssr: true, loading: () => <div className="h-[600px] bg-brown/5" aria-hidden /> }
-);
+// const BeforeAfterSlider = dynamic(
+//   () => import("@/components/site/before-after-slider").then((m) => m.BeforeAfterSlider),
+//   { ssr: true, loading: () => <div className="h-[600px] bg-brown/5" aria-hidden /> }
+// );
 const WhyChooseStrip = dynamic(
   () => import("@/components/site/why-choose-strip").then((m) => m.WhyChooseStrip),
   { ssr: true, loading: () => <div className="h-[400px] bg-brown/5" aria-hidden /> }
@@ -111,7 +111,7 @@ export function HomePage() {
       <PestTrailDivider variant="mosquito" />
 
       {/* 08 — Draggable before/after result comparison */}
-      <BeforeAfterSlider />
+      {/* <BeforeAfterSlider /> */}
 
       {/* 09 — Why choose Siva (image-card reasons) */}
       <WhyChooseStrip />

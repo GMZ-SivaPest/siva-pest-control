@@ -6,7 +6,7 @@ import { ProcessPage } from "@/components/pages/process-page";
 export const metadata: Metadata = {
   title: "Our Process",
   description:
-    "A documented 5-step process: free inspection, custom treatment plan, expert execution, follow-up guarantee, and warranty support. Every visit logged, every warranty honoured.",
+    "A documented 5-step process: fixed-price quote, customised treatment plan, expert execution, follow-up guarantee, and warranty support. Every visit logged, every warranty honoured.",
   alternates: {
     canonical: `${company.siteUrl}/process`,
   },

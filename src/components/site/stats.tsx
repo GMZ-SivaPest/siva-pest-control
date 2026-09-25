@@ -12,7 +12,7 @@ const stats = [
     value: company.stats.homesProtected,
     suffix: "+",
     label: "Homes protected",
-    sublabel: `Across 3 cities since ${company.foundedYear}`,
+    sublabel: `Across 2 states since ${company.foundedYear}`,
     accent: "orange",
   },
   {

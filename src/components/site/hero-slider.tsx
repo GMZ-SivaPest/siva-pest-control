@@ -117,7 +117,7 @@ const SLIDES: Slide[] = [
   {
     id: "mosquito-fogging",
     chapter: "Outdoors",
-    image: "/images/carousel/mosquito-fogging.jpg",
+    image: "/images/carousel/mosquito-fogging.png",
     alt: "Outdoor mosquito fogging treatment in a residential compound",
     eyebrow: "Garden & terrace",
     title: "Reclaim your",
@@ -139,7 +139,7 @@ const SLIDES: Slide[] = [
     blurb:
       "A written 180-day warranty, a free day-7 re-inspection and child-safe documentation with every single job.",
     href: "/contact",
-    cta: "Book a free inspection",
+    cta: "Book a service",
     stat: { value: "12,000+", label: "homes protected" },
   },
 ];

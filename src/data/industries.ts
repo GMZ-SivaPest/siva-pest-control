@@ -21,6 +21,7 @@ export interface Industry {
   name: string;
   icon: LucideIcon;
   image: string;
+  imageAlt?: string;
   short: string;
   description: string;
   pests: string[];
@@ -33,6 +34,7 @@ export const industries: Industry[] = [
     name: "Restaurants & Cloud Kitchens",
     icon: Utensils,
     image: "/images/industries/restaurant.jpg",
+    imageAlt: "Restaurant dining room and commercial kitchen environment",
     short: "FSSAI-compliant pest control for QSRs, fine dining, and cloud kitchens.",
     description:
       "Restaurants and cloud kitchens face the strictest pest control scrutiny from FSSAI and food delivery aggregators. Our restaurant programme combines tamper-proof bait stations, drain fly treatment, fly-killing UV units, and digital service logs that satisfy any auditor. We work with single-outlet fine dining and 200+ outlet QSR chains alike.",
@@ -44,6 +46,7 @@ export const industries: Industry[] = [
     name: "Hotels & Hospitality",
     icon: Hotel,
     image: "/images/industries/hotel.jpg",
+    imageAlt: "Hotel lobby with guest seating and hospitality interiors",
     short: "Discreet, guest-friendly pest control for hotels, resorts, and serviced apartments.",
     description:
       "Hotels cannot afford a single guest sighting of any pest. Our hospitality programme uses unmarked vehicles, off-peak service windows, mattress-safe bed bug protocols, and discreet monitoring in guest rooms, kitchens, and pool areas. Trusted by 5-star properties and boutique resorts across South India.",
@@ -55,6 +58,7 @@ export const industries: Industry[] = [
     name: "Warehouses & Logistics",
     icon: Warehouse,
     image: "/images/industries/warehouse.jpg",
+    imageAlt: "Warehouse aisle with stacked cartons and a safety-vested worker",
     short: "Stored-product pest protection for warehouses, cold storage, and 3PL facilities.",
     description:
       "Warehouses store high-value inventory vulnerable to rodent damage and stored-product pest contamination. Our warehouse programme uses perimeter bait stations, indoor monitoring traps, fumigation-on-arrival for inbound shipments, and detailed trending reports. Ideal for FMCG, pharma, e-commerce, and food distribution.",
@@ -66,9 +70,10 @@ export const industries: Industry[] = [
     name: "Retail & Malls",
     icon: ShoppingBag,
     image: "/images/industries/retail.jpg",
+    imageAlt: "Bright shopping mall interior with retail stores",
     short: "Customer-friendly pest control for malls, supermarkets, and apparel chains.",
     description:
-      "Retail environments cannot spray during operating hours and cannot risk customer sightings. Our retail programme uses after-hours gel-bait treatment, fly-killing UV units in food courts, rodent monitoring in stockrooms, and bird spikes on signage. Trusted by leading malls in Hyderabad, Chennai, and Bangalore.",
+      "Retail environments cannot spray during operating hours and cannot risk customer sightings. Our retail programme uses after-hours gel-bait treatment, fly-killing UV units in food courts, rodent monitoring in stockrooms, and bird spikes on signage. Trusted by leading malls across Andhra Pradesh and Telangana.",
     pests: ["Cockroaches", "Flies", "Rodents", "Birds"],
     compliance: ["Mall operations norms", "Food court hygiene"],
   },
@@ -77,6 +82,7 @@ export const industries: Industry[] = [
     name: "Hospitals & Clinics",
     icon: HeartPulse,
     image: "/images/industries/healthcare.jpg",
+    imageAlt: "Clean healthcare lobby with visitors and reception seating",
     short: "Hospital-grade pest control calibrated for sensitive healthcare environments.",
     description:
       "Healthcare facilities cannot use standard pest control chemicals near patients, ICUs, or sterile stores. Our healthcare programme uses pheromone traps, mechanical exclusion, hospital-grade disinfectants, and odour-free formulations only. We service multi-specialty hospitals, dialysis centres, and diagnostic labs.",
@@ -87,7 +93,8 @@ export const industries: Industry[] = [
     slug: "offices",
     name: "Offices & Tech Parks",
     icon: Building2,
-    image: "/images/showcase/work-bird-spike.jpg",
+    image: "/images/misc/about-hero.png",
+    imageAlt: "Professional pest control team outside a large commercial property",
     short: "After-hours pest control for IT parks, co-working spaces, and corporate offices.",
     description:
       "Modern offices face unique pest pressure — pantry cockroaches, server-room rodents, and bird fouling on glass facades. Our office programme uses after-hours service, pantry-focused gel-bait protocols, server-room mechanical trapping, and quarterly trend reports for facility managers.",
@@ -98,7 +105,8 @@ export const industries: Industry[] = [
     slug: "education",
     name: "Schools & Institutions",
     icon: School,
-    image: "/images/treatments/gel-bait-application.jpg",
+    image: "/images/industries/healthcare.jpg",
+    imageAlt: "Bright, family-friendly institutional lobby with visitors",
     short: "Child-safe pest control for schools, colleges, hostels, and daycares.",
     description:
       "Educational institutions demand the strictest safety standards. Our schools programme uses non-toxic monitoring, gel-bait only (no sprays in classrooms), vacation-period deep treatments, and full documentation for parent communications. Compliant with all state education board safety norms.",
@@ -110,6 +118,7 @@ export const industries: Industry[] = [
     name: "Manufacturing & FMCG",
     icon: Factory,
     image: "/images/industries/manufacturing.jpg",
+    imageAlt: "Industrial production floor with equipment and a safety-uniformed worker",
     short: "Audit-ready IPM for food manufacturing, packaging, and pharma production.",
     description:
       "Manufacturing units face the most demanding audit standards — BRC, AIB, ISO 22000, and customer-specific audits. Our manufacturing programme includes full IPM documentation, trend analysis, integrated rodent perimeter, flying insect control, and dedicated audit-attendance support. Trusted by Tier-1 FMCG and pharma manufacturers.",
@@ -120,11 +129,12 @@ export const industries: Industry[] = [
     slug: "pre-post-construction",
     name: "Pre & Post Construction",
     icon: HardHat,
-    image: "/images/treatments/termite-drill-treatment.jpg",
+    image: "/images/treatments/termite-drill-treatment.png",
+    imageAlt: "Technician drilling a concrete floor for pre-construction termite treatment",
     short:
       "Anti-termite soil treatment during foundation stage — protects new structures for 10+ years.",
     description:
-      "The single most effective termite defence is a chemical soil barrier applied during the construction phase — before the foundation slab is poured. Our pre-construction anti-termite treatment creates a continuous termiticide barrier beneath and around the structure, protecting the building for 10+ years. Post-construction treatment uses the drill-fill-seal method for existing structures. Trusted by builders, developers, and architects across Hyderabad, Chennai, and Bangalore.",
+      "The single most effective termite defence is a chemical soil barrier applied during the construction phase — before the foundation slab is poured. Our pre-construction anti-termite treatment creates a continuous termiticide barrier beneath and around the structure, protecting the building for 10+ years. Post-construction treatment uses the drill-fill-seal method for existing structures. Trusted by builders, developers, and architects across Andhra Pradesh and Telangana.",
     pests: ["Subterranean termites", "Drywood termites", "Wood borers"],
     compliance: ["IS 6313 (Part 2)", "NBC 2016", "Builder warranty norms"],
   },
@@ -132,7 +142,8 @@ export const industries: Industry[] = [
     slug: "transport-hubs",
     name: "Transport Hubs & Ports",
     icon: TrainFront,
-    image: "/images/showcase/work-rodent-station.jpg",
+    image: "/images/industries/warehouse.jpg",
+    imageAlt: "Large logistics warehouse representing cargo and transport operations",
     short:
       "High-traffic pest control for airports, seaports, railway stations, and metro depots.",
     description:

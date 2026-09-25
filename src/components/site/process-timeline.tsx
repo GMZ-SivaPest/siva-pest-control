@@ -149,7 +149,7 @@ export function ProcessPrinciples() {
           light
           eyebrow="Why it works"
           title="Five principles behind every treatment"
-          subtitle="Documented operating procedures, not marketing claims — audited under ISO 9001:2015 and applied identically in all three cities."
+          subtitle="Documented operating procedures, not marketing claims — audited under ISO 9001:2015 and applied identically across both states."
         />
 
         <StaggerContainer className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" stagger={0.06}>

@@ -108,12 +108,13 @@ export function ProcessPage() {
                 </div>
                 <div className="col-span-2 grid gap-3 p-6 sm:grid-cols-2 sm:p-8">
                   {[
-                    "Free on-site inspection (termite, rodent, commercial)",
-                    "Fixed-price quote before any work begins",
+                    "On-site assessment by the technician doing the work",
+                    "Fixed-price quote before any product is applied",
                     "Photo-documented service report",
                     "Written re-treatment warranty",
                     "Scheduled follow-up visit (per service)",
                     "Safety data sheet on request",
+                    "Odourless / low-odour options on request",
                     "Prevention advisory report",
                     "Priority support line for warranty claims",
                   ].map((item) => (

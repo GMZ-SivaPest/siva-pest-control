@@ -3,43 +3,48 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ArrowUpRight, Baby, ShieldCheck, Microscope, Clock } from "lucide-react";
+import { ArrowUpRight, HeartPulse, Leaf, SprayCan, BadgeCheck } from "lucide-react";
 import { SectionHeading } from "./section-heading";
 
 /**
  * WhyChooseStrip — compact 4-card image strip for the homepage.
  *
  * Replaces the heavier <WhyChooseUs /> (8 cards, no images) on the homepage.
- * Shows just 4 main reasons as image cards with a one-line punchline each.
- * Links to /about for the full reasoning — keeps homepage light and image-heavy.
+ * The four cards here are the household-pest headline claims: eco-friendly
+ * chemicals, safety for pregnant women / kids / elderly, the odour choice, and
+ * certified & licensed provider status. Links to /about for the full reasoning.
  */
 const reasons = [
   {
-    icon: Baby,
-    title: "Child-safe first",
-    punchline: "If it isn't safe for a crawling toddler, we don't use it.",
-    image: "/images/showcase/work-bedbug-steam.jpg",
-    accent: "orange",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Written warranties",
-    punchline: "180-day to 5-year — honoured without paperwork.",
-    image: "/images/showcase/work-warehouse-termite.jpg",
+    icon: Leaf,
+    title: "Eco-friendly chemicals",
+    punchline:
+      "Low-toxicity, CIB & RC registered actives. Safety profile first, kill rate second.",
+    image: "/images/showcase/work-restaurant-kitchen.png",
     accent: "teal",
   },
   {
-    icon: Microscope,
-    title: "Science-led protocols",
-    punchline: "Calibrated for South Indian pests, climate, construction.",
-    image: "/images/showcase/work-restaurant-kitchen.jpg",
+    icon: HeartPulse,
+    title: "Safe for kids & elderly",
+    punchline:
+      "Protocols chosen around pregnant women, children and senior citizens in the home.",
+    image: "/images/showcase/work-bedbug-steam.png",
+    accent: "orange",
+  },
+  {
+    icon: SprayCan,
+    title: "Odourless on request",
+    punchline:
+      "High-quality chemicals in odour-controlled and fully odourless variants.",
+    image: "/images/treatments/gel-bait-application.png",
     accent: "brown",
   },
   {
-    icon: Clock,
-    title: "30-min response",
-    punchline: "Local field teams in every city we serve.",
-    image: "/images/misc/about-hero-team.png",
+    icon: BadgeCheck,
+    title: "Certified & licensed",
+    punchline:
+      "ISO 9001 certified licensed provider. Written warranty on every treatment.",
+    image: "/images/showcase/work-warehouse-termite.png",
     accent: "orange",
   },
 ];

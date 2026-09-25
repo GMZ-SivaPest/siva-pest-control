@@ -42,7 +42,9 @@ const EMPTY_FORM: FormState = {
   name: "",
   phone: "",
   email: "",
-  city: "Hyderabad",
+  // Default to the first bookable city so this can never drift out of sync
+  // with locations.ts when a branch is added or removed.
+  city: bookableCities[0] ?? "Isukapalli",
   service: services[0].name,
   propertyType: "Residential",
   message: "",
@@ -309,8 +311,19 @@ export function ContactForm() {
                         ? `${loc.address.line1}, ${loc.address.line2} — ${loc.address.pincode}`
                         : loc.branchLabel}
                     </div>
-                    <div className="mt-1 text-[11px] font-medium text-orange">
-                      {loc.phone}
+                    <div className="mt-1 space-y-0.5 text-[11px] font-medium text-orange">
+                      <a
+                        href={`tel:${loc.phoneHref}`}
+                        className="block hover:underline"
+                      >
+                        {loc.phone}
+                      </a>
+                      <a
+                        href={`tel:${loc.phoneAltHref}`}
+                        className="block hover:underline"
+                      >
+                        {loc.phoneAlt}
+                      </a>
                     </div>
                   </div>
                 ))}
@@ -532,7 +545,7 @@ export function ContactForm() {
                     onClick={() =>
                       trackCTAClick({
                         location: "contact-form-submit",
-                        label: "Request Free Quote",
+                        label: "Request a Quote",
                         href: "/contact",
                       })
                     }
@@ -546,7 +559,7 @@ export function ContactForm() {
                     ) : (
                       <>
                         <Send className="h-4 w-4" />
-                        Request Free Quote
+                        Request a Quote
                       </>
                     )}
                   </button>

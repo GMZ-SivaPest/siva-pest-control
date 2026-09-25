@@ -16,10 +16,10 @@ export interface ProcessStep {
 export const processSteps: ProcessStep[] = [
   {
     step: "01",
-    title: "Free Inspection & Quote",
+    title: "Booking & Fixed-Price Quote",
     description:
-      "A certified technician visits your property, conducts a calibrated inspection of pest pressure and entry points, and provides a fixed-price quote. For most residential services, we can quote over the phone and skip straight to scheduling.",
-    duration: "30–60 min",
+      "Call us, WhatsApp us, or send the quote form. Based on your property type, area and pest, we give you a fixed price before anything is booked — over the phone for most residential services. One price, no upsell at the door.",
+    duration: "Same day",
     deliverable: "Fixed-price quote, no obligation",
     image: "/images/carousel/termite-inspection.jpg",
     imageAlt:
@@ -27,12 +27,12 @@ export const processSteps: ProcessStep[] = [
   },
   {
     step: "02",
-    title: "Customised Treatment Plan",
+    title: "Treatment Visit & Customised Protocol",
     description:
-      "Based on the inspection, we design a site-specific protocol — product selection, placement map, re-entry time, and prevention advisory. You receive a written treatment plan and safety data sheet before any work begins.",
+      "Your assigned technician arrives in uniform, in a GPS-tracked vehicle, with photo ID verified. On arrival they inspect the property, then design a site-specific protocol — product selection, placement map, re-entry time, and prevention advisory. You receive a written treatment plan and safety data sheet before any product is applied.",
     duration: "Same day",
     deliverable: "Written treatment plan + SDS",
-    image: "/images/showcase/work-restaurant-kitchen.jpg",
+    image: "/images/showcase/work-restaurant-kitchen.png",
     imageAlt:
       "Siva technician documenting a site-specific treatment plan at a commercial kitchen",
   },
@@ -43,7 +43,7 @@ export const processSteps: ProcessStep[] = [
       "Your assigned technician arrives in uniform, in a GPS-tracked vehicle, with photo ID verified. He walks you through the treatment, applies products per protocol, documents every placement point, and briefs you on re-entry and prevention.",
     duration: "45 min – 5 hrs (service-dependent)",
     deliverable: "Digital service report with photo evidence",
-    image: "/images/treatments/gel-bait-application.jpg",
+    image: "/images/treatments/gel-bait-application.png",
     imageAlt:
       "Siva technician in PPE uniform applying gel-bait treatment with precision equipment",
   },
@@ -54,7 +54,7 @@ export const processSteps: ProcessStep[] = [
       "Most services include a scheduled follow-up visit (day 14 for cockroach gel, day 30 for rodent, etc.). Commercial IPM contracts include bi-weekly monitoring with trend reports. We log every visit and adjust protocol if needed.",
     duration: "Per service schedule",
     deliverable: "Trend report + protocol adjustments",
-    image: "/images/treatments/commercial-ipm-monitor.jpg",
+    image: "/images/treatments/commercial-ipm-monitor.png",
     imageAlt:
       "Siva technician inspecting a tamper-proof IPM monitoring station during a follow-up visit",
   },
@@ -73,9 +73,9 @@ export const processSteps: ProcessStep[] = [
 
 export const processPrinciples = [
   {
-    title: "Inspect before we treat",
+    title: "Treat what we see, not what we assume",
     description:
-      "Every treatment begins with a calibrated inspection. We treat what we see, not what we assume — and we document everything with photos.",
+      "Every treatment begins with an on-site assessment by the technician doing the work. There is no separate pre-visit call-out — we diagnose and treat in the same visit, and document everything with photos.",
   },
   {
     title: "Child-safe first, always",

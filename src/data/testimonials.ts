@@ -9,7 +9,9 @@ export interface Testimonial {
   name: string;
   role: string;
   location: string;
-  city: "Hyderabad" | "Chennai" | "Bangalore";
+  /** Only the states we currently staff — Chennai, Bangalore and Kochi are
+      future branches, so we don't publish testimonials attributed to them. */
+  city: "Hyderabad" | "Isukapalli";
   rating: number;
   text: string;
   service: string;
@@ -49,8 +51,8 @@ export const testimonials: Testimonial[] = [
     id: "t3",
     name: "Lakshmi Venkat",
     role: "Apartment Secretary",
-    location: "Adyar",
-    city: "Chennai",
+    location: "Vijayawada",
+    city: "Isukapalli",
     rating: 5,
     text: "Our 84-apartment complex was battling coastal roach pressure for years. Siva designed a coordinated building-wide protocol — every flat treated the same week, shared plumbing stacks addressed, monthly monitoring. We've been roach-free for 14 months now.",
     service: "Apartment-wide IPM",
@@ -62,8 +64,8 @@ export const testimonials: Testimonial[] = [
     id: "t4",
     name: "Dr. Karthik Subramaniam",
     role: "Hospital Administrator",
-    location: "T. Nagar",
-    city: "Chennai",
+    location: "Kakinada",
+    city: "Isukapalli",
     rating: 5,
     text: "Healthcare pest control has zero margin for error. Siva uses odour-free formulations, pheromone monitoring, and works around our ICU and sterile stores without disrupting operations. Their documentation satisfies every NABH audit. They're an extension of our infection-control team.",
     service: "Healthcare IPM",
@@ -75,8 +77,8 @@ export const testimonials: Testimonial[] = [
     id: "t5",
     name: "Priya Iyer",
     role: "Homeowner",
-    location: "Indiranagar",
-    city: "Bangalore",
+    location: "Kondapur",
+    city: "Hyderabad",
     rating: 5,
     text: "After a trip to Goa, we brought back bed bugs — the worst 3 weeks of our lives. Siva's two-cycle heat and spray protocol worked exactly as promised. The day-14 follow-up caught the nymphs. They even advised us on luggage hygiene. Genuinely caring team.",
     service: "Bed Bugs Elimination",
@@ -88,8 +90,8 @@ export const testimonials: Testimonial[] = [
     id: "t6",
     name: "Vikram Rao",
     role: "Restaurant Owner",
-    location: "Koramangala",
-    city: "Bangalore",
+    location: "Gachibowli",
+    city: "Hyderabad",
     rating: 5,
     text: "Three cloud kitchens, one vendor, zero pest incidents in 18 months. Siva's digital service reports are ready for any Swiggy or Zomato audit. They installed UV fly units in kitchens, drain fly treatment at every sink, and tamper-proof bait stations. Worth every rupee.",
     service: "Restaurant IPM",
@@ -114,8 +116,8 @@ export const testimonials: Testimonial[] = [
     id: "t8",
     name: "Suresh Pillai",
     role: "Warehouse Operations Head",
-    location: "Whitefield",
-    city: "Bangalore",
+    location: "Nizampatnam",
+    city: "Isukapalli",
     rating: 5,
     text: "We store FMCG inventory worth crores. Siva's perimeter rodent programme, indoor monitoring traps, and inbound fumigation protocol have reduced our pest-related rejection rate to zero. Their monthly trend reports are the first thing our quality team reviews.",
     service: "Warehouse IPM",

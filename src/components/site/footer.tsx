@@ -45,7 +45,7 @@ export function Footer() {
               Ready to protect your space?
             </h3>
             <p className="mt-2 max-w-xl text-sm text-white/75">
-              Free inspection, fixed-price quote, certified technicians. Same-day service available from our offices in {activeLocations.map((l) => l.label).join(", ")}.
+              Fixed-price quote, certified technicians. Same-day service available from our offices in {activeLocations.map((l) => l.label).join(", ")}.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
@@ -53,7 +53,7 @@ export function Footer() {
               href="/contact"
               className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02] gradient-orange"
             >
-              Get Free Quote
+              Get a Quote
               <ChevronRight className="h-4 w-4" aria-hidden="true" />
             </Link>
             <a

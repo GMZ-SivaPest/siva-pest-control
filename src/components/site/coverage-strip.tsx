@@ -68,21 +68,31 @@ export function CoverageStrip() {
                   {loc.tagline}
                 </p>
 
-                <div className="mt-auto flex items-center justify-between gap-3 border-t border-brown/10 pt-4 mt-5">
+                <div className="mt-auto flex flex-col gap-2 border-t border-brown/10 pt-4 mt-5">
                   <p className="flex min-w-0 items-center gap-1.5 text-xs text-brown/60">
                     <Building2 className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true" />
                     <span className="truncate">
                       {loc.address?.line1 ?? "Service by appointment"}
                     </span>
                   </p>
-                  <a
-                    href={`tel:${loc.phoneHref}`}
-                    className="inline-flex flex-shrink-0 items-center gap-1.5 rounded-full border border-brown/15 px-3 py-1.5 text-xs font-semibold text-brown transition-colors hover:border-orange/40 hover:text-orange-ink"
-                    aria-label={`Call the ${loc.label} office`}
-                  >
-                    <Phone className="h-3.5 w-3.5" aria-hidden="true" />
-                    Call
-                  </a>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <a
+                      href={`tel:${loc.phoneHref}`}
+                      className="inline-flex flex-shrink-0 items-center gap-1.5 rounded-full border border-brown/15 px-3 py-1.5 text-xs font-semibold text-brown transition-colors hover:border-orange/40 hover:text-orange-ink"
+                      aria-label={`Call the ${loc.label} office on ${loc.phone}`}
+                    >
+                      <Phone className="h-3.5 w-3.5" aria-hidden="true" />
+                      {loc.phone}
+                    </a>
+                    <a
+                      href={`tel:${loc.phoneAltHref}`}
+                      className="inline-flex flex-shrink-0 items-center gap-1.5 rounded-full border border-brown/15 px-3 py-1.5 text-xs font-semibold text-brown transition-colors hover:border-orange/40 hover:text-orange-ink"
+                      aria-label={`Call the ${loc.label} office on ${loc.phoneAlt}`}
+                    >
+                      <Phone className="h-3.5 w-3.5" aria-hidden="true" />
+                      {loc.phoneAlt}
+                    </a>
+                  </div>
                 </div>
               </article>
             </Reveal>

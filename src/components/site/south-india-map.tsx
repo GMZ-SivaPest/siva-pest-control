@@ -662,6 +662,13 @@ export function SouthIndiaMap({ className, showDetail = true }: { className?: st
                       <Phone className="h-3 w-3" />
                       {activeLocation.phone}
                     </a>
+                    <a
+                      href={`tel:${activeLocation.phoneAltHref}`}
+                      className="mt-1 inline-flex items-center gap-1 text-[11px] font-semibold text-orange hover:underline"
+                    >
+                      <Phone className="h-3 w-3" />
+                      {activeLocation.phoneAlt}
+                    </a>
                   </div>
                 </div>
               </div>

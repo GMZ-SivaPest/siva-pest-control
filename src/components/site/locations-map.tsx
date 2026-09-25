@@ -22,7 +22,7 @@ export function LocationsMap() {
         <SectionHeading
           eyebrow="Where we serve"
           title="Protecting homes across South India"
-          subtitle="Local teams, local knowledge, local response — backed by the resources and protocols of a regional network with three open offices across Andhra Pradesh, Telangana and Karnataka. Chennai and Kochi branches are opening soon."
+          subtitle="Local teams, local knowledge, local response — backed by the resources and protocols of a regional network with two staffed offices across Andhra Pradesh and Telangana. Chennai, Bangalore and Kochi branches are future branches."
         />
 
         <div className="mt-8 grid gap-8 lg:gap-10 items-start">
@@ -91,10 +91,20 @@ export function LocationsMap() {
                           )}
                         </span>
                       )}
-                      <span className="inline-flex items-center gap-1.5">
-                        <Phone className="h-3.5 w-3.5 text-orange" />
+                      <a
+                        href={`tel:${loc.phoneHref}`}
+                        className="inline-flex items-center gap-1.5 text-orange hover:underline"
+                      >
+                        <Phone className="h-3.5 w-3.5" />
                         {loc.phone}
-                      </span>
+                      </a>
+                      <a
+                        href={`tel:${loc.phoneAltHref}`}
+                        className="inline-flex items-center gap-1.5 text-orange hover:underline"
+                      >
+                        <Phone className="h-3.5 w-3.5" />
+                        {loc.phoneAlt}
+                      </a>
                     </div>
 
                     <div className="mt-4 flex flex-wrap gap-1.5">

@@ -95,7 +95,7 @@ const slides: ShowcaseSlide[] = [
     href: "/services/bed-bugs-treatment",
   },
   {
-    src: "/images/treatments/gel-bait-application.jpg",
+    src: "/images/treatments/gel-bait-application.png",
     alt: "Pest control technician in PPE uniform applying gel bait with a syringe into a kitchen cabinet hinge",
     tag: "Child-Safe Formulations",
     title: "Premium Gel-Bait Science",
@@ -104,7 +104,7 @@ const slides: ShowcaseSlide[] = [
     href: "/services/cockroach-gel-treatment",
   },
   {
-    src: "/images/treatments/termite-drill-treatment.jpg",
+    src: "/images/treatments/termite-drill-treatment.png",
     alt: "Pest control technician drilling holes along a concrete floor for termite barrier treatment",
     tag: "Termite Barrier",
     title: "Drill-Fill-Seal Method",
@@ -113,7 +113,7 @@ const slides: ShowcaseSlide[] = [
     href: "/services/termite-control",
   },
   {
-    src: "/images/treatments/rodent-bait-station.jpg",
+    src: "/images/treatments/rodent-bait-station.png",
     alt: "Tamper-proof rodent bait station installed along a garden wall with a technician's gloved hand",
     tag: "Rodent Control",
     title: "Tamper-Proof Bait Stations",
@@ -122,7 +122,7 @@ const slides: ShowcaseSlide[] = [
     href: "/services/rodent-control",
   },
   {
-    src: "/images/treatments/bed-bug-steam.jpg",
+    src: "/images/treatments/bed-bug-steam.png",
     alt: "Pest control technician using a steam machine on a mattress for bed bug elimination",
     tag: "Bed Bugs Elimination",
     title: "Two-Cycle Heat + Spray Protocol",
@@ -131,7 +131,7 @@ const slides: ShowcaseSlide[] = [
     href: "/services/bed-bugs-treatment",
   },
   {
-    src: "/images/treatments/mosquito-fogging.jpg",
+    src: "/images/treatments/mosquito-fogging.png",
     alt: "Pest control technician operating a thermal fogging machine at twilight in a residential gated community",
     tag: "Outdoor Mosquito Fogging",
     title: "Campus & Event Venue Fogging",
@@ -140,7 +140,7 @@ const slides: ShowcaseSlide[] = [
     href: "/services/fogging-service",
   },
   {
-    src: "/images/treatments/bird-spike-install.jpg",
+    src: "/images/treatments/bird-spike-install.png",
     alt: "Stainless steel bird spikes being installed on a residential balcony ledge to deter pigeons",
     tag: "Bird Spikes & Netting",
     title: "Humane Pigeon Exclusion Systems",
@@ -149,7 +149,7 @@ const slides: ShowcaseSlide[] = [
     href: "/services/bird-management",
   },
   {
-    src: "/images/treatments/bee-hive-removal.jpg",
+    src: "/images/treatments/bee-hive-removal.png",
     alt: "Beekeeper in full protective suit with smoker removing a large honey bee hive comb from a residential wall",
     tag: "Honey Bee Hive Removal",
     title: "Live-Capture, No Extermination",
@@ -158,7 +158,7 @@ const slides: ShowcaseSlide[] = [
     href: "/services/honey-bee-removal",
   },
   {
-    src: "/images/treatments/snake-rescue.jpg",
+    src: "/images/treatments/snake-rescue.png",
     alt: "Professional snake rescue handler in protective gear using a snake hook to safely capture a cobra",
     tag: "Snake Rescue",
     title: "Safe Capture & Relocation",
@@ -167,7 +167,7 @@ const slides: ShowcaseSlide[] = [
     href: "/services/snake-control",
   },
   {
-    src: "/images/treatments/lizard-repellent.jpg",
+    src: "/images/treatments/lizard-repellent.png",
     alt: "Pest control technician spraying botanical repellent on a wall corner to deter lizards",
     tag: "Lizard Control",
     title: "Repellent + Source Treatment",
@@ -176,7 +176,7 @@ const slides: ShowcaseSlide[] = [
     href: "/services/lizard-control",
   },
   {
-    src: "/images/treatments/fly-uv-trap.jpg",
+    src: "/images/treatments/fly-uv-trap.png",
     alt: "UV fly light trap installed on a restaurant kitchen wall with dead flies visible on the glue board",
     tag: "Fly Control",
     title: "UV Light Traps for Commercial Kitchens",
@@ -185,12 +185,12 @@ const slides: ShowcaseSlide[] = [
     href: "/services/fly-control",
   },
   {
-    src: "/images/treatments/commercial-ipm-monitor.jpg",
+    src: "/images/treatments/commercial-ipm-monitor.png",
     alt: "Tamper-proof IPM monitoring station on a restaurant kitchen wall being inspected by a pest control technician",
     tag: "Commercial IPM",
     title: "FSSAI & HACCP Audit-Ready IPM",
     description:
-      "Tamper-proof monitors, digital service reports with trend analytics. Dedicated account manager across 3 cities.",
+      "Tamper-proof monitors, digital service reports with trend analytics. Dedicated account manager across both states.",
     href: "/services/commercial-ipm",
   },
   {
@@ -213,7 +213,7 @@ export function ShowcaseCarousel() {
         <SectionHeading
           eyebrow="In the field"
           title="Pest control, in action"
-          subtitle="A glimpse of the work our certified technicians do every day across Hyderabad, Chennai and Bangalore — from residential kitchens to commercial kitchens."
+          subtitle="A glimpse of the work our certified technicians do every day across Andhra Pradesh and Telangana — from residential kitchens to commercial kitchens."
         />
       </div>
 

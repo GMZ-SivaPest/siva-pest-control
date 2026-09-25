@@ -160,7 +160,7 @@ export function InlineQuoteForm({
             Get a quote for {serviceName}
           </h3>
           <p className="mt-1 text-sm text-brown/65">
-            Free inspection, no upsell, certified technician.
+            Fixed-price quote, no upsell, certified technician.
           </p>
         </div>
         <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-orange/10 text-orange">

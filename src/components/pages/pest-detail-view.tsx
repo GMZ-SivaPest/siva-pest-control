@@ -258,7 +258,7 @@ export function PestDetailView({ slug }: { slug: string }) {
                 <div className="relative min-h-[300px] bg-brown">
                   <Image
                     src={service.image}
-                    alt={service.name}
+                    alt={service.imageAlt ?? service.name}
                     fill
                     sizes="(max-width: 1024px) 100vw, 560px"
                     className="object-cover"

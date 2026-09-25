@@ -162,9 +162,9 @@ export function Hero() {
                   textShadow: "0 1px 12px rgba(0,0,0,0.45)",
                 }}
               >
-                Child-safe, pet-safe, odour-controlled pest control across Hyderabad, Chennai
-                and Bangalore. Backed by certified technicians, written warranties, and a
-                180-day service guarantee.
+                Child-safe, pet-safe, odour-controlled household pest control across
+                Andhra Pradesh and Telangana. Backed by certified technicians,
+                written warranties, and a 180-day service guarantee.
               </motion.p>
 
               <motion.div
@@ -175,10 +175,10 @@ export function Hero() {
               >
                 <Link
                   href="/contact"
-                  onClick={() => trackCTAClick({ location: "hero", label: "Get Free Quote", href: "/contact" })}
+                  onClick={() => trackCTAClick({ location: "hero", label: "Get a Quote", href: "/contact" })}
                   className="group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02] gradient-orange"
                 >
-                  Get Free Quote
+                  Get a Quote
                   <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </Link>
                 <a
@@ -472,16 +472,18 @@ function HeroGlassComposition({
 }
 
 /**
- * CityPinConnections — three pins for Hyderabad, Chennai, Bangalore
- * with thin animated connecting lines between them.
- * Positioned across the upper portion of the hero.
+ * CityPinConnections — pins for our two live offices (Isukapalli head office
+ * and Hyderabad) plus one announced future branch, with thin animated
+ * connecting lines between them. Positioned across the upper portion of the
+ * hero. Future branches are labelled "Soon" so we never imply coverage we
+ * can't dispatch today.
  */
 function CityPinConnections() {
   // Pin positions in % of hero section
   const pins = [
-    { city: "Hyderabad", x: 24, y: 22, slug: "hyderabad" },
-    { city: "Chennai", x: 82, y: 28, slug: "chennai" },
-    { city: "Bangalore", x: 54, y: 16, slug: "bangalore" },
+    { city: "Hyderabad", x: 24, y: 22 },
+    { city: "Chennai", x: 82, y: 28, future: true },
+    { city: "Isukapalli", x: 54, y: 16 },
   ];
 
   return (
@@ -500,7 +502,7 @@ function CityPinConnections() {
             <stop offset="1" stopColor="#F4B266" stopOpacity="0.5" />
           </linearGradient>
         </defs>
-        {/* Hyderabad → Bangalore */}
+        {/* Hyderabad → Isukapalli (head office) */}
         <line
           x1={pins[0].x}
           y1={pins[0].y}
@@ -511,7 +513,7 @@ function CityPinConnections() {
           strokeDasharray="1.2 0.8"
           style={{ animation: "dash-flow 22s linear infinite" }}
         />
-        {/* Bangalore → Chennai */}
+        {/* Isukapalli → Chennai (future branch) */}
         <line
           x1={pins[2].x}
           y1={pins[2].y}
@@ -567,6 +569,9 @@ function CityPinConnections() {
           {/* Pin label */}
           <span className="absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/20 bg-brown/70 px-2.5 py-0.5 text-[10px] font-semibold text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
             {pin.city}
+            {pin.future && (
+              <span className="ml-1 text-orange">· Soon</span>
+            )}
           </span>
         </Link>
       ))}

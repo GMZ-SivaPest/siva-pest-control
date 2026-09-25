@@ -75,7 +75,7 @@ function GalleryTile({
     <Link href={`/services/${service.slug}`} className="relative block h-full w-full">
       <Image
         src={service.image}
-        alt={service.name}
+        alt={service.imageAlt ?? service.name}
         fill
         sizes={
           featured

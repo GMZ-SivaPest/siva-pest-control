@@ -32,7 +32,7 @@ export const blogPosts: BlogPost[] = [
     slug: "monsoon-pest-pressure-south-india",
     title: "Monsoon Pest Pressure in South India: What Spikes and Why",
     excerpt:
-      "When the rains arrive in Hyderabad, Chennai and Bangalore, three pest populations explode almost overnight. Here's the science behind the surge — and the calendar that prevents it.",
+      "When the rains arrive in Andhra Pradesh and Telangana, three pest populations explode almost overnight. Here's the science behind the surge — and the calendar that prevents it.",
     category: "Seasonal",
     author: "Siva Pest Control Editorial",
     publishedOn: "2026-07-22",
@@ -125,7 +125,7 @@ export const blogPosts: BlogPost[] = [
     body: [
       {
         type: "p",
-        text: "Termite damage in India exceeds ₹2,500 crore annually, and the single largest contributor is late detection. The subterranean termite species most common in Hyderabad, Chennai and Bangalore — Odontotermes obesus and Coptotermes heimi — work inside wood, behind paint, and beneath flooring. By the time mud tubes appear on visible surfaces, the colony has been feeding for an average of 8 months. The good news: termites leave traces long before that. You just need to know where to look.",
+        text: "Termite damage in India exceeds ₹2,500 crore annually, and the single largest contributor is late detection. The subterranean termite species most common in Andhra Pradesh and Telangana — Odontotermes obesus and Coptotermes heimi — work inside wood, behind paint, and beneath flooring. By the time mud tubes appear on visible surfaces, the colony has been feeding for an average of 8 months. The good news: termites leave traces long before that. You just need to know where to look.",
       },
       {
         type: "h2",
@@ -185,7 +185,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "callout",
-        text: "Siva Pest Control offers a free 7-point termite risk assessment for homes across Hyderabad, Chennai and Bangalore. The inspection takes 35 minutes, includes a written report with risk scoring, and identifies active signs, vulnerable entry points, and recommended next steps. Book through the contact page or call us directly.",
+        text: "Our certified technician runs a 7-point termite risk assessment on the day of your anti-termite treatment — there is no separate pre-visit inspection call-out. The assessment covers active signs, vulnerable entry points, and recommended next steps, and you receive a photo-documented written report with risk scoring. Book through the contact page or call 77024 87195 (Andhra Pradesh) or 98491 57510 (Telangana).",
       },
       {
         type: "h2",
@@ -217,7 +217,7 @@ export const blogPosts: BlogPost[] = [
     body: [
       {
         type: "p",
-        text: "The Food Safety and Standards Authority of India (FSSAI) updated its pest-control compliance framework in 2024, with full enforcement from January 2025. For restaurants, cloud kitchens, and food manufacturers across Hyderabad, Chennai and Bangalore, the practical impact is twofold: documentation requirements are tighter, and audit cycles are more frequent. Yet most operators we work with over-prepare in the wrong areas and under-prepare in the right ones. This guide is a field-tested summary of what actually matters.",
+        text: "The Food Safety and Standards Authority of India (FSSAI) updated its pest-control compliance framework in 2024, with full enforcement from January 2025. For restaurants, cloud kitchens, and food manufacturers across Andhra Pradesh and Telangana, the practical impact is twofold: documentation requirements are tighter, and audit cycles are more frequent. Yet most operators we work with over-prepare in the wrong areas and under-prepare in the right ones. This guide is a field-tested summary of what actually matters.",
       },
       {
         type: "h2",
@@ -298,7 +298,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "p",
-        text: "If you're operating in Hyderabad, Chennai or Bangalore and want a no-obligation review of your current FSSAI pest-control documentation, we offer a free 60-minute audit-prep review. We've helped over 480 commercial sites pass FSSAI inspection — including 12 sites that had previously failed. Use the contact page to schedule.",
+        text: "If you're operating in Andhra Pradesh or Telangana and want a no-obligation review of your current FSSAI pest-control documentation, our account managers carry out an audit-prep review as part of your first site visit. We've helped over 480 commercial sites pass FSSAI inspection — including 12 sites that had previously failed. Use the contact page to schedule.",
       },
     ],
   },
@@ -448,7 +448,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "p",
-        text: "If you operate a PG or co-living space in Bangalore's tech corridors and have faced recurring bed bug issues, we offer a free 30-minute structural assessment. The assessment covers entry patterns, room-to-room migration pathways, and a recommended treatment calendar based on your specific tenant turnover profile.",
+        text: "If you operate a PG or co-living space in Hyderabad's tech corridors and have faced recurring bed bug issues, our technician covers entry patterns, room-to-room migration pathways, and a recommended treatment calendar based on your specific tenant turnover profile as part of your first treatment visit.",
       },
     ],
   },

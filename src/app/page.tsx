@@ -10,14 +10,14 @@ export const metadata: Metadata = {
   // page as "missing <title>" because Next 16 reads it as "explicitly
   // empty" rather than "inherit from layout".
   description:
-    "Licensed pest control across Hyderabad, Chennai and Bangalore. Child-safe, 30-min response, 180-day warranty. ISO 9001 certified.",
+    "Licensed pest control across Andhra Pradesh and Telangana. Eco-friendly, family-safe chemicals, 30-min response, 180-day warranty. ISO 9001 certified.",
   alternates: {
     canonical: company.siteUrl,
   },
   openGraph: {
     title: "Siva Pest Control — Licensed Protection for Homes & Businesses",
     description:
-      "Science-led pest control across Hyderabad, Chennai and Bangalore. Fully guaranteed treatments with 30-min response and child-safe formulations.",
+      "Science-led pest control across Andhra Pradesh and Telangana. Fully guaranteed treatments with 30-min response and eco-friendly, family-safe formulations.",
     url: company.siteUrl,
     type: "website",
     images: [

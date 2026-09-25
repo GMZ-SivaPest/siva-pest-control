@@ -58,7 +58,7 @@ interface WorkItem {
 
 const WORKS: WorkItem[] = [
   {
-    image: "/images/showcase/work-restaurant-kitchen.jpg",
+    image: "/images/showcase/work-restaurant-kitchen.png",
     alt: "Siva technician logging service at a clean restaurant kitchen with UV fly trap installed",
     title: "FSSAI-compliant IPM programme — 60-cover QSR",
     location: "T. Nagar, Chennai",
@@ -73,7 +73,7 @@ const WORKS: WorkItem[] = [
     segment: "commercial",
   },
   {
-    image: "/images/showcase/work-warehouse-termite.jpg",
+    image: "/images/showcase/work-warehouse-termite.png",
     alt: "Siva technician drilling into warehouse concrete floor for termite chemical barrier",
     title: "Warehouse perimeter termite barrier",
     location: "Whitefield, Bangalore",
@@ -88,7 +88,7 @@ const WORKS: WorkItem[] = [
     segment: "commercial",
   },
   {
-    image: "/images/showcase/work-bedbug-steam.jpg",
+    image: "/images/showcase/work-bedbug-steam.png",
     alt: "Siva technician applying steam treatment to a bedroom mattress for bed bug eradication",
     title: "Bed bug steam treatment — mattress",
     location: "Madhapur, Hyderabad",
@@ -103,7 +103,7 @@ const WORKS: WorkItem[] = [
     segment: "residential",
   },
   {
-    image: "/images/showcase/work-rodent-station.jpg",
+    image: "/images/showcase/work-rodent-station.png",
     alt: "Tamper-resistant rodent bait station installed along a warehouse exterior wall",
     title: "Rodent bait station network",
     location: "Guindy, Chennai",
@@ -117,7 +117,7 @@ const WORKS: WorkItem[] = [
     segment: "commercial",
   },
   {
-    image: "/images/showcase/work-beehive-removal.jpg",
+    image: "/images/showcase/work-beehive-removal.png",
     alt: "Siva technician in bee suit removing a large honeycomb hive from an apartment balcony",
     title: "Bee hive live relocation",
     location: "Koramangala, Bangalore",
@@ -131,7 +131,7 @@ const WORKS: WorkItem[] = [
     segment: "wildlife",
   },
   {
-    image: "/images/showcase/work-bird-spike.jpg",
+    image: "/images/showcase/work-bird-spike.png",
     alt: "Newly installed stainless steel bird spikes along a commercial building window ledge",
     title: "Bird spike installation — commercial ledge",
     location: "Hitech City, Hyderabad",
@@ -323,15 +323,15 @@ export function PreviousWorks() {
                   Want a similar treatment for your space?
                 </h3>
                 <p className="mt-1 text-sm text-brown/75">
-                  Free inspection, fixed-price quote, certified technicians.
-                  Same-day service in Hyderabad, Chennai and Bangalore.
+                  Fixed-price quote, certified technicians.
+                  Same-day service in Andhra Pradesh and Telangana.
                 </p>
               </div>
               <Link
                 href="/contact"
                 className="group inline-flex flex-shrink-0 items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-glow-orange transition-transform hover:scale-[1.02] gradient-orange"
               >
-                Book free inspection
+                Book a service
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
             </div>

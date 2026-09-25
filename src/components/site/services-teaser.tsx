@@ -25,7 +25,7 @@ export function ServicesTeaser() {
         <SectionHeading
           eyebrow="What we treat"
           title="Premium pest control, end to end"
-          subtitle="From odourless cockroach gel-bait to 5-year termite barriers to FSSAI-compliant commercial IPM — one vendor, three cities, every pest covered."
+          subtitle="From odourless cockroach gel-bait to 5-year termite barriers to FSSAI-compliant commercial IPM — one vendor, two states, every pest covered."
         />
 
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
@@ -46,7 +46,7 @@ export function ServicesTeaser() {
                   <div className="relative h-56 w-full overflow-hidden">
                     <Image
                       src={service.image}
-                      alt={service.name}
+                      alt={service.imageAlt ?? service.name}
                       fill
                       sizes="(max-width: 1024px) 100vw, 33vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-105"

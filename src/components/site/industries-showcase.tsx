@@ -32,7 +32,7 @@ export function IndustriesShowcase() {
                 <div className="relative h-32 w-full overflow-hidden">
                   <Image
                     src={industry.image}
-                    alt={industry.name}
+                    alt={industry.imageAlt ?? industry.name}
                     fill
                     sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 300px"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"

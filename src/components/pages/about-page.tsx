@@ -64,27 +64,27 @@ const milestones = [
   },
   {
     year: "2018",
-    title: "Chennai expansion",
+    title: "Andhra Pradesh head office",
     description:
-      "Opened the T. Nagar field office. Brought our science-led protocols to coastal Tamil Nadu.",
+      "Registered our head office at Isukapalli, Repalle — and brought coastal-Ap protocols to the Krishna delta belt.",
   },
   {
     year: "2021",
-    title: "Bangalore launch",
+    title: "ISO 9001 certification",
     description:
-      "Expanded to Koramangala. Adapted protocols for Bangalore's tech-park and gated-community density.",
+      "Achieved ISO 9001:2015 certification and standardised every protocol across the network.",
   },
   {
     year: "2023",
-    title: "ISO 9001 certification",
+    title: "Eco & safety programme",
     description:
-      "Achieved ISO 9001:2015 certification across all three branches. Standardised protocols company-wide.",
+      "Moved the whole residential book to eco-friendly household chemicals with odourless and low-odour options.",
   },
   {
     year: "2026",
-    title: "14 years, 12,000+ homes",
+    title: "Two live states, three future branches",
     description:
-      "Now serving 3 cities with 24 certified technicians. Preparing Pune and Coimbatore expansion for late 2026.",
+      "Serving Andhra Pradesh and Telangana from staffed offices. Chennai, Bangalore and Kochi branches are being set up.",
   },
 ];
 
@@ -94,7 +94,7 @@ export function AboutPage() {
       <PageHero
         eyebrow="Our story"
         title="Fourteen years of calibrate-to-trust pest control"
-        subtitle={`Founded in 2012 by ${company.founder} (${company.founderCredential}), Siva Pest Control has grown from a 3-technician Madhapur operation to a three-city regional network — built on a single non-negotiable principle: child-safe first, always.`}
+        subtitle={`Founded in 2012 by ${company.founder} (${company.founderCredential}), Siva Pest Control has grown from a 3-technician Madhapur operation to a two-state regional network — built on a single non-negotiable principle: eco-friendly, family-safe chemicals first, always.`}
         breadcrumb={[{ label: "Home", view: "home" }, { label: "About" }]}
       />
 
@@ -114,7 +114,7 @@ export function AboutPage() {
               <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(51,36,22,0) 50%, rgba(51,36,22,0.55) 100%)" }} />
               <div className="absolute bottom-6 left-6 right-6 text-white">
                 <div className="font-display text-xl font-bold drop-shadow-md md:text-2xl">Field-tested, certified, locally trusted</div>
-                <div className="mt-1 text-sm text-white/85">14 years · 3 cities · 24 certified technicians · 12,000+ treatments delivered</div>
+                <div className="mt-1 text-sm text-white/85">14 years · 2 states · 24 certified technicians · 12,000+ treatments delivered</div>
               </div>
             </div>
           </Reveal>
@@ -409,7 +409,7 @@ export function AboutPage() {
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Our journey"
-            title="From Madhapur to three cities"
+            title="From Madhapur to a two-state network"
             subtitle={`${company.yearsOfExperience}+ years of careful, customer-led growth — never franchise, never contractor, never compromise.`}
           />
 
@@ -476,7 +476,7 @@ export function AboutPage() {
 
       <CTASection
         title={`Join ${(company.stats.homesProtected + company.stats.commercialSites).toLocaleString("en-IN")}+ protected homes and businesses`}
-        subtitle="Free inspection, fixed-price quote, certified technicians. Same-day service across Hyderabad, Chennai and Bangalore."
+        subtitle="Fixed-price quote, certified technicians. Same-day service across Andhra Pradesh and Telangana."
       />
     </>
   );

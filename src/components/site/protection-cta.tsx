@@ -140,9 +140,9 @@ export function ProtectionCTA() {
 
         <Reveal>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/80 text-pretty sm:text-lg">
-            Free inspection, fixed-price quote, certified technicians. Same-day
-            service available across Hyderabad, Chennai and Bangalore. The
-            longer you wait, the bigger the colony grows.
+            Fixed-price quote, certified technicians. Same-day service
+            available across Andhra Pradesh and Telangana. The longer you
+            wait, the bigger the colony grows.
           </p>
         </Reveal>
 
@@ -153,13 +153,13 @@ export function ProtectionCTA() {
               onClick={() =>
                 trackCTAClick({
                   location: "protection-cta",
-                  label: "Book Free Inspection",
+                  label: "Book a Service",
                   href: "/contact",
                 })
               }
               className="group inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-bold text-white shadow-glow-orange transition-transform hover:scale-[1.03] gradient-orange"
             >
-              Book a Free Inspection
+              Book a Service
               <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
             </Link>
             <a

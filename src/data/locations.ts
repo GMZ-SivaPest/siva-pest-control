@@ -4,9 +4,9 @@
  * Network shape (one office per state — we do NOT claim statewide coverage):
  *   1. Repalle (Isukapalli), Andhra Pradesh — REGISTERED HEAD OFFICE  (open)
  *   2. Hyderabad, Telangana                 — 2nd branch             (open)
- *   3. Bangalore, Karnataka                 — 3rd branch             (open)
- *   4. Chennai, Tamil Nadu                  — opening soon
- *   5. Kochi, Kerala                        — opening soon
+ *   3. Chennai, Tamil Nadu                  — future branch
+ *   4. Bangalore, Karnataka                 — future branch
+ *   5. Kochi, Kerala                        — future branch
  *
  * Two rules this file enforces for every consumer:
  *   - Only `head-office` and `branch` offices are staffed. `opening-soon`
@@ -17,9 +17,35 @@
  *   - Each office only guarantees its `coverage` list. Coverage is a set of
  *     priority localities, not an exhaustive guarantee — pin codes are always
  *     confirmed before booking.
+ *
+ * CONTACT NUMBERS
+ * Each staffed office carries TWO local numbers. They are read from
+ * `company.phoneByState[state]` so a number is only ever changed in
+ * company.ts, never duplicated here:
+ *   Andhra Pradesh — 7702487195 (primary), 9395532359 (alt)
+ *   Telangana      — 9849157510 (primary), 7842087195 (alt)
  */
 
 import { company } from "./company";
+
+/**
+ * Resolves the published contact pair for a state.
+ *
+ * States with a staffed office get their OWN two local lines. States that are
+ * still a future branch fall back to the head-office (Andhra Pradesh) pair, so
+ * an enquiry for Chennai/Bangalore/Kochi still reaches a real phone today.
+ */
+export function phonesForState(state: string) {
+  const pair =
+    company.phoneByState[state as keyof typeof company.phoneByState] ??
+    company.phoneByState["Andhra Pradesh"];
+  return {
+    phone: pair.primary,
+    phoneHref: pair.primaryHref,
+    phoneAlt: pair.alt,
+    phoneAltHref: pair.altHref,
+  };
+}
 
 export interface LocationFaq {
   q: string;
@@ -62,8 +88,12 @@ export interface Location {
   shortIntro: string;
   /** Long-form intro — only staffed offices have one worth reading. */
   longIntro?: string;
+  /** Primary local number for this office. */
   phone: string;
   phoneHref: string;
+  /** Second local number for this office (both lines are published). */
+  phoneAlt: string;
+  phoneAltHref: string;
   email: string;
   /** Absent until the branch is actually staffed and open. */
   address?: LocationAddress;
@@ -96,8 +126,7 @@ export const locations: Location[] = [
       "Serving Isukapalli, Repalle and nearby pin codes by appointment. Local team based in Isukapalli.",
     longIntro:
       "Siva Pest Control is proud to serve Isukapalli and the Repalle region with comprehensive pest management solutions. Our local team understands the unique pest challenges of this coastal Andhra Pradesh area — from termite infestations in traditional homes to mosquito surges during monsoon season and rodent issues in agricultural surroundings. We cover priority local areas first and confirm nearby pin-code availability before scheduling.",
-    phone: company.phonePrimary,
-    phoneHref: company.phonePrimaryHref,
+    ...phonesForState("Andhra Pradesh"),
     email: "repalle@sivapestcontrol.com",
     address: {
       line1: "6-10-98/10A MANDAVA, Kasturi Vari St",
@@ -161,8 +190,7 @@ export const locations: Location[] = [
       "Serving core Hyderabad and Secunderabad areas with same-day response in most cases. Field team based in Madhapur.",
     longIntro:
       "Hyderabad is where Siva Pest Control was founded in 2012, and it remains our largest operation. Our Madhapur field office dispatches technicians across core service areas — from HITEC City and Gachibowli to Kukatpally, Banjara Hills, Jubilee Hills and Secunderabad. We know the local pest pressure: termite swarms in older independent houses, rodent surges in mature neighbourhoods, and mosquito spikes around low-lying areas. Nearby pin codes are confirmed before booking so expectations stay clear.",
-    phone: company.phonePrimary,
-    phoneHref: company.phonePrimaryHref,
+    ...phonesForState("Telangana"),
     email: "hyd@sivapestcontrol.com",
     address: {
       line1: "Plot 14, Road 2, Madhapur",
@@ -224,15 +252,14 @@ export const locations: Location[] = [
     label: "Chennai",
     state: "Tamil Nadu",
     status: "opening-soon",
-    branchOrder: 4,
+    branchOrder: 3,
     branchLabel: "Opening soon",
     tagline: "Branch opening soon in T. Nagar — coastal-climate expertise on the way.",
     shortIntro:
       "Our Chennai branch is being set up. T. Nagar will be the first service hub, with bookings opening once the field team is in place.",
     longIntro:
       "Chennai's coastal humidity, aging drainage in central areas, and rapid IT corridor expansion along OMR create a unique pest pressure profile. We are setting up our Tamil Nadu branch in T. Nagar to serve it — prioritising a focused set of city areas once we open, and confirming nearby pin codes before scheduling. The team will specialise in high-humidity challenges: silverfish in book collections, coastal roach strains in older properties, and mosquito surges during the northeast monsoon.",
-    phone: company.phonePrimary,
-    phoneHref: company.phonePrimaryHref,
+    ...phonesForState("Tamil Nadu"),
     email: "chn@sivapestcontrol.com",
     hours: "Mon–Sat · 8:00 AM – 8:00 PM",
     openingNote:
@@ -283,24 +310,19 @@ export const locations: Location[] = [
     city: "Bangalore",
     label: "Bangalore",
     state: "Karnataka",
-    status: "branch",
-    branchOrder: 3,
-    branchLabel: "3rd branch",
-    tagline: "Tech-city precision. Whitefield to Indiranagar.",
+    status: "opening-soon",
+    branchOrder: 4,
+    branchLabel: "Opening soon",
+    tagline: "Branch opening soon in Koramangala — tech-city precision on the way.",
     shortIntro:
-      "Serving Bangalore's tech corridors and gated communities with calibrate-to-altitude treatments. Field team in Koramangala.",
+      "Our Bangalore branch is a future branch. Koramangala will be the first service hub, with bookings opening once the field team is in place.",
     longIntro:
-      "Bangalore's moderate climate, dense gated communities, and high turnover tenant base create a different pest profile than other South Indian metros. Our Koramangala field office prioritises a focused set of city areas and confirms nearby pin codes before scheduling. We specialise in Bangalore's signature challenges: rodent pressure in tech parks, pigeon fouling on glass facades, and bed bug surges in PG accommodations near tech corridors.",
-    phone: company.phonePrimary,
-    phoneHref: company.phonePrimaryHref,
+      "Bangalore's moderate climate, dense gated communities, and high turnover tenant base create a different pest profile than the rest of South India. We are setting up our Karnataka branch in Koramangala to serve it — prioritising a focused set of city areas once we open, and confirming nearby pin codes before scheduling. The team will specialise in Bangalore's signature challenges: rodent pressure in tech parks, pigeon fouling on glass facades, and bed bug surges in PG accommodations near tech corridors.",
+    ...phonesForState("Karnataka"),
     email: "blr@sivapestcontrol.com",
-    address: {
-      line1: "80 Feet Road, Koramangala 4th Block",
-      line2: "Bengaluru, Karnataka",
-      landmark: "Above Sony World signal, near Sony Centre",
-      pincode: "560034",
-    },
     hours: "Mon–Sat · 8:00 AM – 8:00 PM",
+    openingNote:
+      "Opening soon. The Koramangala office and field team are being set up — enquire now and we will confirm a start date.",
     coverage: [
       "Koramangala",
       "Indiranagar",
@@ -316,30 +338,28 @@ export const locations: Location[] = [
       "Electronic City phase 1",
     ],
     geo: { lat: 12.9352, lng: 77.6245 },
-    responseTime: "45 min average",
-    technicians: 4,
-    rating: 4.9,
-    reviewsCount: 220,
+    // Deliberately no responseTime / technicians / rating / reviewsCount —
+    // the branch is not staffed yet, so office metrics would be invented.
     faqs: [
       {
-        q: "Do you service the Whitefield–Sarjapur tech corridor?",
-        a: "Whitefield and Sarjapur Road are priority areas. Nearby tech-corridor pin codes are handled by appointment depending on technician availability, so please call before booking.",
+        q: "When will the Bangalore branch open?",
+        a: "We are setting up the Koramangala office and field team. Share your requirement now and we will confirm a start date — you will be contacted first once the team is in place.",
       },
       {
-        q: "We live in a gated community on Sarjapur Road. Can you do a building-wide treatment?",
-        a: "Absolutely. We offer association-wide contracts with shared-wall coordinated treatment — critical for effective roach and rodent control in modern gated communities.",
+        q: "Can you service Bangalore homes before the branch opens?",
+        a: "Not on a routine basis yet. Bangalore bookings start once the Koramangala team is staffed, because every job needs a technician who can return for the scheduled day-14 re-inspection.",
+      },
+      {
+        q: "Which areas will the Bangalore branch cover first?",
+        a: "Koramangala, Indiranagar, HSR Layout, Whitefield and Sarjapur Road are planned as priority areas. Nearby pin codes will be confirmed before booking once the team is operational.",
       },
       {
         q: "Do you handle pigeon netting for high-rise apartments in Bangalore?",
-        a: "Yes — bird netting on balcony ducts and AC units is one of our most requested services in Bangalore. We use UV-stabilised nylon netting on SS framework with a 3-year warranty.",
+        a: "Bird netting on balcony ducts and AC units is one of our most requested services in Bengaluru. Once the branch opens we will use UV-stabilised nylon netting on SS framework with a 3-year warranty.",
       },
       {
         q: "Are your treatments calibrated for Bangalore's cooler climate?",
         a: "Yes. Bangalore's lower average temperature affects pest breeding cycles — cockroaches breed slower but bed bugs thrive in cooler indoor temps. Our treatment schedules reflect this.",
-      },
-      {
-        q: "Do you serve PG accommodations and co-living spaces near tech parks?",
-        a: "Yes. We have specific protocols for high-turnover shared housing, particularly for bed bug elimination. We confirm the exact Bangalore pin code and service slot before dispatch.",
       },
     ],
   },
@@ -356,8 +376,7 @@ export const locations: Location[] = [
       "Our Kerala branch is being set up. Kochi will be the first service hub, with bookings opening once the field team is in place.",
     longIntro:
       "Kerala's year-round humidity, dense coastal vegetation and heavy monsoon cycles produce one of the most persistent pest profiles in South India — year-round mosquito breeding, damp-wood termite pressure, and ant and silverfish activity that never fully stops. We are setting up our Kerala branch in Kochi to serve it, prioritising a focused set of city areas once we open and confirming nearby pin codes before scheduling.",
-    phone: company.phonePrimary,
-    phoneHref: company.phonePrimaryHref,
+    ...phonesForState("Kerala"),
     email: "kerala@sivapestcontrol.com",
     hours: "Mon–Sat · 8:00 AM – 8:00 PM",
     openingNote:
@@ -386,7 +405,7 @@ export const locations: Location[] = [
       },
       {
         q: "Can you service Kerala homes before the branch opens?",
-        a: "Not on a routine basis yet. Kerala bookings start once the Kochi team is staffed, because every job needs a technician who can return for the free day-7 re-inspection.",
+        a: "Not on a routine basis yet. Kerala bookings start once the Kochi team is staffed, because every job needs a technician who can return for the scheduled day-14 re-inspection.",
       },
       {
         q: "Which areas will the Kochi branch cover first?",
@@ -447,6 +466,6 @@ export const networkSummary = {
   states: servedStates,
   /** "3 offices" — for badges where the count alone reads oddly. */
   openOfficesLabel: `${activeLocations.length} offices`,
-  /** "Chennai & Kochi" — for "opening soon" notes. */
-  upcomingLocationsLabel: upcomingLocations.map((l) => l.label).join(" & "),
+  /** "Chennai, Bangalore & Kochi" — for "opening soon" notes. */
+  upcomingLocationsLabel: upcomingLocations.map((l) => l.label).join(", "),
 };

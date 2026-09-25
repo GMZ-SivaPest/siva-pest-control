@@ -199,7 +199,7 @@ export function HomeTreatmentPlanner() {
                       {service && (
                         <Image
                           src={service.image}
-                          alt={service.name}
+                          alt={service.imageAlt ?? service.name}
                           fill
                           sizes="(max-width: 1024px) 100vw, 420px"
                           className="object-cover"

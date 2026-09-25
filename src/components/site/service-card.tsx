@@ -70,7 +70,7 @@ export function ServiceCard({ service, index = 0, variant = "default" }: Service
       <div className="relative h-44 w-full overflow-hidden">
         <Image
           src={service.image}
-          alt={service.name}
+          alt={service.imageAlt ?? service.name}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
           className="object-cover transition-transform duration-700 group-hover:scale-105"

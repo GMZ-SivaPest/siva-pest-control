@@ -371,7 +371,8 @@ All services are performed by trained, certified technicians using government-ap
       title: "3. Booking & Scheduling",
       icon: Clock,
       content: `Booking Process:
-• Free inspection can be requested via phone, WhatsApp, or our website form
+• Bookings can be requested via phone, WhatsApp, or our website form
+• There is no separate pre-visit or free-visit inspection call-out; the technician assesses your property on the day of the service
 • We will call you within 30 minutes during business hours (Mon–Sat, 8AM–8PM)
 • Service appointments are subject to availability
 
@@ -383,14 +384,14 @@ Scheduling:
 Rescheduling & Cancellation:
 • Free rescheduling up to 2 hours before the appointment
 • Cancellations made less than 2 hours before may incur a convenience fee
-• No-shows may be charged the applicable inspection fee`,
+• No-shows may be charged the applicable service fee`,
     },
     {
       title: "4. Pricing & Payment",
       icon: Scale,
       content: `Pricing:
-• All quotes are indicative and may vary based on inspection findings
-• Final pricing is communicated after the free inspection
+• All quotes are indicative and may vary based on the technician's on-site assessment
+• Final pricing is confirmed before any product is applied
 • All quotes are inclusive of GST unless stated otherwise
 
 Payment Terms:

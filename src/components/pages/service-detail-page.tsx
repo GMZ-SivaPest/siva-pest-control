@@ -155,7 +155,7 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
                 <div className="relative h-56 w-full overflow-hidden">
                   <Image
                     src={service.image}
-                    alt={service.name}
+                    alt={service.imageAlt ?? service.name}
                     fill
                     sizes="(max-width: 1024px) 100vw, 400px"
                     className="object-cover"
@@ -194,7 +194,7 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
                   href="/contact"
                   className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02] gradient-orange"
                 >
-                  Get Free Quote
+                  Get a Quote
                   <ChevronRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </div>
@@ -388,7 +388,7 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
 
       <CTASection
         title={`Ready to book your ${service.name.toLowerCase()}?`}
-        subtitle="Free inspection, fixed-price quote, certified technician. Same-day service across Hyderabad, Chennai and Bangalore."
+        subtitle="Fixed-price quote, certified technician. Same-day service across Andhra Pradesh and Telangana."
       />
     </>
   );

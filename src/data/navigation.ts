@@ -61,6 +61,6 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
 ];
 
 export const ctaButtons = {
-  primary: { label: "Get Free Quote", href: "/contact", view: "contact" },
+  primary: { label: "Get a Quote", href: "/contact", view: "contact" },
   secondary: { label: "Call Now", href: `tel:${company.phonePrimaryHref}` },
 };

@@ -6,7 +6,12 @@ import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
 import { FAQAccordion } from "@/components/site/faq-accordion";
 import { SouthIndiaMap } from "@/components/site/south-india-map";
-import { locations } from "@/data/locations";
+import {
+  locations,
+  servedStates,
+  upcomingLocations,
+  phonesForState,
+} from "@/data/locations";
 import { company } from "@/data/company";
 import { faqs } from "@/data/faqs";
 import { motion } from "framer-motion";
@@ -29,7 +34,7 @@ export function ContactPage() {
       <PageHero
         eyebrow="Get in touch"
         title="Let's design your protection plan"
-        subtitle="Free inspection, fixed-price quote, certified technician dispatch. Our team responds within 30 minutes during business hours — across all four cities."
+        subtitle="Fixed-price quote, certified technician dispatch. Our team responds within 30 minutes during business hours — across Andhra Pradesh and Telangana."
         breadcrumb={[{ label: "Home", view: "home" }, { label: "Contact" }]}
       />
 
@@ -44,7 +49,7 @@ export function ContactPage() {
           <SectionHeading
             eyebrow="Where we serve"
             title="Service coverage across South India"
-            subtitle="Click on any city marker to explore our service areas, field offices, and local expertise."
+            subtitle="Click on any city marker to explore our live service areas, staffed field offices, and announced future branches."
           />
 
           <div className="mt-8 grid gap-8 lg:gap-10 items-start">
@@ -187,6 +192,13 @@ export function ContactPage() {
                             {loc.phone}
                           </a>
                           <a
+                            href={`tel:${loc.phoneAltHref}`}
+                            className="flex items-center gap-1.5 text-xs font-semibold text-orange hover:underline"
+                          >
+                            <Phone className="h-3 w-3" />
+                            {loc.phoneAlt}
+                          </a>
+                          <a
                             href={`mailto:${loc.email}`}
                             className="flex items-center gap-1.5 text-xs text-brown/60 hover:text-orange"
                           >
@@ -232,34 +244,55 @@ export function ContactPage() {
           <SectionHeading
             eyebrow="State coverage"
             title="Where we operate"
-            subtitle="Our service network spans four South Indian states, each with dedicated field offices and priority service areas."
+            subtitle={`Our service network is built on staffed field offices — one per state. Live today across ${servedStates.join(" and ")}, with future branches announced in ${upcomingLocations.map((l) => l.state).join(", ")}.`}
           />
 
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {[
               {
+                state: "Andhra Pradesh",
+                cities: ["Isukapalli", "Repalle"],
+                icon: "🌾",
+                status: "Live",
+                highlights:
+                  "Registered head office. Coastal-area coverage. Agricultural storage support.",
+                phones: [phonesForState("Andhra Pradesh")],
+              },
+              {
                 state: "Telangana",
                 cities: ["Hyderabad"],
                 icon: "🏙️",
-                highlights: "Largest operation. 14 technicians. Same-day response.",
-              },
-              {
-                state: "Tamil Nadu",
-                cities: ["Chennai"],
-                icon: "🌊",
-                highlights: "Coastal expertise. OMR corridor. Humidity-calibrated.",
+                status: "Live",
+                highlights:
+                  "Largest operation. 14 technicians. Same-day response across the metro.",
+                phones: [phonesForState("Telangana")],
               },
               {
                 state: "Karnataka",
                 cities: ["Bangalore"],
                 icon: "💻",
-                highlights: "Tech-corridor precision. Gated community specialists.",
+                status: "Future branch",
+                highlights:
+                  "Planned Koramangala hub. Tech-corridor and gated-community protocols in preparation.",
+                phones: [],
               },
               {
-                state: "Andhra Pradesh",
-                cities: ["Isukapalli"],
-                icon: "🌾",
-                highlights: "Coastal area coverage. Agricultural storage support.",
+                state: "Tamil Nadu",
+                cities: ["Chennai"],
+                icon: "🌊",
+                status: "Future branch",
+                highlights:
+                  "Planned T. Nagar hub. Coastal expertise and humidity-calibrated protocols in preparation.",
+                phones: [],
+              },
+              {
+                state: "Kerala",
+                cities: ["Kochi"],
+                icon: "🥥",
+                status: "Future branch",
+                highlights:
+                  "Planned Kochi hub. Backwater-grade humidity and monsoon-cycle expertise in preparation.",
+                phones: [],
               },
             ].map((item, i) => (
               <motion.div
@@ -270,7 +303,18 @@ export function ContactPage() {
                 transition={{ duration: 0.5, delay: i * 0.08 }}
                 className="relative overflow-hidden rounded-2xl border border-brown/10 bg-white p-6 shadow-premium"
               >
-                <div className="text-3xl">{item.icon}</div>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="text-3xl">{item.icon}</div>
+                  <span
+                    className={
+                      item.status === "Live"
+                        ? "rounded-full bg-orange px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white"
+                        : "rounded-full bg-teal/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-teal ring-1 ring-teal/25"
+                    }
+                  >
+                    {item.status}
+                  </span>
+                </div>
                 <h3 className="mt-3 font-display text-lg font-bold text-brown">
                   {item.state}
                 </h3>
@@ -287,6 +331,27 @@ export function ContactPage() {
                 <p className="mt-3 text-sm text-brown/65 leading-relaxed">
                   {item.highlights}
                 </p>
+                {item.phones.length > 0 && (
+                  <div className="mt-3 space-y-0.5 border-t border-brown/10 pt-3">
+                    {item.phones.map((p) => (
+                      <a
+                        key={p.phone}
+                        href={`tel:${p.phoneHref}`}
+                        className="flex items-center gap-1.5 text-xs font-semibold text-orange hover:underline"
+                      >
+                        <Phone className="h-3 w-3" />
+                        {p.phone}
+                      </a>
+                    ))}
+                    <a
+                      href={`tel:${item.phones[0].phoneAltHref}`}
+                      className="flex items-center gap-1.5 text-xs font-semibold text-orange hover:underline"
+                    >
+                      <Phone className="h-3 w-3" />
+                      {item.phones[0].phoneAlt}
+                    </a>
+                  </div>
+                )}
                 <div className="absolute -bottom-4 -right-4 h-24 w-24 rounded-full bg-linear-to-br from-orange/5 to-transparent" />
               </motion.div>
             ))}

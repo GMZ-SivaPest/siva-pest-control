@@ -169,15 +169,15 @@ export function BlogDetailPage({ slug }: { slug: string }) {
                 Need help with pests in your home or business?
               </h3>
               <p className="mx-auto mt-3 max-w-md text-sm text-white/70">
-                Free inspection, fixed-price quote, certified technicians. Same-day
-                service available across Hyderabad, Chennai and Bangalore.
+                Fixed-price quote, certified technicians. Same-day service available
+                across Andhra Pradesh and Telangana.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
                 <Link
                   href="/contact"
                   className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-glow-orange transition-transform hover:scale-105 gradient-orange"
                 >
-                  Book Free Inspection
+                  Book a Service
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
                 <Link

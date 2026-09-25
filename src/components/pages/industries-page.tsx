@@ -98,7 +98,7 @@ export function IndustriesPage() {
                     >
                       <Image
                         src={industry.image}
-                        alt={industry.name}
+                        alt={industry.imageAlt ?? industry.name}
                         fill
                         sizes="(max-width: 1024px) 100vw, 50vw"
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -214,7 +214,7 @@ export function IndustriesPage() {
                     <div className="relative h-28 w-full overflow-hidden">
                       <Image
                         src={industry.image}
-                        alt={industry.name}
+                        alt={industry.imageAlt ?? industry.name}
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -339,7 +339,7 @@ export function IndustriesPage() {
                       Commercial IPM
                     </div>
                     <h3 className="font-display text-2xl font-bold leading-tight">
-                      One vendor, three cities, every audit covered
+                      One vendor, two states, every audit covered
                     </h3>
                     <p className="mt-3 text-sm leading-relaxed text-white/65">
                       Multi-site commercial contracts include a dedicated account
@@ -360,7 +360,7 @@ export function IndustriesPage() {
                 {/* Right — feature grid */}
                 <div className="grid content-start gap-0 sm:grid-cols-2 lg:col-span-3">
                   {[
-                    "Single contract across Hyderabad, Chennai, Bangalore",
+                    "Single contract across Andhra Pradesh and Telangana",
                     "Dedicated account manager + 4-hour response SLA",
                     "Digital service reports with photo evidence",
                     "Trend analytics dashboard for QA teams",
@@ -389,7 +389,7 @@ export function IndustriesPage() {
       {/* ─── CTA ─────────────────────────────────────────────────── */}
       <CTASection
         title="Let's design your commercial IPM programme"
-        subtitle="Free facility risk assessment, fixed-quote proposal, dedicated account manager. Multi-site contracts across all three cities."
+        subtitle="Facility risk assessment, fixed-quote proposal, dedicated account manager. Multi-site contracts across Andhra Pradesh and Telangana."
       />
     </>
   );

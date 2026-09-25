@@ -13,7 +13,7 @@
  *
  * Usage:
  *   import { trackEvent, trackCTAClick, trackLead } from "@/lib/analytics";
- *   trackCTAClick({ location: "hero", label: "Get Free Quote" });
+ *   trackCTAClick({ location: "hero", label: "Get a Quote" });
  *
  * Configuration:
  *   Set NEXT_PUBLIC_GTM_ID=GTM-XXXXXXXXXX in your .env.local or hosting env

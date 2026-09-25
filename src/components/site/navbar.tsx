@@ -312,10 +312,10 @@ export function Navbar() {
             </a>
             <Link
               href="/contact"
-              onClick={() => trackCTAClick({ location: "navbar", label: "Get Free Quote", href: "/contact" })}
+              onClick={() => trackCTAClick({ location: "navbar", label: "Get a Quote", href: "/contact" })}
               className="hidden h-10 items-center rounded-full px-4 text-sm font-semibold text-white shadow-glow-orange transition-all hover:scale-[1.02] hover:brightness-110 sm:inline-flex xl:px-5 gradient-orange"
             >
-              <span className="hidden xl:inline">Get Free Quote</span>
+              <span className="hidden xl:inline">Get a Quote</span>
               <span className="xl:hidden">Quote</span>
             </Link>
 
@@ -412,11 +412,11 @@ export function Navbar() {
                     href="/contact"
                     onClick={() => {
                       setMobileOpen(false);
-                      trackCTAClick({ location: "mobile-menu", label: "Get Free Quote", href: "/contact" });
+                      trackCTAClick({ location: "mobile-menu", label: "Get a Quote", href: "/contact" });
                     }}
                     className="block w-full rounded-full px-5 py-3.5 text-center text-sm font-semibold text-white shadow-glow-orange gradient-orange"
                   >
-                    Get Free Quote
+                    Get a Quote
                   </Link>
                 </div>
 

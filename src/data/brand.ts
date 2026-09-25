@@ -9,8 +9,8 @@ export const brand = {
   legalName: "Siva Pest Control",
   tagline: "Protection. Science. Trust.",
   description:
-    "Licensed pest control for homes and businesses across Hyderabad, Chennai and Bangalore. Science-led treatments, child-safe formulations, fully guaranteed results.",
-  promise: "Child-safe · Pet-safe · Eco-certified · Odour-controlled",
+    "Licensed pest control for homes and businesses across Andhra Pradesh and Telangana. Science-led treatments, family-safe eco-friendly chemicals, fully guaranteed results.",
+  promise: "Eco-Friendly · Safe for Kids, Pregnant & Elderly · Odourless Options · Certified & Licensed",
   foundedYear: 2012,
   yearsOfExperience: 14,
   responseTimeHours: 0.5,
@@ -18,7 +18,7 @@ export const brand = {
       reviewed. Used by sitemap.ts as the lastModified date for static
       routes and service/location detail routes. Update this when you
       ship meaningful content changes (audit P2). */
-  contentLastUpdated: "2026-08-08",
+  contentLastUpdated: "2026-09-26",
   guaranteeLabel: "180-Day Service Warranty",
   /** Trust badges shown in the footer / homepage / about certification strips.
       NOTE: original site (sivapestcontrol.com) listed "C T R I Certified"

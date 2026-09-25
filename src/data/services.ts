@@ -36,6 +36,7 @@ export interface Service {
   long: string;
   icon: LucideIcon;
   image: string;
+  imageAlt?: string;
   accent: ServiceAccent;
   category: "residential" | "commercial" | "both";
   duration: string;
@@ -51,13 +52,14 @@ export interface Service {
 export const services: Service[] = [
   {
     slug: "cockroach-gel-treatment",
-    name: "Cockroach & Ant Gel Treatment",
+    name: "Cockroach Gel Treatment",
     short:
       "Odourless gel-bait technology that eliminates entire colonies — no spraying, no evacuation, no stains.",
     long:
       "Our signature gel-bait treatment targets German and American cockroaches at the nest level. Odourless, non-staining, and child-safe, the gel is applied in micro-dots behind appliances, inside hinges, and along pheromone trails. Foraging cockroaches consume the bait and carry it back to the colony, eliminating the entire population within 7 to 14 days. Includes a targeted crack-and-crevice ant barrier at no extra cost.",
     icon: Bug,
-    image: "/images/treatments/gel-bait-application.jpg",
+    image: "/images/treatments/cockroach-gel-treatment.png",
+    imageAlt: "Gloved technician placing small gel-bait dots along a kitchen cabinet",
     accent: "orange",
     category: "both",
     duration: "45 to 60 min",
@@ -131,7 +133,8 @@ export const services: Service[] = [
     long:
       "Subterranean termites cause irreversible structural damage before they're ever seen. Our anti-termite treatment creates a continuous chemical barrier around and beneath your property using the drill-fill-seal method, combined with a transferable termiticide that worker termites carry back to the colony. Each treatment is backed by a written 5-year warranty with annual inspection included.",
     icon: ShieldCheck,
-    image: "/images/treatments/termite-drill-treatment.jpg",
+    image: "/images/services/termite.png",
+    imageAlt: "Technician treating termite damage along a wooden door frame",
     accent: "brown",
     category: "both",
     duration: "3 to 5 hours",
@@ -159,7 +162,7 @@ export const services: Service[] = [
       {
         title: "Structural Audit",
         description:
-          "Free site audit identifies mud-tube networks, entry points, and damage severity. Detailed report with photo documentation.",
+          "A detailed site audit identifies mud-tube networks, entry points, and damage severity. Delivered as a photo-documented report.",
       },
       {
         title: "Drill-Fill-Seal Barrier",
@@ -174,7 +177,7 @@ export const services: Service[] = [
       {
         title: "Annual Inspection",
         description:
-          "Complimentary annual inspection for the full warranty period with re-treatment at no charge if activity is detected.",
+          "Annual inspection for the full warranty period with re-treatment at no charge if activity is detected.",
       },
     ],
     faqs: [
@@ -200,7 +203,8 @@ export const services: Service[] = [
     long:
       "Bed bugs are resistant to most over-the-counter chemicals. Our protocol combines a residual spray with a thermal steam pass on mattress seams, headboards, and baseboards, followed by a second cycle at day 14 to catch newly-hatched nymphs. Includes encasement advisory and a 90-day re-treatment warranty.",
     icon: Droplets,
-    image: "/images/treatments/bed-bug-steam.jpg",
+    image: "/images/treatments/bed-bug-steam.png",
+    imageAlt: "Technician using a steam machine on a mattress for bed bug treatment",
     accent: "rust",
     category: "both",
     duration: "90 min per cycle",
@@ -269,7 +273,8 @@ export const services: Service[] = [
     long:
       "Rats and mice cause structural damage, fire risk, and disease. Our programme combines mechanical snap-trapping, tamper-proof bait stations, and structural exclusion — sealing the holes that let them in. Includes a 90-day monitoring window with weekly trap-checks during the first month.",
     icon: Rat,
-    image: "/images/treatments/rodent-bait-station.jpg",
+    image: "/images/treatments/rodent-bait-station.png",
+    imageAlt: "Tamper-proof rodent bait station being checked outdoors",
     accent: "brown",
     category: "both",
     duration: "2 hours initial + monitoring",
@@ -332,9 +337,10 @@ export const services: Service[] = [
     short:
       "Yard fogging + larvicidal treatment of breeding sites. Reduces adult population by 90% in 7 days.",
     long:
-      "Dengue and malaria cases spike during monsoon across Hyderabad, Chennai and Bangalore. Our mosquito programme combines residual misting of resting sites (shrubs, eaves, walls) with larvicidal treatment of breeding spots (stagnant water, drains, gutters). Includes a 30-day residual effect and advisory on source reduction around your property.",
+      "Dengue and malaria cases spike during monsoon across Andhra Pradesh and Telangana. Our mosquito programme combines residual misting of resting sites (shrubs, eaves, walls) with larvicidal treatment of breeding spots (stagnant water, drains, gutters). Includes a 30-day residual effect and advisory on source reduction around your property.",
     icon: Droplets,
-    image: "/images/treatments/mosquito-fogging.jpg",
+    image: "/images/treatments/mosquito-fogging.png",
+    imageAlt: "Technician creating a visible mosquito fog in a residential compound",
     accent: "teal",
     category: "both",
     duration: "60 min",
@@ -399,7 +405,8 @@ export const services: Service[] = [
     long:
       "Beyond pest control, we offer hospital-grade surface disinfection using ultra-low-volume (ULV) fogging with WHO-recommended actives. Ideal for move-in cleaning, post-illness recovery, daycare sanitisation, and outbreak response in offices. Includes high-touch surface wipe-down and air-circulation protocol.",
     icon: Sparkles,
-    image: "/images/carousel/bathroom-treatment.jpg",
+    image: "/images/before-after/kitchen-after.jpg",
+    imageAlt: "Clean, sanitised kitchen sink and counter after professional treatment",
     accent: "teal",
     category: "both",
     duration: "60 to 90 min",
@@ -464,7 +471,8 @@ export const services: Service[] = [
     long:
       "Bird fouling damages paint, blocks gutters, and spreads respiratory disease. Our bird management programme uses humane exclusion only — stainless steel spikes on ledges, nylon netting on ducts and balconies, and acoustic deterrents where appropriate. Fully compliant with AWBI guidelines. Backed by a 3-year material warranty.",
     icon: Bird,
-    image: "/images/treatments/bird-spike-install.jpg",
+    image: "/images/treatments/bird-spike-install.png",
+    imageAlt: "Stainless steel bird spikes being installed on a building ledge",
     accent: "teal",
     category: "both",
     duration: "Half-day installation",
@@ -507,7 +515,7 @@ export const services: Service[] = [
       {
         title: "Annual Inspection",
         description:
-          "Free annual inspection for 3 years. Netting re-tensioned, spikes re-adhered if needed, no service charge.",
+          "Annual netting inspection for 3 years. Netting re-tensioned, spikes re-adhered if needed, no service charge.",
       },
     ],
     faqs: [
@@ -529,7 +537,8 @@ export const services: Service[] = [
     long:
       "Commercial clients need more than one-off treatments — they need a documented IPM programme that satisfies FSSAI, ISO 22000, and HACCP auditors. We assign a dedicated account manager, install tamper-proof monitor stations, conduct scheduled visits, and provide digital service reports with trend analytics. Ideal for food processing, hospitality, retail, healthcare, and warehousing.",
     icon: Factory,
-    image: "/images/treatments/commercial-ipm-monitor.jpg",
+    image: "/images/treatments/commercial-ipm-monitor.png",
+    imageAlt: "Technician inspecting a tamper-proof pest monitoring station in a commercial kitchen",
     accent: "orange",
     category: "commercial",
     duration: "Bimonthly scheduled",
@@ -580,7 +589,7 @@ export const services: Service[] = [
     faqs: [
       {
         q: "Can you handle multi-site contracts across cities?",
-        a: "Yes. We service Hyderabad, Chennai and Bangalore with a single contract, single account manager, and consolidated reporting across sites.",
+        a: "Yes. We service Andhra Pradesh and Telangana with a single contract, single account manager, and consolidated reporting across sites.",
       },
       {
         q: "How quickly can you respond to an emergency?",
@@ -596,7 +605,8 @@ export const services: Service[] = [
     long:
       "Lizards are harmless but their droppings stain walls, contaminate food surfaces, and signal an underlying insect problem (lizards follow their prey). Our lizard control programme combines a botanical egg-repellent spray on walls, corners, and light fixtures with mechanical exclusion — sealing the gaps where geckos enter. We also treat the underlying insect population that attracts them. Backed by a 90-day re-treatment warranty.",
     icon: Cat,
-    image: "/images/treatments/lizard-repellent.jpg",
+    image: "/images/treatments/lizard-repellent.png",
+    imageAlt: "Common house gecko on an indoor wall",
     accent: "teal",
     category: "both",
     duration: "45 min",
@@ -664,7 +674,8 @@ export const services: Service[] = [
     long:
       "Snakes entering residential or commercial premises is a serious safety hazard — particularly in properties adjacent to open land, lakes, or agricultural areas. Our snake control programme combines 24/7 emergency removal by trained handlers, perimeter exclusion (mesh barriers and entry-point sealing), and rodent population control (snakes follow rodents). All handlers are trained in safe capture and release protocols. Snake identification and first-aid advisory included.",
     icon: Wind,
-    image: "/images/treatments/snake-rescue.jpg",
+    image: "/images/treatments/snake-rescue.png",
+    imageAlt: "Trained handler safely capturing a snake with a rescue hook",
     accent: "rust",
     category: "both",
     duration: "60–90 min initial + perimeter",
@@ -738,7 +749,8 @@ export const services: Service[] = [
     long:
       "Honey bee colonies inside residential walls, chimneys, or false ceilings are a stinging hazard and a honey-damage risk — but bees are also protected pollinators essential to agriculture. Our hive removal service uses live-capture techniques (smoker calming + vacuum extraction) to relocate the entire colony to a partner apiary. Includes honey and wax cleanup from wall cavities to prevent re-colonisation and structural damage. 90-day re-treatment warranty.",
     icon: Bug,
-    image: "/images/treatments/bee-hive-removal.jpg",
+    image: "/images/treatments/bee-hive-removal.png",
+    imageAlt: "Protected beekeeper removing a honey bee hive from a wall",
     accent: "orange",
     category: "both",
     duration: "2–4 hours (hive dependent)",
@@ -812,6 +824,7 @@ export const services: Service[] = [
       "Most Indian household spiders are harmless, but their webs collect dust, their droppings stain walls and ceilings, and heavy infestations signal an underlying insect problem (spiders follow their prey). Our spider control programme combines web removal with a residual spray on corners, light fixtures, and baseboards. We also treat the insect population that attracted them in the first place — without addressing the food source, spiders return within weeks.",
     icon: Bug,
     image: "/images/pests/house-spider.jpg",
+    imageAlt: "House spider suspended in its web",
     accent: "teal",
     category: "both",
     duration: "45 min",
@@ -881,7 +894,8 @@ export const services: Service[] = [
     long:
       "Flies are more than a nuisance — they carry 100+ pathogens including salmonella, E. coli, and cholera, transferring them by walking on food after visiting garbage or faeces. Our fly control programme combines UV light traps (commercial kitchens, restaurants), residual spray on fly resting surfaces, drain treatment for fruit-fly breeding sites, and source-reduction advisory. Particularly critical for FSSAI/HACCP-compliant food businesses — a single fly sighting during audit can fail your certification.",
     icon: Bug,
-    image: "/images/treatments/fly-uv-trap.jpg",
+    image: "/images/treatments/fly-uv-trap.png",
+    imageAlt: "UV fly light trap mounted in a commercial kitchen",
     accent: "orange",
     category: "both",
     duration: "60–90 min",
@@ -950,7 +964,8 @@ export const services: Service[] = [
     long:
       "Outdoor thermal fogging is the fastest way to suppress adult mosquito populations across large open areas — gated communities, apartment complexes, parks, wedding venues, construction sites, and factory campuses. Our thermal fogger disperses a fine oil-based insecticide fog that penetrates shrubs, hedges, drains, and shaded areas where mosquitoes rest. Visible drop in mosquito activity within 30 minutes. Single-event fogging for events or monthly contracts for monsoon-season protection.",
     icon: CloudFog,
-    image: "/images/carousel/mosquito-fogging.jpg",
+    image: "/images/carousel/mosquito-fogging.png",
+    imageAlt: "Outdoor mosquito fogging treatment in a residential neighbourhood",
     accent: "teal",
     category: "both",
     duration: "60 min per acre",

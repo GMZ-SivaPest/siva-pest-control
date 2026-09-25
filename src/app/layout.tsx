@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: "%s · Siva Pest Control",
   },
   description:
-    "Licensed pest control services across Hyderabad, Chennai and Bangalore. Science-led, locally trusted, fully guaranteed. Residential and commercial protection with 30-min response and child-safe treatments.",
+    "Licensed pest control services across Andhra Pradesh and Telangana. Science-led, locally trusted, fully guaranteed. Residential and commercial protection with 30-min response and family-safe treatments.",
   // Note: keywords meta tag intentionally omitted — Google has ignored it
   // since 2009 and it adds page weight for zero SEO benefit.
   authors: [{ name: "Siva Pest Control" }],
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Siva Pest Control — Licensed Protection for Homes & Businesses",
     description:
-      "Science-led pest control across Hyderabad, Chennai and Bangalore. Fully guaranteed treatments with 30-min response and child-safe formulations.",
+      "Science-led pest control across Andhra Pradesh and Telangana. Fully guaranteed treatments with 30-min response and eco-friendly, family-safe formulations.",
     url: company.siteUrl,
     siteName: "Siva Pest Control",
     type: "website",
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     creator: "@sivapestcontrol",
     title: "Siva Pest Control — Licensed Protection",
     description:
-      "Science-led pest control across Hyderabad, Chennai and Bangalore.",
+      "Science-led pest control across Andhra Pradesh and Telangana.",
     images: ["/og-image.jpg"],
   },
   robots: {

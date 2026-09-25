@@ -33,7 +33,7 @@ export function ServicesGrid({
           <SectionHeading
             eyebrow="What we treat"
             title="Premium pest control, end to end"
-            subtitle="From cockroach gel-bait to 5-year termite barriers to FSSAI-compliant commercial IPM — one vendor, three cities, every pest covered."
+            subtitle="From cockroach gel-bait to 5-year termite barriers to FSSAI-compliant commercial IPM — one vendor, two states, every pest covered."
           />
         )}
 
@@ -83,7 +83,7 @@ export function ServicesGrid({
               href="/contact"
               className="mt-5 inline-flex items-center gap-2 rounded-full bg-amber-500 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-amber-600"
             >
-              Book Free Inspection
+              Book a Service
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>

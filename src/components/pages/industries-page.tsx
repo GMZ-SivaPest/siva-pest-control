@@ -218,6 +218,11 @@ export function IndustriesPage() {
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        style={
+                          industry.imagePosition
+                            ? { objectPosition: industry.imagePosition }
+                            : undefined
+                        }
                       />
                       <div className="absolute inset-0 bg-linear-to-t from-brown/60 to-transparent" />
 

@@ -1089,7 +1089,7 @@ export const pests: Pest[] = [
       "Vaccinate pet dogs annually against rabies (protects the local population)",
       "Children should be taught never to approach or run from stray dogs",
     ],
-    serviceSlug: "general-disinfection",
+    serviceSlug: "dog-control",
     seasonality: "Year-round, mating-season aggression Aug–Oct",
   },
   {
@@ -1127,7 +1127,7 @@ export const pests: Pest[] = [
       "Apply botanical repellent to favoured marking spots (professional service)",
       "Coordinate with AWBI-recognised NGOs for ABC sterilisation of colony cats",
     ],
-    serviceSlug: "general-disinfection",
+    serviceSlug: "cat-control",
     seasonality: "Year-round, mating peaks Feb–Mar & Aug–Sep",
   },
   {

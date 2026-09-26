@@ -13,6 +13,7 @@ import {
   Factory,
   Wind,
   Cat,
+  Dog,
   CloudFog,
   type LucideIcon,
 } from "lucide-react";
@@ -964,7 +965,7 @@ export const services: Service[] = [
     long:
       "Outdoor thermal fogging is the fastest way to suppress adult mosquito populations across large open areas — gated communities, apartment complexes, parks, wedding venues, construction sites, and factory campuses. Our thermal fogger disperses a fine oil-based insecticide fog that penetrates shrubs, hedges, drains, and shaded areas where mosquitoes rest. Visible drop in mosquito activity within 30 minutes. Single-event fogging for events or monthly contracts for monsoon-season protection.",
     icon: CloudFog,
-    image: "/images/carousel/mosquito-fogging.png",
+    image: "/images/carousel/mosquito-fogging.jpg",
     imageAlt: "Outdoor mosquito fogging treatment in a residential neighbourhood",
     accent: "teal",
     category: "both",
@@ -1027,6 +1028,244 @@ export const services: Service[] = [
       {
         q: "Can you fog for a wedding or outdoor event?",
         a: "Yes — single-event fogging is one of our most popular services. We fog the venue at dawn on the event day, with re-fogging available at dusk if needed. Includes pre-event source-reduction advisory for the surrounding area.",
+      },
+    ],
+  },
+  {
+    slug: "ant-control",
+    name: "Ant Control",
+    short:
+      "Targeted ant baiting and trail treatment that eliminates the colony at the nest — not just the ants you can see.",
+    long:
+      "Ants are among the most persistent pests in Indian homes, and the ones you see are only a fraction of the colony. Our ant control programme identifies the species — carpenter, pharaoh, black crazy, or ghost — then targets the nest itself. We apply species-specific bait stations at the trail and nest, followed by a residual perimeter barrier to stop re-entry. Because the exact species determines the bait chemistry, misidentification is the single biggest cause of failed ant treatments. Includes a follow-up visit within 14 days.",
+    icon: Bug,
+    image: "/images/services/ant.png",
+    imageAlt: "Technician placing ant bait stations along a skirting board",
+    accent: "brown",
+    category: "both",
+    duration: "45 min",
+    warranty: "120 days",
+    treatment: "baiting",
+    safety: [
+      "Low-toxicity bait formulations",
+      "Child and pet safe when placed as advised",
+      "No broad-spectrum spraying indoors",
+      "Bait stations enclosed and tamper-resistant",
+    ],
+    benefits: [
+      "Kills the queen and the colony, not just foraging ants",
+      "Species-accurate bait chemistry for faster results",
+      "Perimeter residual barrier prevents re-entry",
+      "Follow-up visit included within 14 days",
+    ],
+    treats: [
+      "Carpenter ants",
+      "Pharaoh ants",
+      "Black crazy ants",
+      "Ghost ants",
+      "Garden ants",
+    ],
+    process: [
+      {
+        title: "Species Identification",
+        description:
+          "Ants are collected and identified — carpenter, pharaoh, black crazy, or ghost. Species determines the bait chemistry and treatment route.",
+      },
+      {
+        title: "Trail and Nest Mapping",
+        description:
+          "Active trails are traced to the nest entry point. Carpenter ant galleries inside walls are located with moisture and sound surveys.",
+      },
+      {
+        title: "Bait Station Placement",
+        description:
+          "Enclosed bait stations are installed along the trail and at the nest. Worker ants carry the bait back to feed the queen and brood.",
+      },
+      {
+        title: "Perimeter Residual Barrier",
+        description:
+          "A low-toxicity residual is applied to entry points, cracks, and perimeters to prevent re-infestation from outside.",
+      },
+      {
+        title: "Follow-Up Verification",
+        description:
+          "A return visit within 14 days confirms the colony is eliminated. If activity continues, the treatment is escalated at no extra cost.",
+      },
+    ],
+    faqs: [
+      {
+        q: "Why do ants keep coming back after spraying?",
+        a: "Most over-the-counter sprays kill only the foraging ants you can see — the queen and the rest of the colony survive in the nest and continue producing more ants. Effective ant control requires bait that workers carry back to the colony, followed by a residual barrier to block re-entry.",
+      },
+      {
+        q: "How long until the ants are gone?",
+        a: "Visible traffic usually drops within 48–72 hours of baiting. Full colony elimination takes 7–14 days, which is the time needed for the bait to reach the queen and for the brood to cycle through. Our warranty covers this period.",
+      },
+      {
+        q: "Are carpenter ants dangerous?",
+        a: "Carpenter ants do not eat wood — they excavate it to nest inside. The real risk is structural damage: galleries hollow out timber and can compromise load-bearing members over time. In South India the more common structural species is the wood-boring ant, which is treated differently and needs early intervention.",
+      },
+      {
+        q: "Is ant bait safe for children and pets?",
+        a: "Yes. The bait formulations we use are low-toxicity and placed inside enclosed, tamper-resistant stations as per label instructions. Avoid placing loose bait where children or pets can reach it, and always follow the placement instructions we provide.",
+      },
+    ],
+  },
+
+  {
+    slug: "cat-control",
+    name: "Cat Control",
+    short:
+      "Humane, non-lethal cat deterrence that keeps strays out of your compound without harming them.",
+    long:
+      "Free-ranging and stray cats enter compounds through walls, gates, and trees, urinate on boundaries, and contaminate sandpits and vegetable gardens. Our cat control service is entirely non-lethal and AWBI-compliant: we combine physical exclusion — anti-climb spikes, mesh barriers, and tree guards — with botanical repellent applied to marking spots and entry routes. We do not use poison or lethal traps. For sustained results we coordinate with AWBI-recognised NGOs for sterilisation drives, which is the only method with evidence of reducing colony size over time.",
+    icon: Cat,
+    image: "/images/pests/stray-cat.jpg",
+    imageAlt: "Stray cat perched on a compound boundary wall",
+    accent: "teal",
+    category: "both",
+    duration: "60 min",
+    warranty: "90 days",
+    treatment: "exclusion",
+    safety: [
+      "100% non-lethal — no poison, no lethal traps",
+      "AWBI-compliant methods",
+      "Botanical repellent, safe around children and pets",
+      "Coordinates with registered animal welfare NGOs",
+    ],
+    benefits: [
+      "Exclusion stops entry rather than removing cats",
+      "No harm to animals — humane throughout",
+      "Protects sandpits and gardens from contamination",
+      "Pairs with ABC sterilisation for lasting results",
+    ],
+    treats: [
+      "Stray and free-ranging cats",
+      "Territorial tomcats",
+      "Cat colonies near food sources",
+    ],
+    process: [
+      {
+        title: "Entry Point Survey",
+        description:
+          "Compound walls, gates, roofs, and trees are assessed for climbing routes. Cats fit through 10 cm gaps and scale walls and tree trunks easily.",
+      },
+      {
+        title: "Physical Exclusion",
+        description:
+          "Anti-climb spikes, mesh barriers, and tree guards installed on the identified routes. Sheet-metal collars and tree banding break the climb line.",
+      },
+      {
+        title: "Repellent Application",
+        description:
+          "Botanical repellent applied to urine-marking spots, favourite resting ledges, and boundary edges. Safe for the cat while making the surface inhospitable.",
+      },
+      {
+        title: "Food Source Denial",
+        description:
+          "Garbage storage and food waste are assessed and corrected — the single biggest factor drawing and sustaining cat colonies.",
+      },
+      {
+        title: "NGO Coordination",
+        description:
+          "Where colony density is high, we coordinate with AWBI-recognised NGOs for animal birth control. Sterilisation is the only intervention with evidence of reducing colony size long-term.",
+      },
+    ],
+    faqs: [
+      {
+        q: "Do you kill or poison the cats?",
+        a: "No. Our cat control service is entirely non-lethal. We use physical exclusion and botanical repellent. Poison and lethal traps are not used — they are illegal under animal welfare law, pose a risk to other wildlife and pets, and do not solve the problem since new cats move into the vacated territory.",
+      },
+      {
+        q: "Will repellent harm the cats?",
+        a: "No. The botanical formulations we use are designed to make surfaces inhospitable rather than to cause harm. They are applied to marking spots and boundary edges, not bait stations intended for ingestion.",
+      },
+      {
+        q: "What about the health risk to my family?",
+        a: "The main risk from cats is toxoplasmosis, which is particularly dangerous for pregnant women, along with cat-scratch fever and roundworm from droppings. Exclusion keeps cats out of sandpits, gardens, and water storage areas, which is where that contamination occurs.",
+      },
+      {
+        q: "How do you stop them coming back for good?",
+        a: "Exclusion alone can be defeated if food waste still attracts animals. We address entry routes and food sources together, and for sustained colony reduction we coordinate with AWBI-recognised NGOs for sterilisation drives, since sterilisation is the only method shown to reduce population over time.",
+      },
+    ],
+  },
+
+  {
+    slug: "dog-control",
+    name: "Dog Control",
+    short:
+      "Non-lethal dog deterrence and pack-behaviour management for compounds, schools, and open areas.",
+    long:
+      "Free-ranging Indian pariah dogs form territorial packs near garbage dumps, markets, and housing compounds, and are responsible for the overwhelming majority of rabies transmissions in India. Dog control is handled strictly under animal birth control law — culling and poisoning are illegal and ineffective. Our service combines non-lethal deterrence, waste-management correction that removes the pack's food attractant, physical fencing for high-risk boundaries, and liaison with AWBI-recognised NGOs for sterilisation and vaccination drives. For bite-risk emergencies we coordinate immediate post-exposure guidance.",
+    icon: Dog,
+    image: "/images/pests/stray-dog.jpg",
+    imageAlt: "Free-ranging pariah dog standing at the edge of a street",
+    accent: "rust",
+    category: "both",
+    duration: "60 min",
+    warranty: "90 days",
+    treatment: "exclusion",
+    safety: [
+      "No poison, no culling — ABC law compliant",
+      "Non-lethal deterrence methods only",
+      "Coordinates with AWBI-recognised animal welfare NGOs",
+      "No direct contact with animals",
+    ],
+    benefits: [
+      "Reduces bite and rabies risk without harming dogs",
+      "Removes the food attractant driving pack presence",
+      "Protects schools, play areas, and compound boundaries",
+      "Supports sterilisation and vaccination drives",
+    ],
+    treats: [
+      "Free-ranging pariah dog packs",
+      "Territorial dogs near compounds",
+      "Dogs around garbage dumps and market areas",
+    ],
+    process: [
+      {
+        title: "Risk and Movement Survey",
+        description:
+          "Pack routes, resting points, and conflict points are mapped. Mating-season aggression periods (Aug–Oct) and local rabies reports are factored in.",
+      },
+      {
+        title: "Waste Source Correction",
+        description:
+          "Garbage bins are secured with locking lids and waste timing corrected. Food availability is the primary factor drawing and sustaining packs to a location.",
+      },
+      {
+        title: "Boundary Protection",
+        description:
+          "Perimeter fencing and gated entry control are advised or installed for compounds bordering pack territory, with priority on school and play-area perimeters.",
+      },
+      {
+        title: "Non-Lethal Deterrence",
+        description:
+          "Approved non-lethal deterrent measures are applied at boundary points. Direct contact with animals is avoided throughout.",
+      },
+      {
+        title: "NGO and Vaccination Liaison",
+        description:
+          "We coordinate with AWBI-recognised NGOs for sterilisation drives and arrange rabies vaccination of pet dogs, which is the most effective protection for the surrounding human population.",
+      },
+    ],
+    faqs: [
+      {
+        q: "Can you get rid of the stray dogs?",
+        a: "No, and no legitimate provider will say otherwise. Under animal birth control law, culling and poisoning strays is illegal, and even where it happens it fails — vacated territory is quickly reoccupied by new dogs, sometimes with more aggressive incoming packs. What works is removing the food attractant, protecting the boundary, and reducing population through sterilisation.",
+      },
+      {
+        q: "What should I do if someone is bitten?",
+        a: "Wash the wound immediately with soap and running water for at least 15 minutes, then seek medical care without delay. Every dog bite requires assessment for rabies post-exposure prophylaxis — treatment is far simpler and cheaper when started early, and rabies is almost always fatal once symptoms appear.",
+      },
+      {
+        q: "Is rabies common in your area?",
+        a: "Rabies cases are reported periodically across South India, including Bengaluru and Hyderabad. We cannot confirm current local case counts — verify with your municipal corporation, BBMP, or GHMC. Regardless of local case numbers, any bite from a free-ranging dog warrants immediate medical assessment.",
+      },
+      {
+        q: "How do I protect my children?",
+        a: "Teach children never to approach, touch, or run from a stray dog — running triggers chase behaviour. Keep compound gates closed, secure waste bins, and keep pet dogs vaccinated against rabies annually, which protects the whole local population through herd immunity.",
       },
     ],
   },

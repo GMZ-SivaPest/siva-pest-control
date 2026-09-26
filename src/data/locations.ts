@@ -189,7 +189,7 @@ export const locations: Location[] = [
     shortIntro:
       "Serving core Hyderabad and Secunderabad areas with same-day response in most cases. Field team based in Madhapur.",
     longIntro:
-      "Hyderabad is where Siva Pest Control was founded in 2012, and it remains our largest operation. Our Madhapur field office dispatches technicians across core service areas — from HITEC City and Gachibowli to Kukatpally, Banjara Hills, Jubilee Hills and Secunderabad. We know the local pest pressure: termite swarms in older independent houses, rodent surges in mature neighbourhoods, and mosquito spikes around low-lying areas. Nearby pin codes are confirmed before booking so expectations stay clear.",
+      "Our second branch, opened in 2025, and our largest operation. Our Madhapur field office dispatches technicians across core service areas — from HITEC City and Gachibowli to Kukatpally, Banjara Hills, Jubilee Hills and Secunderabad. We know the local pest pressure: termite swarms in older independent houses, rodent surges in mature neighbourhoods, and mosquito spikes around low-lying areas. Nearby pin codes are confirmed before booking so expectations stay clear.",
     ...phonesForState("Telangana"),
     email: "hyd@sivapestcontrol.com",
     address: {

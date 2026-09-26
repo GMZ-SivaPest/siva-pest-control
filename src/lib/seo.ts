@@ -96,7 +96,7 @@ export function generateOrganizationSchema() {
     founder: {
       "@type": "Person",
       name: company.founder,
-      jobTitle: "Founder & Chief Entomologist",
+      jobTitle: "Founder & Microbiologist",
       credential: company.founderCredential,
     },
     numberOfEmployees: company.stats.technicians,

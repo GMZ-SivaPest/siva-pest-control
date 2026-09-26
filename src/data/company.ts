@@ -9,12 +9,11 @@ export const company = {
   ...brand,
   /** Canonical site URL — used across SEO metadata, sitemap, robots, JSON-LD. */
   siteUrl: "https://sivapestcontrol.com",
-  /** Proprietor / founder — entomologist-trained, M.Sc. (Ag) Entomology */
+  /** Proprietor / founder — microbiologist, M.Sc. Microbiology (2003) */
   founder: "S. Sai Prakash",
-  founderCredential: "M.Sc. (Ag) Entomology",
-  /** Short-form credential exactly as printed on the original site
-      (sivapestcontrol.com): "M.Sc., (Ag) Ent". */
-  founderCredentialShort: "M.Sc., (Ag) Ent",
+  founderCredential: "M.Sc. Microbiology",
+  /** Short-form credential for tight spaces (badges, footers, cards). */
+  founderCredentialShort: "M.Sc. Microbiology",
   /** Service descriptor from the original site. */
   descriptor: "Industrial & Household Pest Management · Fumigation Service",
   /** States / regions we operate in.

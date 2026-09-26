@@ -117,7 +117,7 @@ const SLIDES: Slide[] = [
   {
     id: "mosquito-fogging",
     chapter: "Outdoors",
-    image: "/images/carousel/mosquito-fogging.png",
+    image: "/images/carousel/mosquito-fogging.jpg",
     alt: "Outdoor mosquito fogging treatment in a residential compound",
     eyebrow: "Garden & terrace",
     title: "Reclaim your",

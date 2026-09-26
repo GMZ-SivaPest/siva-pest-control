@@ -30,7 +30,7 @@ export const faqs: Faq[] = [
   {
     category: "general",
     q: "How long has Siva Pest Control been in business?",
-    a: "We were founded in Hyderabad in 2012 and have grown to two states over 14+ years. We've protected over 12,000 homes and 480 commercial sites. We're ISO 9001:2015 certified, FSSAI compliant, CIB & RC registered, and a Green Pro Service Provider.",
+    a: "We were founded in September 2012 in Repalle, Andhra Pradesh and have grown to two states over 14+ years, with Hyderabad, Telangana as our second branch since 2025. We've protected over 12,000 homes and 480 commercial sites. We're ISO 9001:2015 certified, FSSAI compliant, CIB & RC registered, and a Green Pro Service Provider.",
   },
 
   // Safety

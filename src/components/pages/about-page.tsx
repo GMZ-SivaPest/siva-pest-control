@@ -49,42 +49,51 @@ const values = [
   },
 ];
 
-const milestones = [
+/**
+ * The founder's actual, verifiable path — microbiology first, then field
+ * pest management. `year` is the anchor point (kept short so it fits the
+ * timeline's narrow year column); `label` carries the extra qualifier
+ * (a month, or a multi-year span) when the anchor alone is ambiguous.
+ */
+const milestones: { year: string; label?: string; title: string; description: string }[] = [
+  {
+    year: "2003",
+    title: "M.Sc. in Microbiology",
+    description:
+      `${company.founder} completes an M.Sc. in Microbiology — the foundation for everything that follows: understand the organism, control the environment, and use the least chemistry that actually works.`,
+  },
+  {
+    year: "2008",
+    label: "2003 – 2008",
+    title: "Five years in the laboratory",
+    description:
+      "Five years of bench work — culturing, testing and reading results. It built the habit that still runs this company: diagnose before you treat, and measure the result instead of assuming it.",
+  },
   {
     year: "2012",
-    title: "Founded in Hyderabad",
+    title: "Professional training at CFTRA, Mysore",
     description:
-      "Started as a 3-technician operation in Madhapur serving residential customers within 5km.",
+      "Trained at CFTRA in Mysore, moving from laboratory science into field practice — application technique, chemical safety and treatment protocol, learned professionally before a single household was served.",
   },
   {
-    year: "2015",
-    title: "Commercial IPM launch",
+    year: "2012",
+    label: "September",
+    title: "Siva Pest Control is founded in Repalle",
     description:
-      "Pioneered the first FSSAI-compliant commercial IPM programme in Hyderabad's restaurant sector.",
+      "Started in September 2012 in Repalle, Andhra Pradesh — at the most local scale possible, with our own field team, our own equipment and our own service standards. Our registered head office sits at Isukapalli, Repalle.",
   },
   {
-    year: "2018",
-    title: "Andhra Pradesh head office",
+    year: "2025",
+    title: "Hyderabad, Telangana",
     description:
-      "Registered our head office at Isukapalli, Repalle — and brought coastal-Ap protocols to the Krishna delta belt.",
+      "Thirteen years after founding we opened a staffed Hyderabad branch with its own field team — bringing the same laboratory-grade protocols to our largest metro market.",
   },
   {
-    year: "2021",
-    title: "ISO 9001 certification",
+    year: "Next",
+    label: "Coming soon",
+    title: "Chennai · Bengaluru · Kochi",
     description:
-      "Achieved ISO 9001:2015 certification and standardised every protocol across the network.",
-  },
-  {
-    year: "2023",
-    title: "Eco & safety programme",
-    description:
-      "Moved the whole residential book to eco-friendly household chemicals with odourless and low-odour options.",
-  },
-  {
-    year: "2026",
-    title: "Two live states, three future branches",
-    description:
-      "Serving Andhra Pradesh and Telangana from staffed offices. Chennai, Bangalore and Kochi branches are being set up.",
+      "Three branches are under setup across Tamil Nadu, Karnataka and Kerala. Each one opens only when a local field team is trained, equipped and in place. Never before.",
   },
 ];
 
@@ -94,7 +103,7 @@ export function AboutPage() {
       <PageHero
         eyebrow="Our story"
         title="Fourteen years of calibrate-to-trust pest control"
-        subtitle={`Founded in 2012 by ${company.founder} (${company.founderCredential}), Siva Pest Control has grown from a 3-technician Madhapur operation to a two-state regional network — built on a single non-negotiable principle: eco-friendly, family-safe chemicals first, always.`}
+        subtitle={`Founded in September 2012 at Repalle, Andhra Pradesh by ${company.founder} — a microbiology graduate with five years in the laboratory and CFTRA training from Mysore. Siva Pest Control has grown from one coastal-Ap office into a two-state regional network, built on a single non-negotiable principle: eco-friendly, family-safe chemicals first, always.`}
         breadcrumb={[{ label: "Home", view: "home" }, { label: "About" }]}
       />
 
@@ -105,7 +114,7 @@ export function AboutPage() {
             <div className="relative h-64 overflow-hidden rounded-3xl shadow-premium-lg md:h-80 lg:h-96">
               <Image
                 src="/images/misc/about-hero-team.png"
-                alt="Siva Pest Control certified technicians at work — inspecting under a kitchen sink with flashlight and professional equipment"
+                alt="The Siva Pest Control field team in uniform with branded service vehicles and spraying equipment outside a customer's home"
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, 1200px"
@@ -214,8 +223,8 @@ export function AboutPage() {
                 {/* Right: image with floating stat card */}
                 <div className="relative min-h-[280px] overflow-hidden lg:min-h-full">
                   <Image
-                    src="/images/misc/about-hero-team.png"
-                    alt="Siva Pest Control certified field technicians inspecting a customer's kitchen — real working moment"
+                    src="/images/carousel/restaurant-service.jpg"
+                    alt="A Siva technician in uniform installing a UV fly-trap unit in a commercial kitchen — a local, field-trained team on site"
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover"
@@ -409,18 +418,23 @@ export function AboutPage() {
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Our journey"
-            title="From Madhapur to a two-state network"
+            title="From the lab bench to a two-state network"
             subtitle={`${company.yearsOfExperience}+ years of careful, customer-led growth — never franchise, never contractor, never compromise.`}
           />
 
           <div className="mt-12 space-y-3">
             {milestones.map((m, i) => (
-              <Reveal key={m.year} delay={i * 0.06}>
+              <Reveal key={`${m.year}-${m.title}`} delay={i * 0.06}>
                 <div className="group flex flex-col gap-4 rounded-2xl border border-brown/10 bg-white p-5 shadow-premium transition-all hover:shadow-lift sm:flex-row sm:items-center sm:p-6">
                   <div className="flex flex-shrink-0 flex-col items-center justify-center sm:w-28">
                     <div className="font-display text-3xl font-bold text-orange sm:text-4xl">
                       {m.year}
                     </div>
+                    {m.label && (
+                      <div className="mt-1 text-center text-[11px] font-semibold uppercase tracking-wider text-brown/50">
+                        {m.label}
+                      </div>
+                    )}
                   </div>
                   <div className="hidden w-px self-stretch bg-brown/10 sm:block" />
                   <div className="flex-1">
